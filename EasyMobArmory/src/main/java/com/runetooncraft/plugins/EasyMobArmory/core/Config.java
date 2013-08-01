@@ -30,10 +30,10 @@ public class Config {
 		}
 	}
 	private void loaddefaults() {
-		List<String> Helmets = Arrays.asList("298","302","306","310","314");
-		List<String> Chestplates = Arrays.asList("299","303","307","311","315");	
-		List<String> Leggings = Arrays.asList("300","304","308","312","316");
-		List<String> Boots = Arrays.asList("301","305","309","313","317");
+		List<Integer> Helmets = Arrays.asList(298,302,306,310,314);
+		List<Integer> Chestplates = Arrays.asList(299,303,307,311,315);	
+		List<Integer> Leggings = Arrays.asList(300,304,308,312,316);
+		List<Integer> Boots = Arrays.asList(301,305,309,313,317);
 		config.addDefault("List.Helmets", Helmets);//
 		config.addDefault("List.Chestplates", Chestplates);
 		config.addDefault("List.Leggings", Leggings);
