@@ -27,6 +27,12 @@ public class EMAListener implements Listener {
 			Zombie z = (Zombie) e;
 			if(EMA.Helmets.contains(i)) {
 				z.getEquipment().setHelmet(i);
+			}else if(EMA.Chestplates.contains(i)) {
+				z.getEquipment().setChestplate(i);
+			}else if(EMA.Leggings.contains(i)) {
+				z.getEquipment().setLeggings(i);
+			}else if(EMA.Boots.contains(i)) {
+				z.getEquipment().setBoots(i);
 			}
 		}
 	}
