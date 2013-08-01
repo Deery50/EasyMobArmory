@@ -9,6 +9,7 @@ import net.minecraft.server.v1_6_R2.NBTTagCompound;
 import net.minecraft.server.v1_6_R2.TileEntityChest;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventory;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
@@ -35,6 +36,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
+import com.runetooncraft.plugins.EasyMobArmory.egghandler.EggHandler;
 
 
 public class EMAListener implements Listener {
@@ -66,6 +68,7 @@ public class EMAListener implements Listener {
 				inv.setContents(zombieinv);
 				inv.setItem(4, z.getEquipment().getItemInHand());
 				if(z.isBaby()) inv.setItem(5, new ItemStack(Material.REDSTONE));
+				inv.setItem(9, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg"));
 				p.openInventory(inv);
 				PlayerZombieDataMap.put(p, z);
 			}else{
