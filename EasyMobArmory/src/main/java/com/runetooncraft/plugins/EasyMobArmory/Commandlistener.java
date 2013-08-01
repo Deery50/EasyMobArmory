@@ -14,7 +14,7 @@ public class Commandlistener implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		Player p = (Player) sender;
-		if(commandLabel.equalsIgnoreCase("cdt")) {
+		if(commandLabel.equalsIgnoreCase("ema") || commandLabel.equalsIgnoreCase("easymobarmory")) {
 			if(args.length == 0) {
 				Messenger.playermessage("Usage: /EMA enable, /EMA disable", p);
 			}else if(args.length == 1) {
