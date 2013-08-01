@@ -299,7 +299,7 @@ public class EMAListener implements Listener {
 	}
 	@EventHandler
 	public void OnCreatureSpawn(CreatureSpawnEvent event) {
-		if(event.getSpawnReason().equals(SpawnReason.EGG)) {
+		if(event.getSpawnReason().equals(SpawnReason.SPAWNER_EGG)) {
 			Messenger.info("Creature spawned from egg"); //debug
 		}
 	}
