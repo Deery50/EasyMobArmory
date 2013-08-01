@@ -13,6 +13,7 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,17 +41,13 @@ public class EMAListener implements Listener {
 			}else if(EMA.Boots.contains(i)) {
 				z.getEquipment().setBoots(i);
 			}else if(i.getType().equals(Material.BONE)){
-				TileEntityChest chest = new TileEntityChest();
+				DoubleChestInventory chest = null;
 				ItemStack[] Zombiestuff = z.getEquipment().getArmorContents();
 				int count = 0;
 				for(ItemStack a: Zombiestuff) {
-					net.minecraft.server.v1_6_R2.ItemStack b = null;
-					b.setData(a.getTypeId());
-					count++;
-					chest.setItem(count, b);
+					chest.addItem(a);
 				}
-				CraftInventory inventory = new CraftInventory(chest);
-				p.openInventory(inventory);
+				p.openInventory(chest.getLeftSide());
 			}else{
 				z.getEquipment().setItemInHand(i);
 			}
