@@ -33,6 +33,7 @@ public class Eggs {
 		String[] eggslist = {};
 		Eggs.addDefault("Eggs.List", Arrays.asList(eggslist));
 		Eggs.options().copyDefaults();
+		save();
 	}
 	public boolean save() {
 		try {
