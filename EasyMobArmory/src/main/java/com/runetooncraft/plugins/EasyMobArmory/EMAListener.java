@@ -34,6 +34,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
+import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 
 
 public class EMAListener implements Listener {
@@ -145,6 +146,7 @@ public class EMAListener implements Listener {
 		}else if(e.getType().equals(EntityType.HORSE)) {
 			ItemStack i = p.getItemInHand();
 			Horse h = (Horse) e;
+			Messenger.info("DEBUG! right cliked horse");
 			if(i.getType().equals(Material.BONE)) {
 				Inventory inv = Bukkit.createInventory(p, 9, "cowinv");
 				if(!h.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
