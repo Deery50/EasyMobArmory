@@ -25,6 +25,8 @@ import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -293,6 +295,12 @@ public class EMAListener implements Listener {
 				EggHandler.addegg(e);
 				p.getInventory().addItem(EggHandler.GetEggitem(e, "EMA Egg id: " + e.getEntityId()));
 			}
+		}
+	}
+	@EventHandler
+	public void OnCreatureSpawn(CreatureSpawnEvent event) {
+		if(event.getSpawnReason().equals(SpawnReason.EGG)) {
+			Messenger.info("Creature spawned from egg"); //debug
 		}
 	}
 }

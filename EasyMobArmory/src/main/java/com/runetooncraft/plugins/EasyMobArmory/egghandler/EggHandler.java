@@ -1,5 +1,8 @@
 package com.runetooncraft.plugins.EasyMobArmory.egghandler;
 
+import java.util.HashMap;
+import java.util.List;
+
 import net.minecraft.server.v1_6_R2.NBTTagCompound;
 
 import org.bukkit.Bukkit;
@@ -19,6 +22,7 @@ import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 
 public class EggHandler {
 	public static Eggs eggs = EMA.eggs;
+	public static HashMap<Integer, Entity> EntityEggIdList = new HashMap<Integer, Entity>();
 	public static ItemStack GetEggitem(Entity e,String name) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
 		return renameItem(egg, name);
@@ -49,4 +53,11 @@ public class EggHandler {
 			}
 		}
 	}
+//	public static void loadEggs() {
+//		YamlConfiguration eggsyml = eggs.GetConfig();
+//		List<String> EggList = (List<String>) eggsyml.getList("Eggs.List");
+//		for(String s: EggList) {
+//			
+//		}
+//	}
 }
