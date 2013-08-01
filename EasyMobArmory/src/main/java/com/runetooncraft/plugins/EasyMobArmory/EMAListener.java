@@ -5,6 +5,7 @@ package com.runetooncraft.plugins.EasyMobArmory;
 import net.minecraft.server.v1_6_R2.TileEntityChest;
 
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventory;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -40,14 +41,16 @@ public class EMAListener implements Listener {
 				z.getEquipment().setBoots(i);
 			}else if(i.getType().equals(Material.BONE)){
 				TileEntityChest chest = new TileEntityChest();
-				Inventory ZombieEquip = InventorySerializer.getArmorEntityInventory(z.getEquipment());
-				p.openInventory(ZombieEquip);
-//				for(ItemStack a: ZombieEquip) {
-//					net.minecraft.server.v1_6_R2.ItemStack b = null;
-//					b.setData(a.getTypeId());
-//					count++;
-//					chest.setItem(count, b);
-//				}
+				ItemStack[] Zombiestuff = z.getEquipment().getArmorContents();
+				int count = 0;
+				for(ItemStack a: Zombiestuff) {
+					net.minecraft.server.v1_6_R2.ItemStack b = null;
+					b.setData(a.getTypeId());
+					count++;
+					chest.setItem(count, b);
+				}
+				CraftInventory inventory = new CraftInventory(chest);
+				p.openInventory(inventory);
 			}else{
 				z.getEquipment().setItemInHand(i);
 			}
