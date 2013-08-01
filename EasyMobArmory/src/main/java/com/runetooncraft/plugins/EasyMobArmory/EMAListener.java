@@ -146,9 +146,8 @@ public class EMAListener implements Listener {
 		}else if(e.getType().equals(EntityType.HORSE)) {
 			ItemStack i = p.getItemInHand();
 			Horse h = (Horse) e;
-			Messenger.info("DEBUG! right cliked horse");
 			if(i.getType().equals(Material.BONE)) {
-				Inventory inv = Bukkit.createInventory(p, 9, "cowinv");
+				Inventory inv = Bukkit.createInventory(p, 9, "horseinv");
 				if(!h.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				if(h.isTamed()) inv.setItem(6, new ItemStack(Material.HAY_BLOCK));
 				if(h.isCarryingChest()) inv.setItem(7, new ItemStack(Material.CHEST));
