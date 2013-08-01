@@ -64,11 +64,11 @@ public class EMAListener implements Listener {
 		if(event.getInventory().getName().equals("zombieinv")) {
 			Inventory i = event.getInventory();
 			Zombie z = PlayerZombieDataMap.get(event.getPlayer());
-			z.getEquipment().setHelmet(i.getItem(1));
-			z.getEquipment().setChestplate(i.getItem(2));
-			z.getEquipment().setLeggings(i.getItem(3));
-			z.getEquipment().setBoots(i.getItem(4));
-			z.getEquipment().setItemInHand(i.getItem(5));
+			z.getEquipment().setHelmet(i.getItem(0));
+			z.getEquipment().setChestplate(i.getItem(1));
+			z.getEquipment().setLeggings(i.getItem(2));
+			z.getEquipment().setBoots(i.getItem(3));
+			z.getEquipment().setItemInHand(i.getItem(4));
 		}
 	}
 }
