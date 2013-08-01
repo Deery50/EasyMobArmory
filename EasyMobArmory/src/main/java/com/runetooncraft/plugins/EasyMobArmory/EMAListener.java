@@ -307,7 +307,7 @@ public class EMAListener implements Listener {
 			Player p = event.getPlayer();
 			ItemStack egg = p.getItemInHand();
 			ItemMeta eggmeta = egg.getItemMeta();
-		if(eggmeta.getDisplayName().contains(": ")) {
+		if(eggmeta.hasDisplayName() && eggmeta.getDisplayName().contains(": ")) {
 			String[] name = eggmeta.getDisplayName().split(": ");
 			if(name.length == 2) {
 				if(EggHandler.GetEggList().contains(name[1])) {
