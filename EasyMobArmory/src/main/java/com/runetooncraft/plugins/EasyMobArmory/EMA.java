@@ -1,6 +1,7 @@
 package com.runetooncraft.plugins.EasyMobArmory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -12,10 +13,10 @@ import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 
 public class EMA extends JavaPlugin {
 	public static Config config = null;
-	public static List<ItemStack> Helmets;
-	public static List<ItemStack> Chestplates;
-	public static List<ItemStack> Leggings;
-	public static List<ItemStack> Boots;
+	public static List<ItemStack> Helmets = new ArrayList<ItemStack>();
+	public static List<ItemStack> Chestplates = new ArrayList<ItemStack>();
+	public static List<ItemStack> Leggings = new ArrayList<ItemStack>();
+	public static List<ItemStack> Boots = new ArrayList<ItemStack>();
 	public void onEnable() {
 		loadconfig();
 		getServer().getPluginManager().registerEvents(new EMAListener(config), this);
@@ -23,7 +24,7 @@ public class EMA extends JavaPlugin {
 	}
 
 	private void SetItemStacks() {
-		List<Integer> helmetints = config.getConfig().getIntegerList("List.Helmets");//
+		List<Integer> helmetints = config.getConfig().getIntegerList("List.Helmets");
 		List<Integer> chestplateints = config.getConfig().getIntegerList("List.Chestplates");
 		List<Integer> leggingints = config.getConfig().getIntegerList("List.Leggings");
 		List<Integer> Bootints = config.getConfig().getIntegerList("List.Boots");
