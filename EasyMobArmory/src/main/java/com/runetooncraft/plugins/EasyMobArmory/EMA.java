@@ -35,7 +35,7 @@ public class EMA extends JavaPlugin {
 
 	private void getBKCommonLib() {
 		if(getServer().getPluginManager().getPlugin("BKCommonLib") != null) {
-			Messenger.info("Found BKCommingLib");
+			Messenger.info("Found BKCommonLib");
 		}else{
 			Messenger.info("Please install BKCommonLib.");
 			Messenger.info("This is a new dependency for EMA");
