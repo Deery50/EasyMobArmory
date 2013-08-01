@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventory;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
@@ -81,6 +82,27 @@ public class EMAListener implements Listener {
 			}else{
 				s.getEquipment().setItemInHand(i);
 			}
+		}else if(e.getType().equals(EntityType.PIG_ZOMBIE)) {
+			ItemStack i = p.getItemInHand();
+			PigZombie pz = (PigZombie) e;
+			if(EMA.Helmets.contains(i)) {
+				pz.getEquipment().setHelmet(i);
+			}else if(EMA.Chestplates.contains(i)) {
+				pz.getEquipment().setChestplate(i);
+			}else if(EMA.Leggings.contains(i)) {
+				pz.getEquipment().setLeggings(i);
+			}else if(EMA.Boots.contains(i)) {
+				pz.getEquipment().setBoots(i);
+			}else if(i.getType().equals(Material.BONE)){
+				Inventory inv = Bukkit.createInventory(p, 9, "pigzombieinv");
+				ItemStack[] pigzombieinv = pz.getEquipment().getArmorContents();
+				inv.setContents(pigzombieinv);
+				inv.setItem(4, pz.getEquipment().getItemInHand());
+				p.openInventory(inv);
+				PlayerZombieDataMap.put(p, pz);
+			}else{
+				pz.getEquipment().setItemInHand(i);
+			}
 		}
 		}}
 	}
@@ -96,7 +118,7 @@ public class EMAListener implements Listener {
 			z.getEquipment().setBoots(i.getItem(0));
 			z.getEquipment().setItemInHand(i.getItem(4));
 		}
-		if(event.getInventory().getName().equals("skeletoninv")) {
+		else if(event.getInventory().getName().equals("skeletoninv")) {
 			Inventory i = event.getInventory();
 			Skeleton s = (Skeleton) PlayerZombieDataMap.get(event.getPlayer());
 			s.getEquipment().setHelmet(i.getItem(3));
@@ -104,6 +126,15 @@ public class EMAListener implements Listener {
 			s.getEquipment().setLeggings(i.getItem(1));
 			s.getEquipment().setBoots(i.getItem(0));
 			s.getEquipment().setItemInHand(i.getItem(4));
+		}
+		else if(event.getInventory().getName().equals("pigzombieinv")) {
+			Inventory i = event.getInventory();
+			PigZombie pz = (PigZombie) PlayerZombieDataMap.get(event.getPlayer());
+			pz.getEquipment().setHelmet(i.getItem(3));
+			pz.getEquipment().setChestplate(i.getItem(2));
+			pz.getEquipment().setLeggings(i.getItem(1));
+			pz.getEquipment().setBoots(i.getItem(0));
+			pz.getEquipment().setItemInHand(i.getItem(4));
 		}
 	}}
 	}
