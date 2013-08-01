@@ -86,7 +86,7 @@ public class EMAListener implements Listener {
 	}
 	@EventHandler
 	public void OnInventoryCloseEvent(InventoryCloseEvent event) {
-	if(Armoryenabled.get(event.getPlayer())){  if(Armoryenabled.get(event.getPlayer())) {
+	if(Armoryenabled.get(event.getPlayer()) != null){  if(Armoryenabled.get(event.getPlayer())) {
 		if(event.getInventory().getName().equals("zombieinv")) {
 			Inventory i = event.getInventory();
 			Zombie z = (Zombie) PlayerZombieDataMap.get(event.getPlayer());
