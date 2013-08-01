@@ -7,7 +7,7 @@ commands:
     EasyMobArmory:
         description: Base command for EasyMobArmory
         usage: |
-    EasyMobArmory:
+    EMA:
         description: Base command for EasyMobArmory
         usage: |
 permissions:
