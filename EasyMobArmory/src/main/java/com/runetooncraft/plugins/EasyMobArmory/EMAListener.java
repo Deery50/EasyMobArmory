@@ -150,11 +150,11 @@ public class EMAListener implements Listener {
 				Inventory inv = Bukkit.createInventory(p, 9, "horseinv");
 				if(!h.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				if(h.isTamed()) inv.setItem(6, new ItemStack(Material.HAY_BLOCK));
-				if(h.isCarryingChest()) inv.setItem(7, new ItemStack(Material.CHEST));
 				if(h.isTamed()) {
 					Player owner = (Player) h.getOwner();
-					inv.setItem(8, setOwner(new ItemStack(Material.SKULL_ITEM, 1, (short)3), p.getName()));
+					inv.setItem(7, setOwner(new ItemStack(Material.SKULL_ITEM, 1, (short)3), p.getName()));
 				}
+				if(h.isCarryingChest()) inv.setItem(8, new ItemStack(Material.CHEST));
 				p.openInventory(inv);
 				PlayerZombieDataMap.put(p, h);
 			}
@@ -238,6 +238,26 @@ public class EMAListener implements Listener {
 				cow.setAdult();
 			}
 		}
+		else if(event.getInventory().getName().equals("horseinv")) {
+			Inventory i = event.getInventory();
+			Horse h = (Horse) PlayerZombieDataMap.get(event.getPlayer());
+			if(i.contains(Material.REDSTONE)) {
+				h.setBaby();
+			}else{
+				h.setAdult();
+			}
+			if(i.contains(Material.HAY_BLOCK)) {
+				h.setTamed(true);
+				if(i.contains(Material.SKULL_ITEM)) {
+					ItemStack head = i.all(Material.SKULL_ITEM).get(Material.SKULL_ITEM);
+					h.setOwner(getOwner(head));
+				}else{
+					h.setOwner(event.getPlayer());
+				}
+			}else{
+				h.setTamed(false);
+			}
+		}
 	}}
 	}
 	public ItemStack setOwner(ItemStack item, String owner) {
@@ -245,5 +265,9 @@ public class EMAListener implements Listener {
 		  meta.setOwner(owner);
 		  item.setItemMeta(meta);
 		  return item;
+		}
+	public Player getOwner(ItemStack item) {
+		  SkullMeta meta = (SkullMeta) item.getItemMeta();
+		  return (Player) Bukkit.getOfflinePlayer(meta.getOwner());
 		}
 }
