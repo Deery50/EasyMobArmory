@@ -68,7 +68,7 @@ public class EMAListener implements Listener {
 				inv.setContents(zombieinv);
 				inv.setItem(4, z.getEquipment().getItemInHand());
 				if(z.isBaby()) inv.setItem(5, new ItemStack(Material.REDSTONE));
-				inv.setItem(9, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg"));
+				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg"));
 				p.openInventory(inv);
 				PlayerZombieDataMap.put(p, z);
 			}else{
