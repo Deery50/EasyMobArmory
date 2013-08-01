@@ -23,7 +23,7 @@ public class EMA extends JavaPlugin {
 	}
 
 	private void SetItemStacks() {
-		List<Integer> helmetints = config.getConfig().getIntegerList("List.Helmets");
+		List<Integer> helmetints = config.getConfig().getIntegerList("List.Helmets");//
 		List<Integer> chestplateints = config.getConfig().getIntegerList("List.Chestplates");
 		List<Integer> leggingints = config.getConfig().getIntegerList("List.Leggings");
 		List<Integer> Bootints = config.getConfig().getIntegerList("List.Boots");

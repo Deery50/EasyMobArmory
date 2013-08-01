@@ -34,7 +34,7 @@ public class Config {
 		List<String> Chestplates = Arrays.asList("299","303","307","311","315");	
 		List<String> Leggings = Arrays.asList("300","304","308","312","316");
 		List<String> Boots = Arrays.asList("301","305","309","313","317");
-		config.addDefault("List.Helmets", Helmets);
+		config.addDefault("List.Helmets", Helmets);//
 		config.addDefault("List.Chestplates", Chestplates);
 		config.addDefault("List.Leggings", Leggings);
 		config.addDefault("List.Boots", Boots);
