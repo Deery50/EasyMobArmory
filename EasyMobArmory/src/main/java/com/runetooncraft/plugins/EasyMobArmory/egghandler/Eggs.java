@@ -32,7 +32,7 @@ public class Eggs {
 	private void loaddefaults() {
 		String[] eggslist = {};
 		Eggs.addDefault("Eggs.List", Arrays.asList(eggslist));
-		Eggs.options().copyDefaults();
+		Eggs.options().copyDefaults(true);
 		save();
 	}
 	public boolean save() {
