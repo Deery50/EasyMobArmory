@@ -250,7 +250,12 @@ public class EMAListener implements Listener {
 				h.setTamed(true);
 				if(i.contains(Material.SKULL_ITEM)) {
 					ItemStack head = i.getItem(i.first(Material.SKULL_ITEM));
-					h.setOwner(getOwner(head));
+					Player owner = getOwner(head);
+					if(owner.equals(null)) {
+						h.setOwner(event.getPlayer());
+					}else{
+						h.setOwner(owner);
+					}
 				}else{
 					h.setOwner(event.getPlayer());
 				}
@@ -268,6 +273,10 @@ public class EMAListener implements Listener {
 		}
 	public Player getOwner(ItemStack item) {
 		  SkullMeta meta = (SkullMeta) item.getItemMeta();
+		  if(meta.getOwner() !=null) {
 		  return (Player) Bukkit.getOfflinePlayer(meta.getOwner());
+		  }else{
+			  return null;
+		  }
 		}
 }
