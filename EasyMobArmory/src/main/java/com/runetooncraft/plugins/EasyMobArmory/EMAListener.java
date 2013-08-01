@@ -2,6 +2,7 @@ package com.runetooncraft.plugins.EasyMobArmory;
 
 
 
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
+import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 
 public class EMAListener implements Listener {
 	Config config;
@@ -33,6 +35,8 @@ public class EMAListener implements Listener {
 				z.getEquipment().setLeggings(i);
 			}else if(EMA.Boots.contains(i)) {
 				z.getEquipment().setBoots(i);
+			}else if(i.getType().equals(Material.BONE)){
+				p.openInventory(InventorySerializer.getArmorEntityInventory(z.getEquipment()));
 			}else{
 				z.getEquipment().setItemInHand(i);
 			}
