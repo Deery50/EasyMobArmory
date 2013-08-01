@@ -3,3 +3,13 @@ name: EasyMobArmory
 version: 1.0.0
 author: Deery50
 description: Easily set mob items.
+commands:
+    EasyMobArmory:
+        description: Base command for EasyMobArmory
+        usage: |
+    EasyMobArmory:
+        description: Base command for EasyMobArmory
+        usage: |
+permissions:
+    EMA.use:
+        description: Gives access to add armor to Mobs

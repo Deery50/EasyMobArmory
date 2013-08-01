@@ -6,11 +6,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+
 public class Messenger {
 
 	private static final Logger log = Logger.getLogger("Minecraft");
-	private static final String prefix = "[InvBackup]";
-	private static final String colorprefix = (ChatColor.RED + "[InvBackup]" + ChatColor.GREEN);
+	private static final String prefix = "[EMA]";
+	private static String colorprefix;
+	private Config config;
+    public Messenger(Config config) {
+    	this.config = config;
+    	if(config.load()) {
+    	colorprefix = config.parsestringcolors(config.getConfig().getString("EMA.prefix")) + " ";
+    	}
+    }
 	
 	public static void severe(String msg) {
 		log.severe(prefix + msg);

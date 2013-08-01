@@ -34,6 +34,7 @@ public class Config {
 		List<Integer> Chestplates = Arrays.asList(299,303,307,311,315);	
 		List<Integer> Leggings = Arrays.asList(300,304,308,312,316);
 		List<Integer> Boots = Arrays.asList(301,305,309,313,317);
+		config.addDefault("EMA.prefix", "&b[EMA]&d");
 		config.addDefault("List.Helmets", Helmets);//
 		config.addDefault("List.Chestplates", Chestplates);
 		config.addDefault("List.Leggings", Leggings);
@@ -72,5 +73,8 @@ public class Config {
 	public YamlConfiguration getConfig() {
 		return config;
 		
+	}
+	public String parsestringcolors(String s) {
+		return s.replaceAll("&([0-9a-f])", "\u00A7$1");
 	}
 }
