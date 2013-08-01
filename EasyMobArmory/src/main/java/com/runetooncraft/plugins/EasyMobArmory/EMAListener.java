@@ -14,6 +14,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
@@ -106,6 +107,16 @@ public class EMAListener implements Listener {
 			}else{
 				pz.getEquipment().setItemInHand(i);
 			}
+		}else if(e.getType().equals(EntityType.SHEEP)) {
+			ItemStack i = p.getItemInHand();
+			Sheep sh = (Sheep) e;
+			if(i.getType().equals(Material.BONE)) {
+				Inventory inv = Bukkit.createInventory(p, 9, "sheepinv");
+				if(!sh.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
+				if(sh.isSheared()) inv.setItem(6, new ItemStack(Material.SHEARS));
+				p.openInventory(inv);
+				PlayerZombieDataMap.put(p, sh);
+			}
 		}
 		}}
 	}
@@ -147,6 +158,15 @@ public class EMAListener implements Listener {
 				pz.setBaby(true);
 			}else{
 				pz.setBaby(false);
+			}
+		}
+		else if(event.getInventory().getName().equals("sheepinv")) {
+			Inventory i = event.getInventory();
+			Sheep sh = (Sheep) PlayerZombieDataMap.get(event.getPlayer());
+			if(i.contains(Material.REDSTONE)) {
+				sh.setBaby();
+			}else{
+				sh.setAdult();
 			}
 		}
 	}}
