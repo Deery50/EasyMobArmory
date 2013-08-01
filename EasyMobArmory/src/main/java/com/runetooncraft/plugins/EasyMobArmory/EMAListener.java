@@ -10,6 +10,7 @@ import net.minecraft.server.v1_6_R2.TileEntityChest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventory;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
@@ -38,6 +39,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import com.bergerkiller.bukkit.common.entity.CommonEntity;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
@@ -308,7 +310,10 @@ public class EMAListener implements Listener {
 			String[] name = eggmeta.getDisplayName().split(": ");
 			if(name.length == 2) {
 				if(EggHandler.GetEggList().contains(name[1])) {
-					
+					Entity entity = EggHandler.Loadentity(name[1]);
+					Location loc = event.getClickedBlock().getLocation();
+					CommonEntity Spawnentity = CommonEntity.get(entity);
+					Spawnentity.spawn(loc);
 				}else{
 					
 				}

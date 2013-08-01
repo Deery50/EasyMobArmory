@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +23,7 @@ public class EMA extends JavaPlugin {
 	public static List<ItemStack> Leggings = new ArrayList<ItemStack>();
 	public static List<ItemStack> Boots = new ArrayList<ItemStack>();
 	public void onEnable() {
+		getBKCommonLib();
 		loadconfig();
 		loadEggs();
 		getServer().getPluginManager().registerEvents(new EMAListener(config), this);
@@ -29,6 +31,18 @@ public class EMA extends JavaPlugin {
 		getCommand("ema").setExecutor(new Commandlistener());
 		Messenger m = new Messenger(config);
 		SetItemStacks();
+	}
+
+	private void getBKCommonLib() {
+		if(getServer().getPluginManager().getPlugin("BKCommonLib") != null) {
+			Messenger.info("Found BKCommingLib");
+		}else{
+			Messenger.info("Please install BKCommonLib.");
+			Messenger.info("This is a new dependency for EMA");
+			Messenger.info("http://dev.bukkit.org/bukkit-plugins/bkcommonlib");
+			Bukkit.getPluginManager().disablePlugin(this);
+		}
+		
 	}
 
 	private void SetItemStacks() {

@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.bergerkiller.bukkit.common.entity.CommonEntity;
 import com.runetooncraft.plugins.EasyMobArmory.EMA;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 
@@ -57,11 +58,14 @@ public class EggHandler {
 		YamlConfiguration eggsyml = eggs.GetConfig();
 		return (List<String>) eggsyml.getList("Eggs.List");
 	}
-//	public static void loadEggs() {
-//		YamlConfiguration eggsyml = eggs.GetConfig();
-//		List<String> EggList = (List<String>) eggsyml.getList("Eggs.List");
-//		for(String s: EggList) {
-//			
-//		}
-//	}
+	public static Entity Loadentity(String id) {
+		YamlConfiguration eggsyml = eggs.GetConfig();
+		int Entityid = eggsyml.getInt("Eggs.id." + id + ".Type");
+		CommonEntity entity = CommonEntity.create(EntityType.fromId(Entityid));
+		Zombie z = (Zombie) entity;
+		z.getEquipment().setArmorContents(InventorySerializer.frombase64(eggsyml.getString("Eggs.id." + id + ".Armor")).getContents());
+		z.getEquipment().setItemInHand(InventorySerializer.frombase64(eggsyml.getString("eggs.id" + id + ".Hand")).getItem(0));
+		z.setBaby(eggsyml.getBoolean("Eggs.id." + id + ".isbaby"));
+		return z;
+	}
 }
