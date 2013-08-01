@@ -30,14 +30,14 @@ public class Config {
 		}
 	}
 	private void loaddefaults() {
-		int[] Helmets = {298,302,306,310,314};
-		int[] Chestplates = {299,303,307,311,315};
-		int[] Leggings = {300,304,308,312,316};
-		int[] Boots = {301,305,309,313,317};
-		config.addDefault("List.Helmets", Helmets.toString());
-		config.addDefault("List.Chestplates", Chestplates.toString());
-		config.addDefault("List.Leggings", Leggings.toString());
-		config.addDefault("List.Boots", Boots.toString());
+		List<String> Helmets = Arrays.asList("298","302","306","310","314");
+		List<String> Chestplates = Arrays.asList("299","303","307","311","315");	
+		List<String> Leggings = Arrays.asList("300","304","308","312","316");
+		List<String> Boots = Arrays.asList("301","305","309","313","317");
+		config.addDefault("List.Helmets", Helmets);
+		config.addDefault("List.Chestplates", Chestplates);
+		config.addDefault("List.Leggings", Leggings);
+		config.addDefault("List.Boots", Boots);
 		config.options().copyDefaults(true);
 		save();
 	}
