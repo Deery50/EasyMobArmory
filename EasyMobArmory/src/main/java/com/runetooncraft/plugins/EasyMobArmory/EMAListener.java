@@ -290,9 +290,8 @@ public class EMAListener implements Listener {
 			if(event.getCurrentItem().getType() == Material.MONSTER_EGG && event.getCurrentItem().getItemMeta().hasDisplayName() && event.getCurrentItem().getItemMeta().getDisplayName() == ChatColor.GOLD + "Get Mob Egg"){
 				Player p = (Player) event.getWhoClicked();
 				Entity e = PlayerMobDataMap.get(p);
-				if(e.getType().equals(EntityType.ZOMBIE)) {
-					Zombie z = (Zombie) e;
-				}
+				EggHandler.addegg(e);
+				p.getInventory().addItem(EggHandler.GetEggitem(e, "EMA Egg id: " + e.getEntityId()));
 			}
 		}
 	}

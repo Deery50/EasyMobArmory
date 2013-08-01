@@ -2,6 +2,7 @@ package com.runetooncraft.plugins.EasyMobArmory.egghandler;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -45,5 +46,11 @@ public class Eggs {
 	}
 	public YamlConfiguration GetConfig() {
 		return Eggs;
+	}
+	public void addtolist(String path, String item) {
+		List<String> l = Eggs.getStringList(path);
+		l.add(item);
+		Eggs.set(path, l);
+		save();
 	}
 }
