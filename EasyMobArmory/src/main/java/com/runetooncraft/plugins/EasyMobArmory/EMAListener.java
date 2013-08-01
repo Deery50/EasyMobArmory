@@ -2,6 +2,8 @@ package com.runetooncraft.plugins.EasyMobArmory;
 
 
 
+import net.minecraft.server.v1_6_R2.TileEntityChest;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -10,6 +12,7 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
@@ -36,7 +39,15 @@ public class EMAListener implements Listener {
 			}else if(EMA.Boots.contains(i)) {
 				z.getEquipment().setBoots(i);
 			}else if(i.getType().equals(Material.BONE)){
-				p.openInventory(InventorySerializer.getArmorEntityInventory(z.getEquipment()));
+				TileEntityChest chest = new TileEntityChest();
+				Inventory ZombieEquip = InventorySerializer.getArmorEntityInventory(z.getEquipment());
+				p.openInventory(ZombieEquip);
+//				for(ItemStack a: ZombieEquip) {
+//					net.minecraft.server.v1_6_R2.ItemStack b = null;
+//					b.setData(a.getTypeId());
+//					count++;
+//					chest.setItem(count, b);
+//				}
 			}else{
 				z.getEquipment().setItemInHand(i);
 			}
