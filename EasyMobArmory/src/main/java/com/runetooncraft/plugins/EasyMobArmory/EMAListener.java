@@ -120,8 +120,11 @@ public class EMAListener implements Listener {
 			z.getEquipment().setLeggings(i.getItem(1));
 			z.getEquipment().setBoots(i.getItem(0));
 			z.getEquipment().setItemInHand(i.getItem(4));
-			if(i.getItem(5).equals(Material.REDSTONE)) z.setBaby(true);
-			if(i.getItem(5).equals(Material.AIR)) z.setBaby(false);
+			if(i.contains(Material.REDSTONE)) { 
+				z.setBaby(true);
+			}else{
+				z.setBaby(false);
+			}
 		}
 		else if(event.getInventory().getName().equals("skeletoninv")) {
 			Inventory i = event.getInventory();
@@ -140,8 +143,11 @@ public class EMAListener implements Listener {
 			pz.getEquipment().setLeggings(i.getItem(1));
 			pz.getEquipment().setBoots(i.getItem(0));
 			pz.getEquipment().setItemInHand(i.getItem(4));
-			if(i.getItem(5).equals(Material.REDSTONE)) pz.setBaby(true);
-			if(i.getItem(5).equals(Material.AIR)) pz.setBaby(false);
+			if(i.contains(Material.REDSTONE)) { 
+				pz.setBaby(true);
+			}else{
+				pz.setBaby(false);
+			}
 		}
 	}}
 	}
