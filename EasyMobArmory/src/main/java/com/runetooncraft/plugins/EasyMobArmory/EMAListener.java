@@ -285,6 +285,7 @@ public class EMAListener implements Listener {
 		}
 	@EventHandler
 	public void OnInventoryClick(InventoryClickEvent event) {
+		Messenger.info("Inv click");
 		String name = event.getInventory().getName();
 		if(name.equals("zombieinv") || name.equals("skeletoninv") || name.equals("pigzombieinv") || name.equals("sheepinv") || name.equals("piginv") || name.equals("cowinv") || name.equals("horseinv")) {
 			if(event.getCurrentItem().getType() == Material.MONSTER_EGG && event.getCurrentItem().getItemMeta().hasDisplayName() && event.getCurrentItem().getItemMeta().getDisplayName() == ChatColor.GOLD + "Get Mob Egg"){
