@@ -38,7 +38,7 @@ public class EMAListener implements Listener {
 	public void OnPlayerEntityInteract(PlayerInteractEntityEvent event) {
 		Entity e = event.getRightClicked();
 		Player p = event.getPlayer();
-	if(Armoryenabled.get(p)){
+	if(Armoryenabled.get(p) || Armoryenabled.get(p) == null){
 		if(e.getType().equals(EntityType.ZOMBIE)) {
 			ItemStack i = p.getItemInHand();
 			Zombie z = (Zombie) e;
@@ -86,7 +86,7 @@ public class EMAListener implements Listener {
 	}
 	@EventHandler
 	public void OnInventoryCloseEvent(InventoryCloseEvent event) {
-	if(Armoryenabled.get(event.getPlayer())){
+	if(Armoryenabled.get(event.getPlayer()) || Armoryenabled.get(event.getPlayer()) == null){
 		if(event.getInventory().getName().equals("zombieinv")) {
 			Inventory i = event.getInventory();
 			Zombie z = (Zombie) PlayerZombieDataMap.get(event.getPlayer());
