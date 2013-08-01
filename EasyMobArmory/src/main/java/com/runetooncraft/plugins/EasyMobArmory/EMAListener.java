@@ -46,6 +46,7 @@ public class EMAListener implements Listener {
 				Inventory inv = Bukkit.createInventory(p, 9, "zombieinv");
 				ItemStack[] zombieinv = z.getEquipment().getArmorContents();
 				inv.setContents(zombieinv);
+				inv.addItem(z.getEquipment().getItemInHand());
 				p.openInventory(inv);
 			}else{
 				z.getEquipment().setItemInHand(i);
