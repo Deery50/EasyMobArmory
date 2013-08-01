@@ -62,7 +62,7 @@ public class EggHandler {
 		YamlConfiguration eggsyml = eggs.GetConfig();
 		int Entityid = eggsyml.getInt("Eggs.id." + id + ".Type");
 		CommonEntity entity = CommonEntity.create(EntityType.fromId(Entityid));
-		Zombie z = (Zombie) entity;
+		Zombie z = (Zombie) entity.getEntity();
 		z.getEquipment().setArmorContents(InventorySerializer.frombase64(eggsyml.getString("Eggs.id." + id + ".Armor")).getContents());
 		z.getEquipment().setItemInHand(InventorySerializer.frombase64(eggsyml.getString("eggs.id" + id + ".Hand")).getItem(0));
 		z.setBaby(eggsyml.getBoolean("Eggs.id." + id + ".isbaby"));
