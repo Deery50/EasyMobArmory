@@ -33,6 +33,8 @@ public class EMAListener implements Listener {
 				z.getEquipment().setLeggings(i);
 			}else if(EMA.Boots.contains(i)) {
 				z.getEquipment().setBoots(i);
+			}else{
+				z.getEquipment().setItemInHand(i);
 			}
 		}
 	}
