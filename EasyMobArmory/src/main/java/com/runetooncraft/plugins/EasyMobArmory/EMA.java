@@ -21,7 +21,8 @@ public class EMA extends JavaPlugin {
 	public void onEnable() {
 		loadconfig();
 		getServer().getPluginManager().registerEvents(new EMAListener(config), this);
-		getCommand("EasyMobArmory").setExecutor(new Commandlistener());
+		getCommand("easymobarmory").setExecutor(new Commandlistener());
+		getCommand("ema").setExecutor(new Commandlistener());
 		Messenger m = new Messenger(config);
 		SetItemStacks();
 	}
