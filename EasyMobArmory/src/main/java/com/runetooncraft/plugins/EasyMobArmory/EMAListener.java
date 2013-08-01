@@ -25,6 +25,7 @@ import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.DoubleChestInventory;
@@ -41,7 +42,7 @@ import com.runetooncraft.plugins.EasyMobArmory.egghandler.EggHandler;
 
 public class EMAListener implements Listener {
 	Config config;
-	public static HashMap<Player, Entity> PlayerZombieDataMap = new HashMap<Player, Entity>();
+	public static HashMap<Player, Entity> PlayerMobDataMap = new HashMap<Player, Entity>();
 	public static HashMap<Player, Boolean> Armoryenabled = new HashMap<Player, Boolean>();
 	public EMAListener(Config config) {
 		this.config = config;
@@ -70,7 +71,7 @@ public class EMAListener implements Listener {
 				if(z.isBaby()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg"));
 				p.openInventory(inv);
-				PlayerZombieDataMap.put(p, z);
+				PlayerMobDataMap.put(p, z);
 			}else{
 				z.getEquipment().setItemInHand(i);
 			}
@@ -91,7 +92,7 @@ public class EMAListener implements Listener {
 				inv.setContents(skeletoninv);
 				inv.setItem(4, s.getEquipment().getItemInHand());
 				p.openInventory(inv);
-				PlayerZombieDataMap.put(p, s);
+				PlayerMobDataMap.put(p, s);
 			}else{
 				s.getEquipment().setItemInHand(i);
 			}
@@ -113,7 +114,7 @@ public class EMAListener implements Listener {
 				inv.setItem(4, pz.getEquipment().getItemInHand());
 				if(pz.isBaby()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				p.openInventory(inv);
-				PlayerZombieDataMap.put(p, pz);
+				PlayerMobDataMap.put(p, pz);
 			}else{
 				pz.getEquipment().setItemInHand(i);
 			}
@@ -125,7 +126,7 @@ public class EMAListener implements Listener {
 				if(!sh.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				if(sh.isSheared()) inv.setItem(6, new ItemStack(Material.SHEARS));
 				p.openInventory(inv);
-				PlayerZombieDataMap.put(p, sh);
+				PlayerMobDataMap.put(p, sh);
 			}
 		}else if(e.getType().equals(EntityType.PIG)) {
 			ItemStack i = p.getItemInHand();
@@ -135,7 +136,7 @@ public class EMAListener implements Listener {
 				if(!pig.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				if(pig.hasSaddle()) inv.setItem(6, new ItemStack(Material.SADDLE));
 				p.openInventory(inv);
-				PlayerZombieDataMap.put(p, pig);
+				PlayerMobDataMap.put(p, pig);
 			}
 		}else if(e.getType().equals(EntityType.COW)) {
 			ItemStack i = p.getItemInHand();
@@ -144,7 +145,7 @@ public class EMAListener implements Listener {
 				Inventory inv = Bukkit.createInventory(p, 9, "cowinv");
 				if(!cow.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				p.openInventory(inv);
-				PlayerZombieDataMap.put(p, cow);
+				PlayerMobDataMap.put(p, cow);
 			}
 		}else if(e.getType().equals(EntityType.HORSE)) {
 			ItemStack i = p.getItemInHand();
@@ -159,7 +160,7 @@ public class EMAListener implements Listener {
 				}
 				if(h.isCarryingChest()) inv.setItem(8, new ItemStack(Material.CHEST));
 				p.openInventory(inv);
-				PlayerZombieDataMap.put(p, h);
+				PlayerMobDataMap.put(p, h);
 			}
 		}
 		}}
@@ -169,7 +170,7 @@ public class EMAListener implements Listener {
 	if(Armoryenabled.get(event.getPlayer()) != null){  if(Armoryenabled.get(event.getPlayer())) {
 		if(event.getInventory().getName().equals("zombieinv")) {
 			Inventory i = event.getInventory();
-			Zombie z = (Zombie) PlayerZombieDataMap.get(event.getPlayer());
+			Zombie z = (Zombie) PlayerMobDataMap.get(event.getPlayer());
 			z.getEquipment().setHelmet(i.getItem(3));
 			z.getEquipment().setChestplate(i.getItem(2));
 			z.getEquipment().setLeggings(i.getItem(1));
@@ -183,7 +184,7 @@ public class EMAListener implements Listener {
 		}
 		else if(event.getInventory().getName().equals("skeletoninv")) {
 			Inventory i = event.getInventory();
-			Skeleton s = (Skeleton) PlayerZombieDataMap.get(event.getPlayer());
+			Skeleton s = (Skeleton) PlayerMobDataMap.get(event.getPlayer());
 			s.getEquipment().setHelmet(i.getItem(3));
 			s.getEquipment().setChestplate(i.getItem(2));
 			s.getEquipment().setLeggings(i.getItem(1));
@@ -192,7 +193,7 @@ public class EMAListener implements Listener {
 		}
 		else if(event.getInventory().getName().equals("pigzombieinv")) {
 			Inventory i = event.getInventory();
-			PigZombie pz = (PigZombie) PlayerZombieDataMap.get(event.getPlayer());
+			PigZombie pz = (PigZombie) PlayerMobDataMap.get(event.getPlayer());
 			pz.getEquipment().setHelmet(i.getItem(3));
 			pz.getEquipment().setChestplate(i.getItem(2));
 			pz.getEquipment().setLeggings(i.getItem(1));
@@ -206,7 +207,7 @@ public class EMAListener implements Listener {
 		}
 		else if(event.getInventory().getName().equals("sheepinv")) {
 			Inventory i = event.getInventory();
-			Sheep sh = (Sheep) PlayerZombieDataMap.get(event.getPlayer());
+			Sheep sh = (Sheep) PlayerMobDataMap.get(event.getPlayer());
 			if(i.contains(Material.REDSTONE)) {
 				sh.setBaby();
 			}else{
@@ -220,7 +221,7 @@ public class EMAListener implements Listener {
 		}
 		else if(event.getInventory().getName().equals("piginv")) {
 			Inventory i = event.getInventory();
-			Pig pig = (Pig) PlayerZombieDataMap.get(event.getPlayer());
+			Pig pig = (Pig) PlayerMobDataMap.get(event.getPlayer());
 			if(i.contains(Material.REDSTONE)) {
 				pig.setBaby();
 			}else{
@@ -234,7 +235,7 @@ public class EMAListener implements Listener {
 		}
 		else if(event.getInventory().getName().equals("cowinv")) {
 			Inventory i = event.getInventory();
-			Cow cow = (Cow) PlayerZombieDataMap.get(event.getPlayer());
+			Cow cow = (Cow) PlayerMobDataMap.get(event.getPlayer());
 			if(i.contains(Material.REDSTONE)) {
 				cow.setBaby();
 			}else{
@@ -243,7 +244,7 @@ public class EMAListener implements Listener {
 		}
 		else if(event.getInventory().getName().equals("horseinv")) {
 			Inventory i = event.getInventory();
-			Horse h = (Horse) PlayerZombieDataMap.get(event.getPlayer());
+			Horse h = (Horse) PlayerMobDataMap.get(event.getPlayer());
 			if(i.contains(Material.REDSTONE)) {
 				h.setBaby();
 			}else{
@@ -282,4 +283,17 @@ public class EMAListener implements Listener {
 			  return null;
 		  }
 		}
+	@EventHandler
+	public void OnInventoryClick(InventoryClickEvent event) {
+		String name = event.getInventory().getName();
+		if(name.equals("zombieinv") || name.equals("skeletoninv") || name.equals("pigzombieinv") || name.equals("sheepinv") || name.equals("piginv") || name.equals("cowinv") || name.equals("horseinv")) {
+			if(event.getCurrentItem().getType() == Material.MONSTER_EGG && event.getCurrentItem().getItemMeta().hasDisplayName() && event.getCurrentItem().getItemMeta().getDisplayName() == ChatColor.GOLD + "Get Mob Egg"){
+				Player p = (Player) event.getWhoClicked();
+				Entity e = PlayerMobDataMap.get(p);
+				if(e.getType().equals(EntityType.ZOMBIE)) {
+					Zombie z = (Zombie) e;
+				}
+			}
+		}
+	}
 }

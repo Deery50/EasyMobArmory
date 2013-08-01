@@ -11,9 +11,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
+import com.runetooncraft.plugins.EasyMobArmory.egghandler.Eggs;
 
 public class EMA extends JavaPlugin {
 	public static Config config = null;
+	public static Eggs eggs = null;
 	public static List<ItemStack> Helmets = new ArrayList<ItemStack>();
 	public static List<ItemStack> Chestplates = new ArrayList<ItemStack>();
 	public static List<ItemStack> Leggings = new ArrayList<ItemStack>();
@@ -54,6 +56,16 @@ public class EMA extends JavaPlugin {
 		if (!config.load()) {
 			this.getServer().getPluginManager().disablePlugin(this);
 			throw new IllegalStateException("The config-file was not loaded correctly!");
+		}
+	}
+	private void loadEggs() {
+		File dir = this.getDataFolder();
+		if (!dir.exists()) dir.mkdir();
+		File file = new File(this.getDataFolder(), "eggs.yml");
+		eggs = new Eggs(file);
+		if (!eggs.load()) {
+			this.getServer().getPluginManager().disablePlugin(this);
+			throw new IllegalStateException("The Eggs data file was not loaded correctly!");
 		}
 	}
 }
