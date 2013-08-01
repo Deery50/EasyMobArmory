@@ -43,7 +43,7 @@ public class EMAListener implements Listener {
 			}else if(EMA.Boots.contains(i)) {
 				z.getEquipment().setBoots(i);
 			}else if(i.getType().equals(Material.BONE)){
-				Inventory inv = Bukkit.createInventory(p, 9, "zombieinv");
+				Inventory inv = Bukkit.createInventory(p, 5, "zombieinv");
 				ItemStack[] zombieinv = z.getEquipment().getArmorContents();
 				inv.setContents(zombieinv);
 				inv.addItem(z.getEquipment().getItemInHand());
