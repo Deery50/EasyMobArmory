@@ -5,13 +5,18 @@ package com.runetooncraft.plugins.EasyMobArmory;
 import java.util.HashMap;
 
 import net.minecraft.server.v1_6_R2.Item;
+import net.minecraft.server.v1_6_R2.NBTTagCompound;
 import net.minecraft.server.v1_6_R2.TileEntityChest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventory;
+import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
+import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
@@ -25,6 +30,7 @@ import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
@@ -117,6 +123,40 @@ public class EMAListener implements Listener {
 				p.openInventory(inv);
 				PlayerZombieDataMap.put(p, sh);
 			}
+		}else if(e.getType().equals(EntityType.PIG)) {
+			ItemStack i = p.getItemInHand();
+			Pig pig = (Pig) e;
+			if(i.getType().equals(Material.BONE)) {
+				Inventory inv = Bukkit.createInventory(p, 9, "piginv");
+				if(!pig.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
+				if(pig.hasSaddle()) inv.setItem(6, new ItemStack(Material.SADDLE));
+				p.openInventory(inv);
+				PlayerZombieDataMap.put(p, pig);
+			}
+		}else if(e.getType().equals(EntityType.COW)) {
+			ItemStack i = p.getItemInHand();
+			Cow cow = (Cow) e;
+			if(i.getType().equals(Material.BONE)) {
+				Inventory inv = Bukkit.createInventory(p, 9, "cowinv");
+				if(!cow.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
+				p.openInventory(inv);
+				PlayerZombieDataMap.put(p, cow);
+			}
+		}else if(e.getType().equals(EntityType.HORSE)) {
+			ItemStack i = p.getItemInHand();
+			Horse h = (Horse) e;
+			if(i.getType().equals(Material.BONE)) {
+				Inventory inv = Bukkit.createInventory(p, 9, "cowinv");
+				if(!h.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
+				if(h.isTamed()) inv.setItem(6, new ItemStack(Material.HAY_BLOCK));
+				if(h.isCarryingChest()) inv.setItem(7, new ItemStack(Material.CHEST));
+				if(h.isTamed()) {
+					Player owner = (Player) h.getOwner();
+					inv.setItem(8, setOwner(new ItemStack(Material.SKULL_ITEM, 1, (short)3), p.getName()));
+				}
+				p.openInventory(inv);
+				PlayerZombieDataMap.put(p, h);
+			}
 		}
 		}}
 	}
@@ -174,6 +214,35 @@ public class EMAListener implements Listener {
 				sh.setSheared(false);
 			}
 		}
+		else if(event.getInventory().getName().equals("piginv")) {
+			Inventory i = event.getInventory();
+			Pig pig = (Pig) PlayerZombieDataMap.get(event.getPlayer());
+			if(i.contains(Material.REDSTONE)) {
+				pig.setBaby();
+			}else{
+				pig.setAdult();
+			}
+			if(i.contains(Material.SADDLE)) {
+				pig.setSaddle(true);
+			}else{
+				pig.setSaddle(false);
+			}
+		}
+		else if(event.getInventory().getName().equals("cowinv")) {
+			Inventory i = event.getInventory();
+			Cow cow = (Cow) PlayerZombieDataMap.get(event.getPlayer());
+			if(i.contains(Material.REDSTONE)) {
+				cow.setBaby();
+			}else{
+				cow.setAdult();
+			}
+		}
 	}}
 	}
+	public ItemStack setOwner(ItemStack item, String owner) {
+		  SkullMeta meta = (SkullMeta) item.getItemMeta();
+		  meta.setOwner(owner);
+		  item.setItemMeta(meta);
+		  return item;
+		}
 }
