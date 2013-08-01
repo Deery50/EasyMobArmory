@@ -248,8 +248,8 @@ public class EMAListener implements Listener {
 			}
 			if(i.contains(Material.HAY_BLOCK)) {
 				h.setTamed(true);
-				if(i.contains(Material.SKULL_ITEM)) {
-					ItemStack head = i.all(Material.SKULL_ITEM).get(Material.SKULL_ITEM);
+				if(i.getItem(7).equals(Material.SKULL_ITEM)) {
+					ItemStack head = i.getItem(7);
 					h.setOwner(getOwner(head));
 				}else{
 					h.setOwner(event.getPlayer());
