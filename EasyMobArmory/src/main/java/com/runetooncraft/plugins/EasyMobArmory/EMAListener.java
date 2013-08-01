@@ -168,6 +168,11 @@ public class EMAListener implements Listener {
 			}else{
 				sh.setAdult();
 			}
+			if(i.contains(Material.SHEARS)) {
+				sh.setSheared(true);
+			}else{
+				sh.setSheared(false);
+			}
 		}
 	}}
 	}
