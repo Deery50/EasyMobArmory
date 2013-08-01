@@ -155,10 +155,6 @@ public class EMAListener implements Listener {
 					inv.setItem(7, setOwner(new ItemStack(Material.SKULL_ITEM, 1, (short)3), p.getName()));
 				}
 				if(h.isCarryingChest()) inv.setItem(8, new ItemStack(Material.CHEST));
-				ItemStack growth = new ItemStack(Material.GLOWSTONE_DUST);
-				growth.setAmount(h.getAge());
-				Messenger.info("[DEBUG] horse age: " + h.getAge());
-				inv.setItem(9, growth);
 				p.openInventory(inv);
 				PlayerZombieDataMap.put(p, h);
 			}
@@ -260,10 +256,6 @@ public class EMAListener implements Listener {
 				}
 			}else{
 				h.setTamed(false);
-			}
-			if(i.contains(Material.GLOWSTONE_DUST)) {
-				h.setAge(i.getItem(i.first(Material.GLOWSTONE_DUST)).getAmount());
-				Messenger.info("[DEBUG] horse age: " + i.getItem(i.first(Material.GLOWSTONE_DUST)).getAmount());
 			}
 		}
 	}}
