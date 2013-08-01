@@ -16,7 +16,7 @@ public class Messenger {
     public Messenger(Config config) {
     	this.config = config;
     	if(config.load()) {
-    	colorprefix = config.parsestringcolors(config.getConfig().getString("EMA.prefix")) + " ";
+    	colorprefix = config.parsestringcolors(config.getstring("EMA.prefix")) + " ";
     	}
     }
 	

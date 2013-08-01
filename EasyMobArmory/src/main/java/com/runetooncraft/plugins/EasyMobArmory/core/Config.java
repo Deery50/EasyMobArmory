@@ -70,6 +70,9 @@ public class Config {
 		config.set(path, l);
 		save();
 	}
+	public String getstring(String path) {
+		return config.getString(path);
+	}
 	public YamlConfiguration getConfig() {
 		return config;
 		

@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
+import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 
 public class EMA extends JavaPlugin {
 	public static Config config = null;
@@ -21,6 +22,7 @@ public class EMA extends JavaPlugin {
 		loadconfig();
 		getServer().getPluginManager().registerEvents(new EMAListener(config), this);
 		getCommand("EasyMobArmory").setExecutor(new Commandlistener());
+		Messenger m = new Messenger(config);
 		SetItemStacks();
 	}
 

@@ -11,5 +11,5 @@ commands:
         description: Base command for EasyMobArmory
         usage: |
 permissions:
-    EMA.use:
+    ema.use:
         description: Gives access to add armor to Mobs
