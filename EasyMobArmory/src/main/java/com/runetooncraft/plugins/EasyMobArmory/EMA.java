@@ -22,6 +22,7 @@ public class EMA extends JavaPlugin {
 	public static List<ItemStack> Boots = new ArrayList<ItemStack>();
 	public void onEnable() {
 		loadconfig();
+		loadEggs();
 		getServer().getPluginManager().registerEvents(new EMAListener(config), this);
 		getCommand("easymobarmory").setExecutor(new Commandlistener());
 		getCommand("ema").setExecutor(new Commandlistener());
