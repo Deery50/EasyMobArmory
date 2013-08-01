@@ -30,10 +30,12 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
@@ -298,9 +300,19 @@ public class EMAListener implements Listener {
 		}
 	}
 	@EventHandler
-	public void OnCreatureSpawn(CreatureSpawnEvent event) {
-		if(event.getSpawnReason().equals(SpawnReason.SPAWNER_EGG)) {
-			Messenger.info("Creature spawned from egg"); //debug
+	public void OnPlayerInteract(PlayerInteractEvent event) {
+		if(event.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG)) {
+			Player p = event.getPlayer();
+			ItemStack egg = p.getItemInHand();
+			ItemMeta eggmeta = egg.getItemMeta();
+			String[] name = eggmeta.getDisplayName().split(": ");
+			if(name.length == 2) {
+				if(EggHandler.GetEggList().contains(name[1])) {
+					
+				}else{
+					
+				}
+			}
 		}
 	}
 }

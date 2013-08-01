@@ -53,6 +53,10 @@ public class EggHandler {
 			}
 		}
 	}
+	public static List<String> GetEggList() {
+		YamlConfiguration eggsyml = eggs.GetConfig();
+		return (List<String>) eggsyml.getList("Eggs.List");
+	}
 //	public static void loadEggs() {
 //		YamlConfiguration eggsyml = eggs.GetConfig();
 //		List<String> EggList = (List<String>) eggsyml.getList("Eggs.List");

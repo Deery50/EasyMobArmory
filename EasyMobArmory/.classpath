@@ -18,7 +18,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="A:/Eclipse/downloads/2/bukkit.jar" sourcepath="A:/Eclipse/downloads/2/Bukkit-master.zip"/>
-	<classpathentry kind="lib" path="A:/Eclipse/downloads/2/craftbukkit.jar"/>
+	<classpathentry kind="lib" path="A:/Eclipse/downloads/2/craftbukkit.jar" sourcepath="A:/Eclipse/downloads/2/CraftBukkit-master.zip"/>
+	<classpathentry kind="lib" path="A:/Eclipse/downloads/2/BKCommonLib-1.53.jar" sourcepath="A:/Eclipse/downloads/2/BKCommonLib-master.zip"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
