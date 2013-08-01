@@ -251,7 +251,7 @@ public class EMAListener implements Listener {
 				if(i.contains(Material.SKULL_ITEM)) {
 					ItemStack head = i.getItem(i.first(Material.SKULL_ITEM));
 					Player owner = getOwner(head);
-					if(owner.equals(null)) {
+					if(owner == null) {
 						h.setOwner(event.getPlayer());
 					}else{
 						h.setOwner(owner);
