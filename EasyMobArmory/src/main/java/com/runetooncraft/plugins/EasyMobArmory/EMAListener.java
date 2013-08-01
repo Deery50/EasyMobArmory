@@ -2,6 +2,8 @@ package com.runetooncraft.plugins.EasyMobArmory;
 
 
 
+import java.util.HashMap;
+
 import net.minecraft.server.v1_6_R2.TileEntityChest;
 
 import org.bukkit.Bukkit;
@@ -13,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
@@ -22,8 +25,10 @@ import org.bukkit.inventory.ItemStack;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 
+
 public class EMAListener implements Listener {
 	Config config;
+	public static HashMap<Player, Zombie> PlayerZombieDataMap = new HashMap<Player, Zombie>();
 	public EMAListener(Config config) {
 		this.config = config;
 	}
@@ -48,9 +53,22 @@ public class EMAListener implements Listener {
 				inv.setContents(zombieinv);
 				inv.addItem(z.getEquipment().getItemInHand());
 				p.openInventory(inv);
+				PlayerZombieDataMap.put(p, z);
 			}else{
 				z.getEquipment().setItemInHand(i);
 			}
+		}
+	}
+	@EventHandler
+	public void OnInventoryCloseEvent(InventoryCloseEvent event) {
+		if(event.getInventory().getName().equals("zombieinv")) {
+			Inventory i = event.getInventory();
+			Zombie z = PlayerZombieDataMap.get(event.getPlayer());
+			z.getEquipment().setHelmet(i.getItem(1));
+			z.getEquipment().setChestplate(i.getItem(2));
+			z.getEquipment().setLeggings(i.getItem(3));
+			z.getEquipment().setBoots(i.getItem(4));
+			z.getEquipment().setItemInHand(i.getItem(5));
 		}
 	}
 }
