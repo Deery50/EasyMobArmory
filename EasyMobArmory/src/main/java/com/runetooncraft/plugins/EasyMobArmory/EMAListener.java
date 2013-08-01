@@ -4,6 +4,7 @@ package com.runetooncraft.plugins.EasyMobArmory;
 
 import java.util.HashMap;
 
+import net.minecraft.server.v1_6_R2.Item;
 import net.minecraft.server.v1_6_R2.TileEntityChest;
 
 import org.bukkit.Bukkit;
@@ -56,6 +57,7 @@ public class EMAListener implements Listener {
 				ItemStack[] zombieinv = z.getEquipment().getArmorContents();
 				inv.setContents(zombieinv);
 				inv.setItem(4, z.getEquipment().getItemInHand());
+				if(z.isBaby()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				p.openInventory(inv);
 				PlayerZombieDataMap.put(p, z);
 			}else{
@@ -98,6 +100,7 @@ public class EMAListener implements Listener {
 				ItemStack[] pigzombieinv = pz.getEquipment().getArmorContents();
 				inv.setContents(pigzombieinv);
 				inv.setItem(4, pz.getEquipment().getItemInHand());
+				if(pz.isBaby()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				p.openInventory(inv);
 				PlayerZombieDataMap.put(p, pz);
 			}else{
@@ -117,6 +120,8 @@ public class EMAListener implements Listener {
 			z.getEquipment().setLeggings(i.getItem(1));
 			z.getEquipment().setBoots(i.getItem(0));
 			z.getEquipment().setItemInHand(i.getItem(4));
+			if(i.getItem(5).equals(Material.REDSTONE)) z.setBaby(true);
+			if(i.getItem(5).equals(Material.AIR)) z.setBaby(false);
 		}
 		else if(event.getInventory().getName().equals("skeletoninv")) {
 			Inventory i = event.getInventory();
@@ -135,6 +140,8 @@ public class EMAListener implements Listener {
 			pz.getEquipment().setLeggings(i.getItem(1));
 			pz.getEquipment().setBoots(i.getItem(0));
 			pz.getEquipment().setItemInHand(i.getItem(4));
+			if(i.getItem(5).equals(Material.REDSTONE)) pz.setBaby(true);
+			if(i.getItem(5).equals(Material.AIR)) pz.setBaby(false);
 		}
 	}}
 	}
