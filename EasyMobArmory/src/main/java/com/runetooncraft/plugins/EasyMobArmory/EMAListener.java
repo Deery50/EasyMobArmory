@@ -311,10 +311,8 @@ public class EMAListener implements Listener {
 			String[] name = eggmeta.getDisplayName().split(": ");
 			if(name.length == 2) {
 				if(EggHandler.GetEggList().contains(name[1])) {
-					Entity entity = EggHandler.Loadentity(name[1]);
 					Location loc = event.getClickedBlock().getLocation();
-					CommonEntity Spawnentity = CommonEntity.get(entity);
-					Spawnentity.spawn(loc);
+					Entity entity = EggHandler.Loadentity(name[1],loc);
 				}else{
 					
 				}

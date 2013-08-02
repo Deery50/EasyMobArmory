@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.server.v1_6_R2.NBTTagCompound;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -19,6 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.bergerkiller.bukkit.common.entity.CommonEntity;
 import com.runetooncraft.plugins.EasyMobArmory.EMA;
+import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 
 public class EggHandler {
@@ -58,16 +60,23 @@ public class EggHandler {
 		YamlConfiguration eggsyml = eggs.GetConfig();
 		return (List<String>) eggsyml.getList("Eggs.List");
 	}
-	public static Entity Loadentity(String id) {
+	public static Entity Loadentity(String id, Location loc) {
 		YamlConfiguration eggsyml = eggs.GetConfig();
 		int Entityid = eggsyml.getInt("Eggs.id." + id + ".Type");
-		CommonEntity entity = CommonEntity.create(EntityType.fromId(Entityid));
-		Zombie z = (Zombie) entity.getEntity();
+		EntityType etype = EntityType.fromId(Entityid);
+		CommonEntity entity = CommonEntity.create(etype);
+		entity.spawn(loc);
 		String entityLoc = "Eggs.id." + id + ".";
-		z.getEquipment().setArmorContents(InventorySerializer.frombase64(eggsyml.getString(entityLoc + "Armor")).getContents());
+		Inventory Armorstackinv = InventorySerializer.frombase64(eggsyml.getString(entityLoc + "Armor"));
 		Inventory iteminv = InventorySerializer.frombase64(eggsyml.getString(entityLoc +"Hand"));
-		z.getEquipment().setItemInHand(iteminv.getItem(0));
-		z.setBaby(eggsyml.getBoolean(entityLoc + "isbaby"));
-		return z;
+		Boolean isbaby = eggsyml.getBoolean(entityLoc + "isbaby");
+		Entity bukkitentity = entity.getEntity();
+		if(etype.equals(EntityType.ZOMBIE)) {
+			Zombie z = (Zombie) bukkitentity;
+			z.getEquipment().setArmorContents(Armorstackinv.getContents());
+			z.getEquipment().setItemInHand(iteminv.getItem(0));
+			z.setBaby(isbaby);
+		}
+		return bukkitentity;
 	}
 }
