@@ -343,7 +343,7 @@ public class EggHandler {
 		c.setAgeLock(set.agelock);
 		return c;
 	}else if(etype.equals(EntityType.HORSE) && !HorseCache.containsKey(id)) {
-		CommonEntity entity = CommonEntity.create(EntityType.fromId(100));
+		CommonEntity entity = CommonEntity.create(etype);
 		String entityLoc = "Eggs.id." + id + ".";
 		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
 		Boolean agelock = eggs.getBoolean(entityLoc + "agelock");
