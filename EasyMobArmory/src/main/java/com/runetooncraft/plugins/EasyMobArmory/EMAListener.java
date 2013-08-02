@@ -174,7 +174,8 @@ public class EMAListener implements Listener {
 					Player owner = (Player) h.getOwner();
 					inv.setItem(7, setOwner(new ItemStack(Material.SKULL_ITEM, 1, (short)3), p.getName()));
 				}
-				if(h.isCarryingChest()) inv.setItem(8, new ItemStack(Material.CHEST));
+				if(h.isCarryingChest()) inv.setItem(7, new ItemStack(Material.CHEST));
+				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, h);
 			}
