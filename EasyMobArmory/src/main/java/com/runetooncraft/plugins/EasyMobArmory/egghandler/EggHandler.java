@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
@@ -38,6 +39,7 @@ public class EggHandler {
 	public static HashMap<String, SkeletonCache> SkeletonCache = new HashMap<String, SkeletonCache>();
 	public static HashMap<String, SheepCache> SheepCache = new HashMap<String, SheepCache>();
 	public static HashMap<String, PigCache> PigCache = new HashMap<String, PigCache>();
+	public static HashMap<String, CowCache> CowCache = new HashMap<String, CowCache>();
 	public static ItemStack GetEggitem(Entity e,String name, String lore) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
 		return renameItem(egg, name, lore);
@@ -90,6 +92,11 @@ public class EggHandler {
 					HandItem.setItem(0, p.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !p.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".saddled", p.hasSaddle());
+				}else if(e.getType().equals(EntityType.COW)) {
+					Cow c = (Cow) e;
+					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
+					HandItem.setItem(0, c.getEquipment().getItemInHand());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !c.isAdult());
 				}
 			}else{
 				//Egg already existent
@@ -221,6 +228,26 @@ public class EggHandler {
 		if(set.isbaby) p.setBaby(); else p.setAdult();
 		if(set.saddled) p.setSaddle(true); else p.setSaddle(false);
 		return p;
+	}else if(etype.equals(EntityType.COW) && !CowCache.containsKey(id)) {
+		CommonEntity entity = CommonEntity.create(etype);
+		String entityLoc = "Eggs.id." + id + ".";
+		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
+		Entity bukkitentity = entity.getEntity();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		if(etype.equals(EntityType.COW)) {
+			Cow c = (Cow) EntityUtil.getEntity(loc.getWorld(), entid);
+			if(isbaby.equals(true)) c.setBaby(); else c.setAdult();
+			CowCache.put(id, new CowCache(isbaby));
+			return c;
+		}else{
+			return bukkitentity;
+		}
+	}else if(etype.equals(EntityType.COW) && CowCache.containsKey(id)) {
+		CowCache set = CowCache.get(id);
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		Cow c = (Cow) EntityUtil.getEntity(loc.getWorld(), entid);
+		if(set.isbaby) c.setBaby(); else c.setAdult();
+		return c;
 	}
 	return CommonEntity.create(etype).getEntity();
 	}
