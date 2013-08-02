@@ -14,6 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.inventory.InventoryType;
@@ -34,6 +35,7 @@ public class EggHandler {
 	public static HashMap<String, ZombieCache> ZombieCache = new HashMap<String, ZombieCache>();
 	public static HashMap<String, PigZombieCache> PigZombieCache = new HashMap<String, PigZombieCache>();
 	public static HashMap<String, SkeletonCache> SkeletonCache = new HashMap<String, SkeletonCache>();
+	public static HashMap<String, SheepCache> SheepCache = new HashMap<String, SheepCache>();
 	public static ItemStack GetEggitem(Entity e,String name, String lore) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
 		return renameItem(egg, name, lore);
@@ -74,6 +76,12 @@ public class EggHandler {
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".Armor", InventorySerializer.tobase64(InventorySerializer.getArmorEntityInventory(pz.getEquipment())));
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".Hand", InventorySerializer.tobase64(HandItem));
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", pz.isBaby());
+				}else if(e.getType().equals(EntityType.SHEEP)) {
+					Sheep s = (Sheep) e;
+					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
+					HandItem.setItem(0, s.getEquipment().getItemInHand());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !s.isAdult());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".sheared", s.isSheared());
 				}
 			}else{
 				//Egg already existent
@@ -148,7 +156,7 @@ public class EggHandler {
 			pz.getEquipment().setArmorContents(Armorstackinv.getContents());
 			pz.getEquipment().setItemInHand(iteminv.getItem(0));
 			pz.setBaby(isbaby);
-			ZombieCache.put(id, new ZombieCache(Armorstackinv.getContents(),iteminv.getItem(0),isbaby));
+			PigZombieCache.put(id, new PigZombieCache(Armorstackinv.getContents(),iteminv.getItem(0),isbaby));
 			return pz;
 		}else{
 			return bukkitentity;
@@ -161,6 +169,28 @@ public class EggHandler {
 		pz.getEquipment().setItemInHand(set.handitem);
 		pz.setBaby(set.isbaby);
 		return pz;
+	}else if(etype.equals(EntityType.SHEEP) && !SheepCache.containsKey(id)) {
+		CommonEntity entity = CommonEntity.create(etype);
+		String entityLoc = "Eggs.id." + id + ".";
+		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
+		Boolean sheared = eggs.getBoolean(entityLoc + "sheared");
+		Entity bukkitentity = entity.getEntity();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		if(etype.equals(EntityType.SHEEP)) {
+			Sheep s = (Sheep) EntityUtil.getEntity(loc.getWorld(), entid);
+			if(isbaby.equals(true)) s.setBaby(); else s.setAdult();
+			SheepCache.put(id, new SheepCache(isbaby,sheared));
+			return s;
+		}else{
+			return bukkitentity;
+		}
+	}else if(etype.equals(EntityType.SHEEP) && SheepCache.containsKey(id)) {
+		SheepCache set = SheepCache.get(id);
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		Sheep s = (Sheep) EntityUtil.getEntity(loc.getWorld(), entid);
+		if(set.isbaby) s.setBaby(); else s.setAdult();
+		if(set.sheared) s.setSheared(true); else s.setSheared(false);
+		return s;
 	}
 	return CommonEntity.create(etype).getEntity();
 	}
