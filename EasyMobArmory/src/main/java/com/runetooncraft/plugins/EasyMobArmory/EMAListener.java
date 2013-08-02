@@ -312,6 +312,7 @@ public class EMAListener implements Listener {
 			if(name.length == 2) {
 				if(EggHandler.GetEggList().contains(name[1])) {
 					Location loc = event.getClickedBlock().getLocation();
+					loc.setY(loc.getY() + 1);
 					Entity entity = EggHandler.Loadentity(name[1],loc);
 				}else{
 					
