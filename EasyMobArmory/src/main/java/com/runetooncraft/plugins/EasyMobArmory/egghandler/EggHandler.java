@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.inventory.InventoryType;
@@ -31,6 +32,7 @@ import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 public class EggHandler {
 	public static Eggs eggs = EMA.eggs;
 	public static HashMap<String, ZombieCache> ZombieCache = new HashMap<String, ZombieCache>();
+	public static HashMap<String, PigZombieCache> PigZombieCache = new HashMap<String, PigZombieCache>();
 	public static HashMap<String, SkeletonCache> SkeletonCache = new HashMap<String, SkeletonCache>();
 	public static ItemStack GetEggitem(Entity e,String name, String lore) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
@@ -65,6 +67,13 @@ public class EggHandler {
 					HandItem.setItem(0, s.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".Armor", InventorySerializer.tobase64(InventorySerializer.getArmorEntityInventory(s.getEquipment())));
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".Hand", InventorySerializer.tobase64(HandItem));
+				}else if(e.getType().equals(EntityType.PIG_ZOMBIE)) {
+					PigZombie pz = (PigZombie) e;
+					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
+					HandItem.setItem(0, pz.getEquipment().getItemInHand());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".Armor", InventorySerializer.tobase64(InventorySerializer.getArmorEntityInventory(pz.getEquipment())));
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".Hand", InventorySerializer.tobase64(HandItem));
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", pz.isBaby());
 				}
 			}else{
 				//Egg already existent
@@ -126,6 +135,32 @@ public class EggHandler {
 		s.getEquipment().setArmorContents(set.Equip);
 		s.getEquipment().setItemInHand(set.handitem);
 		return s;
+	}else if(etype.equals(EntityType.PIG_ZOMBIE) && !PigZombieCache.containsKey(id)) {
+		CommonEntity entity = CommonEntity.create(etype);
+		String entityLoc = "Eggs.id." + id + ".";
+		Inventory Armorstackinv = InventorySerializer.frombase64(eggs.getString(entityLoc + "Armor"));
+		Inventory iteminv = InventorySerializer.frombase64(eggs.getString(entityLoc +"Hand"));
+		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
+		Entity bukkitentity = entity.getEntity();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		if(etype.equals(EntityType.ZOMBIE)) {
+			PigZombie pz = (PigZombie) EntityUtil.getEntity(loc.getWorld(), entid);
+			pz.getEquipment().setArmorContents(Armorstackinv.getContents());
+			pz.getEquipment().setItemInHand(iteminv.getItem(0));
+			pz.setBaby(isbaby);
+			ZombieCache.put(id, new ZombieCache(Armorstackinv.getContents(),iteminv.getItem(0),isbaby));
+			return pz;
+		}else{
+			return bukkitentity;
+		}
+	}else if(etype.equals(EntityType.PIG_ZOMBIE) && PigZombieCache.containsKey(id)) {
+		PigZombieCache set = PigZombieCache.get(id);
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		PigZombie pz = (PigZombie) EntityUtil.getEntity(loc.getWorld(), entid);
+		pz.getEquipment().setArmorContents(set.Equip);
+		pz.getEquipment().setItemInHand(set.handitem);
+		pz.setBaby(set.isbaby);
+		return pz;
 	}
 	return CommonEntity.create(etype).getEntity();
 	}

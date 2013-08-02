@@ -122,6 +122,7 @@ public class EMAListener implements Listener {
 				inv.setContents(pigzombieinv);
 				inv.setItem(4, pz.getEquipment().getItemInHand());
 				if(pz.isBaby()) inv.setItem(5, new ItemStack(Material.REDSTONE));
+				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, pz);
 			}else{
