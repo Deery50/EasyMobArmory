@@ -55,6 +55,12 @@ public class EggHandler {
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".Hand", InventorySerializer.tobase64(HandItem));
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", z.isBaby());
 					eggs.save();
+				}else if(e.getType().equals(EntityType.SKELETON)) {
+					Skeleton s = (Skeleton) e;
+					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
+					HandItem.setItem(0, s.getEquipment().getItemInHand());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".Armor", InventorySerializer.tobase64(InventorySerializer.getArmorEntityInventory(s.getEquipment())));
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".Hand", InventorySerializer.tobase64(HandItem));
 				}
 			}else{
 				//Egg already existent

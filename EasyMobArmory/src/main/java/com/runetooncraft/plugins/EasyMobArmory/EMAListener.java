@@ -2,6 +2,8 @@ package com.runetooncraft.plugins.EasyMobArmory;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 import net.minecraft.server.v1_6_R2.Item;
@@ -299,6 +301,10 @@ public class EMAListener implements Listener {
 				EggHandler.addegg(e);
 				Inventory inv = Bukkit.createInventory(p, 9, "Eggs");
 				ItemStack eggitem = EggHandler.GetEggitem(e, "EMA Egg id: " + e.getEntityId());
+				List<String> lore = new ArrayList<String>();
+				lore.add("Spawns:");
+				lore.add(e.getType().getName());
+				eggitem.getItemMeta().setLore(lore);
 				for(int i=0; i<9; i++) {
 					inv.setItem(i, (eggitem));
 				}
@@ -308,7 +314,7 @@ public class EMAListener implements Listener {
 	}
 	@EventHandler
 	public void OnPlayerInteract(PlayerInteractEvent event) {
-		if(event.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG)) {
+		if(event.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG) && event.hasBlock()) {
 			Player p = event.getPlayer();
 			ItemStack egg = p.getItemInHand();
 			ItemMeta eggmeta = egg.getItemMeta();
