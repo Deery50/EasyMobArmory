@@ -146,6 +146,7 @@ public class EMAListener implements Listener {
 				Inventory inv = Bukkit.createInventory(p, 9, "piginv");
 				if(!pig.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				if(pig.hasSaddle()) inv.setItem(6, new ItemStack(Material.SADDLE));
+				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, pig);
 			}

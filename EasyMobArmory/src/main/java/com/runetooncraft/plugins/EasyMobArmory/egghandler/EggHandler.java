@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
@@ -36,6 +37,7 @@ public class EggHandler {
 	public static HashMap<String, PigZombieCache> PigZombieCache = new HashMap<String, PigZombieCache>();
 	public static HashMap<String, SkeletonCache> SkeletonCache = new HashMap<String, SkeletonCache>();
 	public static HashMap<String, SheepCache> SheepCache = new HashMap<String, SheepCache>();
+	public static HashMap<String, PigCache> PigCache = new HashMap<String, PigCache>();
 	public static ItemStack GetEggitem(Entity e,String name, String lore) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
 		return renameItem(egg, name, lore);
@@ -82,6 +84,12 @@ public class EggHandler {
 					HandItem.setItem(0, s.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !s.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".sheared", s.isSheared());
+				}else if(e.getType().equals(EntityType.PIG)) {
+					Pig p = (Pig) e;
+					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
+					HandItem.setItem(0, p.getEquipment().getItemInHand());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !p.isAdult());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".saddled", p.hasSaddle());
 				}
 			}else{
 				//Egg already existent
@@ -191,6 +199,28 @@ public class EggHandler {
 		if(set.isbaby) s.setBaby(); else s.setAdult();
 		if(set.sheared) s.setSheared(true); else s.setSheared(false);
 		return s;
+	}else if(etype.equals(EntityType.PIG) && !PigCache.containsKey(id)) {
+		CommonEntity entity = CommonEntity.create(etype);
+		String entityLoc = "Eggs.id." + id + ".";
+		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
+		Boolean saddled = eggs.getBoolean(entityLoc + "saddled");
+		Entity bukkitentity = entity.getEntity();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		if(etype.equals(EntityType.PIG)) {
+			Pig p = (Pig) EntityUtil.getEntity(loc.getWorld(), entid);
+			if(isbaby.equals(true)) p.setBaby(); else p.setAdult();
+			PigCache.put(id, new PigCache(isbaby,saddled));
+			return p;
+		}else{
+			return bukkitentity;
+		}
+	}else if(etype.equals(EntityType.PIG) && PigCache.containsKey(id)) {
+		PigCache set = PigCache.get(id);
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		Pig p = (Pig) EntityUtil.getEntity(loc.getWorld(), entid);
+		if(set.isbaby) p.setBaby(); else p.setAdult();
+		if(set.saddled) p.setSaddle(true); else p.setSaddle(false);
+		return p;
 	}
 	return CommonEntity.create(etype).getEntity();
 	}
