@@ -27,7 +27,7 @@ import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 
 public class EggHandler {
 	public static Eggs eggs = EMA.eggs;
-	public static HashMap<Integer, Entity> EntityEggIdList = new HashMap<Integer, Entity>();
+	public static HashMap<String, ZombieCache> ZombieCache = new HashMap<String, ZombieCache>();
 	public static ItemStack GetEggitem(Entity e,String name) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
 		return renameItem(egg, name);
@@ -66,6 +66,7 @@ public class EggHandler {
 		YamlConfiguration eggsyml = eggs.GetConfig();
 		int Entityid = eggsyml.getInt("Eggs.id." + id + ".Type");
 		EntityType etype = EntityType.fromId(Entityid);
+	if(!ZombieCache.containsKey(id)) {
 		CommonEntity entity = CommonEntity.create(etype);
 		String entityLoc = "Eggs.id." + id + ".";
 		Inventory Armorstackinv = InventorySerializer.frombase64(eggsyml.getString(entityLoc + "Armor"));
@@ -78,9 +79,20 @@ public class EggHandler {
 			z.getEquipment().setArmorContents(Armorstackinv.getContents());
 			z.getEquipment().setItemInHand(iteminv.getItem(0));
 			z.setBaby(isbaby);
+			ZombieCache.put(id, new ZombieCache(z,Armorstackinv.getContents(),iteminv.getItem(0),isbaby));
 			return z;
 		}else{
 			return bukkitentity;
 		}
+	}else if(etype.equals(EntityType.ZOMBIE)) {
+			ZombieCache set = ZombieCache.get(id);
+			UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+			Zombie z = (Zombie) EntityUtil.getEntity(loc.getWorld(), entid);
+			z.getEquipment().setArmorContents(set.Equip);
+			z.getEquipment().setItemInHand(set.handitem);
+			z.setBaby(set.isbaby);
+			return z;
+		}
+	return CommonEntity.create(etype).getEntity();
 	}
 }
