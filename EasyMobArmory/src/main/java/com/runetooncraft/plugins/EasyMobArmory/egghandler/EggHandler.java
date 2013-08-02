@@ -76,7 +76,9 @@ public class EggHandler {
 			z.getEquipment().setArmorContents(Armorstackinv.getContents());
 			z.getEquipment().setItemInHand(iteminv.getItem(0));
 			z.setBaby(isbaby);
+			return z;
+		}else{
+			return bukkitentity;
 		}
-		return bukkitentity;
 	}
 }
