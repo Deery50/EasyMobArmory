@@ -104,7 +104,7 @@ public class EggHandler {
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !h.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", h.getAgeLock());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".tamed", h.isTamed());
-					eggsyml.set("Eggs.id." + e.getEntityId() + ".tamer", h.getOwner().getName());
+					if(h.isTamed()) eggsyml.set("Eggs.id." + e.getEntityId() + ".tamer", h.getOwner().getName());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".carryingchest", h.isCarryingChest());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".inventory", InventorySerializer.tobase64(h.getInventory()));
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".varient", ParseHorseVarient(h.getVariant()));
