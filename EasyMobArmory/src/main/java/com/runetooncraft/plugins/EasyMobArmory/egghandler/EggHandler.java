@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -44,6 +45,7 @@ public class EggHandler {
 	public static HashMap<String, SheepCache> SheepCache = new HashMap<String, SheepCache>();
 	public static HashMap<String, PigCache> PigCache = new HashMap<String, PigCache>();
 	public static HashMap<String, CowCache> CowCache = new HashMap<String, CowCache>();
+	public static HashMap<String, ChickenCache> ChickenCache = new HashMap<String, ChickenCache>();
 	public static HashMap<String, HorseCache> HorseCache = new HashMap<String, HorseCache>();
 	public static ItemStack GetEggitem(Entity e,String name, String lore) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
@@ -96,6 +98,10 @@ public class EggHandler {
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", p.getAgeLock());
 				}else if(e.getType().equals(EntityType.COW)) {
 					Cow c = (Cow) e;
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !c.isAdult());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", c.getAgeLock());
+				}else if(e.getType().equals(EntityType.CHICKEN)) {
+					Chicken c = (Chicken) e;
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !c.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", c.getAgeLock());
 				}else if(e.getType().equals(EntityType.HORSE)) {
@@ -339,6 +345,28 @@ public class EggHandler {
 		CowCache set = CowCache.get(id);
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		Cow c = (Cow) EntityUtil.getEntity(loc.getWorld(), entid);
+		if(set.isbaby) c.setBaby(); else c.setAdult();
+		c.setAgeLock(set.agelock);
+		return c;
+	}else if(etype.equals(EntityType.CHICKEN) && !ChickenCache.containsKey(id)) {
+		CommonEntity entity = CommonEntity.create(etype);
+		String entityLoc = "Eggs.id." + id + ".";
+		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
+		Boolean agelock = eggs.getBoolean(entityLoc + "agelock");
+		Entity bukkitentity = entity.getEntity();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		if(etype.equals(EntityType.CHICKEN)) {
+			Chicken c = (Chicken) EntityUtil.getEntity(loc.getWorld(), entid);
+			if(isbaby.equals(true)) c.setBaby(); else c.setAdult();
+			ChickenCache.put(id, new ChickenCache(isbaby,agelock));
+			return c;
+		}else{
+			return bukkitentity;
+		}
+	}else if(etype.equals(EntityType.CHICKEN) && ChickenCache.containsKey(id)) {
+		ChickenCache set = ChickenCache.get(id);
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		Chicken c = (Chicken) EntityUtil.getEntity(loc.getWorld(), entid);
 		if(set.isbaby) c.setBaby(); else c.setAdult();
 		c.setAgeLock(set.agelock);
 		return c;

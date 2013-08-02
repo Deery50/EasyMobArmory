@@ -16,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventory;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
+import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -152,6 +153,17 @@ public class EMAListener implements Listener {
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, pig);
 			}
+		}else if(e.getType().equals(EntityType.CHICKEN)) {
+			ItemStack i = p.getItemInHand();
+			Chicken c = (Chicken) e;
+			if(i.getType().equals(Material.BONE)) {
+				Inventory inv = Bukkit.createInventory(p, 9, "chickeninv");
+				if(!c.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
+				if(c.getAgeLock()) inv.setItem(7, new ItemStack(Material.GLOWSTONE_DUST));
+//				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
+				p.openInventory(inv);
+				PlayerMobDataMap.put(p, c);
+			}
 		}else if(e.getType().equals(EntityType.COW)) {
 			ItemStack i = p.getItemInHand();
 			Cow cow = (Cow) e;
@@ -272,6 +284,20 @@ public class EMAListener implements Listener {
 				cow.setAgeLock(true);
 			}else{
 				cow.setAgeLock(false);
+			}
+		}
+		else if(event.getInventory().getName().equals("chickeninv")) {
+			Inventory i = event.getInventory();
+			Chicken c = (Chicken) PlayerMobDataMap.get(event.getPlayer());
+			if(i.contains(Material.REDSTONE)) {
+				c.setBaby();
+			}else{
+				c.setAdult();
+			}
+			if(i.contains(Material.GLOWSTONE_DUST)) {
+				c.setAgeLock(true);
+			}else{
+				c.setAgeLock(false);
 			}
 		}
 		else if(event.getInventory().getName().equals("horseinv")) {
