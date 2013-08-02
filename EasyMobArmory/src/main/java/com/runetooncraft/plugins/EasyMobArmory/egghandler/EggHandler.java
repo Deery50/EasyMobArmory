@@ -93,11 +93,13 @@ public class EggHandler {
 					HandItem.setItem(0, p.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !p.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".saddled", p.hasSaddle());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", p.getAgeLock());
 				}else if(e.getType().equals(EntityType.COW)) {
 					Cow c = (Cow) e;
 					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
 					HandItem.setItem(0, c.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !c.isAdult());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", c.getAgeLock());
 				}
 			}else{
 				//Egg already existent
@@ -216,12 +218,15 @@ public class EggHandler {
 		String entityLoc = "Eggs.id." + id + ".";
 		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
 		Boolean saddled = eggs.getBoolean(entityLoc + "saddled");
+		Boolean agelock = eggs.getBoolean(entityLoc + "agelock");
 		Entity bukkitentity = entity.getEntity();
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		if(etype.equals(EntityType.PIG)) {
 			Pig p = (Pig) EntityUtil.getEntity(loc.getWorld(), entid);
 			if(isbaby.equals(true)) p.setBaby(); else p.setAdult();
-			PigCache.put(id, new PigCache(isbaby,saddled));
+			if(saddled.equals(true)) p.setSaddle(true); else p.setSaddle(false);
+			if(agelock.equals(true)) p.setAgeLock(true); else p.setAgeLock(false);
+			PigCache.put(id, new PigCache(isbaby,saddled,agelock));
 			return p;
 		}else{
 			return bukkitentity;
@@ -231,18 +236,20 @@ public class EggHandler {
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		Pig p = (Pig) EntityUtil.getEntity(loc.getWorld(), entid);
 		if(set.isbaby) p.setBaby(); else p.setAdult();
-		if(set.saddled) p.setSaddle(true); else p.setSaddle(false);
+		p.setSaddle(set.saddled);
+		p.setAgeLock(set.agelock);
 		return p;
 	}else if(etype.equals(EntityType.COW) && !CowCache.containsKey(id)) {
 		CommonEntity entity = CommonEntity.create(etype);
 		String entityLoc = "Eggs.id." + id + ".";
 		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
+		Boolean agelock = eggs.getBoolean(entityLoc + "agelock");
 		Entity bukkitentity = entity.getEntity();
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		if(etype.equals(EntityType.COW)) {
 			Cow c = (Cow) EntityUtil.getEntity(loc.getWorld(), entid);
 			if(isbaby.equals(true)) c.setBaby(); else c.setAdult();
-			CowCache.put(id, new CowCache(isbaby));
+			CowCache.put(id, new CowCache(isbaby,agelock));
 			return c;
 		}else{
 			return bukkitentity;
@@ -252,6 +259,7 @@ public class EggHandler {
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		Cow c = (Cow) EntityUtil.getEntity(loc.getWorld(), entid);
 		if(set.isbaby) c.setBaby(); else c.setAdult();
+		c.setAgeLock(set.agelock);
 		return c;
 	}
 	return CommonEntity.create(etype).getEntity();

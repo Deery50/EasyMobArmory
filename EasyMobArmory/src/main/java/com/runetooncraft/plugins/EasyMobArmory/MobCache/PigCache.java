@@ -8,8 +8,10 @@ import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 public class PigCache {
 	public Boolean isbaby = null;
 	public Boolean saddled = null;
-	public PigCache(Boolean isbaby, Boolean saddled) {
+	public Boolean agelock = null;
+	public PigCache(Boolean isbaby, Boolean saddled, Boolean agelock) {
 		this.isbaby = isbaby;
 		this.saddled = saddled;
+		this.agelock = agelock;
 	}
 }

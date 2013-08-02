@@ -7,7 +7,9 @@ import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 
 public class CowCache {
 	public Boolean isbaby = null;
-	public CowCache(Boolean isbaby) {
+	public Boolean agelock = null;
+	public CowCache(Boolean isbaby, Boolean agelock) {
 		this.isbaby = isbaby;
+		this.agelock = agelock;
 	}
 }

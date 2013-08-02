@@ -147,6 +147,7 @@ public class EMAListener implements Listener {
 				Inventory inv = Bukkit.createInventory(p, 9, "piginv");
 				if(!pig.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
 				if(pig.hasSaddle()) inv.setItem(6, new ItemStack(Material.SADDLE));
+				if(pig.getAgeLock()) inv.setItem(7, new ItemStack(Material.GLOWSTONE_DUST));
 				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, pig);
@@ -157,6 +158,7 @@ public class EMAListener implements Listener {
 			if(i.getType().equals(Material.BONE)) {
 				Inventory inv = Bukkit.createInventory(p, 9, "cowinv");
 				if(!cow.isAdult()) inv.setItem(5, new ItemStack(Material.REDSTONE));
+				if(cow.getAgeLock()) inv.setItem(7, new ItemStack(Material.GLOWSTONE_DUST));
 				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, cow);
@@ -251,6 +253,11 @@ public class EMAListener implements Listener {
 			}else{
 				pig.setSaddle(false);
 			}
+			if(i.contains(Material.GLOWSTONE_DUST)) {
+				pig.setAgeLock(true);
+			}else{
+				pig.setAgeLock(false);
+			}
 		}
 		else if(event.getInventory().getName().equals("cowinv")) {
 			Inventory i = event.getInventory();
@@ -259,6 +266,11 @@ public class EMAListener implements Listener {
 				cow.setBaby();
 			}else{
 				cow.setAdult();
+			}
+			if(i.contains(Material.GLOWSTONE_DUST)) {
+				cow.setAgeLock(true);
+			}else{
+				cow.setAgeLock(false);
 			}
 		}
 		else if(event.getInventory().getName().equals("horseinv")) {
