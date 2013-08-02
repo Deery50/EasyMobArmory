@@ -143,7 +143,7 @@ public class EggHandler {
 		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
 		Entity bukkitentity = entity.getEntity();
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
-		if(etype.equals(EntityType.ZOMBIE)) {
+		if(etype.equals(EntityType.PIG_ZOMBIE)) {
 			PigZombie pz = (PigZombie) EntityUtil.getEntity(loc.getWorld(), entid);
 			pz.getEquipment().setArmorContents(Armorstackinv.getContents());
 			pz.getEquipment().setItemInHand(iteminv.getItem(0));
