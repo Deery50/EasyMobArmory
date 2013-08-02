@@ -302,6 +302,7 @@ public class EMAListener implements Listener {
 				for(int i=0; i<8; i++) {
 					inv.setItem(i, (eggitem));
 				}
+				p.openInventory(inv);
 			}
 		}
 	}
