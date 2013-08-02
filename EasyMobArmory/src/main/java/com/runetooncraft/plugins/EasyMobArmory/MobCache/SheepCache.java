@@ -8,8 +8,10 @@ import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 public class SheepCache {
 	public Boolean isbaby = null;
 	public Boolean sheared = null;
-	public SheepCache(Boolean isbaby, Boolean sheared) {
+	public Boolean agelock = null;
+	public SheepCache(Boolean isbaby, Boolean sheared, Boolean agelock) {
 		this.isbaby = isbaby;
 		this.sheared = sheared;
+		this.agelock = agelock;
 	}
 }

@@ -86,6 +86,7 @@ public class EggHandler {
 					HandItem.setItem(0, s.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !s.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".sheared", s.isSheared());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", s.getAgeLock());
 				}else if(e.getType().equals(EntityType.PIG)) {
 					Pig p = (Pig) e;
 					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
@@ -189,12 +190,15 @@ public class EggHandler {
 		String entityLoc = "Eggs.id." + id + ".";
 		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
 		Boolean sheared = eggs.getBoolean(entityLoc + "sheared");
+		Boolean agelock = eggs.getBoolean(entityLoc + "agelock");
 		Entity bukkitentity = entity.getEntity();
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		if(etype.equals(EntityType.SHEEP)) {
 			Sheep s = (Sheep) EntityUtil.getEntity(loc.getWorld(), entid);
 			if(isbaby.equals(true)) s.setBaby(); else s.setAdult();
-			SheepCache.put(id, new SheepCache(isbaby,sheared));
+			if(sheared.equals(true)) s.setSheared(true); else s.setSheared(false);
+			if(agelock.equals(true)) s.setAgeLock(true); else s.setAgeLock(false);
+			SheepCache.put(id, new SheepCache(isbaby,sheared,agelock));
 			return s;
 		}else{
 			return bukkitentity;
@@ -205,6 +209,7 @@ public class EggHandler {
 		Sheep s = (Sheep) EntityUtil.getEntity(loc.getWorld(), entid);
 		if(set.isbaby) s.setBaby(); else s.setAdult();
 		if(set.sheared) s.setSheared(true); else s.setSheared(false);
+		if(set.agelock) s.setAgeLock(true); else s.setAgeLock(false);
 		return s;
 	}else if(etype.equals(EntityType.PIG) && !PigCache.containsKey(id)) {
 		CommonEntity entity = CommonEntity.create(etype);
