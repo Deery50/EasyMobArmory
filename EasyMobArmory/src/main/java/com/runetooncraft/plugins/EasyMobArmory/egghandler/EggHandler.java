@@ -1,5 +1,6 @@
 package com.runetooncraft.plugins.EasyMobArmory.egghandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -31,13 +32,16 @@ public class EggHandler {
 	public static Eggs eggs = EMA.eggs;
 	public static HashMap<String, ZombieCache> ZombieCache = new HashMap<String, ZombieCache>();
 	public static HashMap<String, SkeletonCache> SkeletonCache = new HashMap<String, SkeletonCache>();
-	public static ItemStack GetEggitem(Entity e,String name) {
+	public static ItemStack GetEggitem(Entity e,String name, String lore) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
-		return renameItem(egg, name);
+		return renameItem(egg, name, lore);
 	}
-	public static ItemStack renameItem(ItemStack is, String newName){
+	public static ItemStack renameItem(ItemStack is, String newName, String lore){
 		  ItemMeta meta = is.getItemMeta();
 		  meta.setDisplayName(newName);
+		  List<String> lorelist = new ArrayList<String>();
+		  lorelist.add(lore);
+		  meta.setLore(lorelist);
 		  is.setItemMeta(meta);
 		  return is;
 	}

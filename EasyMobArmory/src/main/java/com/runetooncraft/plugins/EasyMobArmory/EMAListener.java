@@ -77,7 +77,7 @@ public class EMAListener implements Listener {
 				inv.setContents(zombieinv);
 				inv.setItem(4, z.getEquipment().getItemInHand());
 				if(z.isBaby()) inv.setItem(5, new ItemStack(Material.REDSTONE));
-				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg"));
+				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, z);
 			}else{
@@ -99,7 +99,7 @@ public class EMAListener implements Listener {
 				ItemStack[] skeletoninv = s.getEquipment().getArmorContents();
 				inv.setContents(skeletoninv);
 				inv.setItem(4, s.getEquipment().getItemInHand());
-				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg"));
+				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, s);
 			}else{
@@ -301,7 +301,7 @@ public class EMAListener implements Listener {
 				Entity e = PlayerMobDataMap.get(p);
 				EggHandler.addegg(e);
 				Inventory inv = Bukkit.createInventory(p, 9, "Eggs");
-				ItemStack eggitem = EggHandler.GetEggitem(e, "EMA Egg id: " + e.getEntityId());
+				ItemStack eggitem = EggHandler.GetEggitem(e, "EMA Egg id: " + e.getEntityId(),ChatColor.AQUA + e.getType().getName());
 				for(int i=0; i<9; i++) {
 					inv.setItem(i, (eggitem));
 				}
