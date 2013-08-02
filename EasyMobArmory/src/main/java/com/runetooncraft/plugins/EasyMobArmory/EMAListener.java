@@ -297,7 +297,11 @@ public class EMAListener implements Listener {
 				Player p = (Player) event.getWhoClicked();
 				Entity e = PlayerMobDataMap.get(p);
 				EggHandler.addegg(e);
-				p.getInventory().addItem(EggHandler.GetEggitem(e, "EMA Egg id: " + e.getEntityId()));
+				Inventory inv = Bukkit.createInventory(p, 9, "Eggs");
+				ItemStack eggitem = EggHandler.GetEggitem(e, "EMA Egg id: " + e.getEntityId());
+				for(int i=0; i<8; i++) {
+					inv.setItem(i, (eggitem));
+				}
 			}
 		}
 	}

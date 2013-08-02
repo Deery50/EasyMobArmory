@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -22,12 +23,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.bergerkiller.bukkit.common.entity.CommonEntity;
 import com.bergerkiller.bukkit.common.utils.EntityUtil;
 import com.runetooncraft.plugins.EasyMobArmory.EMA;
+import com.runetooncraft.plugins.EasyMobArmory.MobCache.*;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 
 public class EggHandler {
 	public static Eggs eggs = EMA.eggs;
 	public static HashMap<String, ZombieCache> ZombieCache = new HashMap<String, ZombieCache>();
+	public static HashMap<String, SkeletonCache> SkeletonCache = new HashMap<String, SkeletonCache>();
 	public static ItemStack GetEggitem(Entity e,String name) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
 		return renameItem(egg, name);
@@ -66,7 +69,7 @@ public class EggHandler {
 		YamlConfiguration eggsyml = eggs.GetConfig();
 		int Entityid = eggsyml.getInt("Eggs.id." + id + ".Type");
 		EntityType etype = EntityType.fromId(Entityid);
-	if(!ZombieCache.containsKey(id)) {
+	if(etype.equals(EntityType.ZOMBIE) && !ZombieCache.containsKey(id)) {
 		CommonEntity entity = CommonEntity.create(etype);
 		String entityLoc = "Eggs.id." + id + ".";
 		Inventory Armorstackinv = InventorySerializer.frombase64(eggsyml.getString(entityLoc + "Armor"));
@@ -84,7 +87,7 @@ public class EggHandler {
 		}else{
 			return bukkitentity;
 		}
-	}else if(etype.equals(EntityType.ZOMBIE)) {
+	}else if(etype.equals(EntityType.ZOMBIE) && ZombieCache.containsKey(id)) {
 			ZombieCache set = ZombieCache.get(id);
 			UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 			Zombie z = (Zombie) EntityUtil.getEntity(loc.getWorld(), entid);
@@ -92,7 +95,30 @@ public class EggHandler {
 			z.getEquipment().setItemInHand(set.handitem);
 			z.setBaby(set.isbaby);
 			return z;
+	}else if(etype.equals(EntityType.SKELETON) && !SkeletonCache.containsKey(id)) {
+		CommonEntity entity = CommonEntity.create(etype);
+		String entityLoc = "Eggs.id." + id + ".";
+		Inventory Armorstackinv = InventorySerializer.frombase64(eggsyml.getString(entityLoc + "Armor"));
+		Inventory iteminv = InventorySerializer.frombase64(eggsyml.getString(entityLoc +"Hand"));
+		Entity bukkitentity = entity.getEntity();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		if(etype.equals(EntityType.SKELETON)) {
+			Skeleton s = (Skeleton) EntityUtil.getEntity(loc.getWorld(), entid);
+			s.getEquipment().setArmorContents(Armorstackinv.getContents());
+			s.getEquipment().setItemInHand(iteminv.getItem(0));
+			SkeletonCache.put(id, new SkeletonCache(Armorstackinv.getContents(),iteminv.getItem(0)));
+			return s;
+		}else{
+			return bukkitentity;
 		}
+	}else if(etype.equals(EntityType.SKELETON) && SkeletonCache.containsKey(id)) {
+		SkeletonCache set = SkeletonCache.get(id);
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		Skeleton s = (Skeleton) EntityUtil.getEntity(loc.getWorld(), entid);
+		s.getEquipment().setArmorContents(set.Equip);
+		s.getEquipment().setItemInHand(set.handitem);
+		return s;
+	}
 	return CommonEntity.create(etype).getEntity();
 	}
 }
