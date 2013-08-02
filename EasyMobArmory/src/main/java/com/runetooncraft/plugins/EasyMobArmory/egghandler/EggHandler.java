@@ -20,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.bergerkiller.bukkit.common.entity.CommonEntity;
+import com.bergerkiller.bukkit.common.utils.EntityUtil;
 import com.runetooncraft.plugins.EasyMobArmory.EMA;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
@@ -71,9 +72,9 @@ public class EggHandler {
 		Inventory iteminv = InventorySerializer.frombase64(eggsyml.getString(entityLoc +"Hand"));
 		Boolean isbaby = eggsyml.getBoolean(entityLoc + "isbaby");
 		Entity bukkitentity = entity.getEntity();
-		int entid = loc.getWorld().spawnEntity(loc, etype).getEntityId();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		if(etype.equals(EntityType.ZOMBIE)) {
-			Zombie z = (Zombie) loc.getWorld().getLivingEntities().get(entid);
+			Zombie z = (Zombie) EntityUtil.getEntity(loc.getWorld(), entid);
 			z.getEquipment().setArmorContents(Armorstackinv.getContents());
 			z.getEquipment().setItemInHand(iteminv.getItem(0));
 			z.setBaby(isbaby);
