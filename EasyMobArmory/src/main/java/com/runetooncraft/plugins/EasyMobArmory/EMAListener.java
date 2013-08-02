@@ -344,7 +344,7 @@ public class EMAListener implements Listener {
 	@EventHandler
 	public void OnInventoryClick(InventoryClickEvent event) {
 		String name = event.getInventory().getName();
-		if(name.equals("zombieinv") || name.equals("skeletoninv") || name.equals("pigzombieinv") || name.equals("sheepinv") || name.equals("piginv") || name.equals("cowinv") || name.equals("horseinv")) {
+		if(name.equals("zombieinv") || name.equals("skeletoninv") || name.equals("pigzombieinv") || name.equals("sheepinv") || name.equals("piginv") || name.equals("cowinv") || name.equals("horseinv") || name.equals("chickeninv")) {
 			if(event.getSlot() == 8 && event.getCurrentItem().getType() == Material.MONSTER_EGG && event.getCurrentItem().getItemMeta().hasDisplayName() && event.getInventory().getItem(8).equals(event.getCurrentItem())){
 				Player p = (Player) event.getWhoClicked();
 				Entity e = PlayerMobDataMap.get(p);
