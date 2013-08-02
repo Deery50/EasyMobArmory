@@ -79,7 +79,7 @@ public class EggHandler {
 			z.getEquipment().setArmorContents(Armorstackinv.getContents());
 			z.getEquipment().setItemInHand(iteminv.getItem(0));
 			z.setBaby(isbaby);
-			ZombieCache.put(id, new ZombieCache(z,Armorstackinv.getContents(),iteminv.getItem(0),isbaby));
+			ZombieCache.put(id, new ZombieCache(Armorstackinv.getContents(),iteminv.getItem(0),isbaby));
 			return z;
 		}else{
 			return bukkitentity;
