@@ -62,19 +62,17 @@ public class EggHandler {
 		}
 	}
 	public static List<String> GetEggList() {
-		YamlConfiguration eggsyml = eggs.GetConfig();
-		return (List<String>) eggsyml.getList("Eggs.List");
+		return (List<String>) eggs.getList("Eggs.List");
 	}
 	public static Entity Loadentity(String id, Location loc) {
-		YamlConfiguration eggsyml = eggs.GetConfig();
-		int Entityid = eggsyml.getInt("Eggs.id." + id + ".Type");
+		int Entityid = eggs.getInt("Eggs.id." + id + ".Type");
 		EntityType etype = EntityType.fromId(Entityid);
 	if(etype.equals(EntityType.ZOMBIE) && !ZombieCache.containsKey(id)) {
 		CommonEntity entity = CommonEntity.create(etype);
 		String entityLoc = "Eggs.id." + id + ".";
-		Inventory Armorstackinv = InventorySerializer.frombase64(eggsyml.getString(entityLoc + "Armor"));
-		Inventory iteminv = InventorySerializer.frombase64(eggsyml.getString(entityLoc +"Hand"));
-		Boolean isbaby = eggsyml.getBoolean(entityLoc + "isbaby");
+		Inventory Armorstackinv = InventorySerializer.frombase64(eggs.getString(entityLoc + "Armor"));
+		Inventory iteminv = InventorySerializer.frombase64(eggs.getString(entityLoc +"Hand"));
+		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
 		Entity bukkitentity = entity.getEntity();
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		if(etype.equals(EntityType.ZOMBIE)) {
@@ -98,8 +96,8 @@ public class EggHandler {
 	}else if(etype.equals(EntityType.SKELETON) && !SkeletonCache.containsKey(id)) {
 		CommonEntity entity = CommonEntity.create(etype);
 		String entityLoc = "Eggs.id." + id + ".";
-		Inventory Armorstackinv = InventorySerializer.frombase64(eggsyml.getString(entityLoc + "Armor"));
-		Inventory iteminv = InventorySerializer.frombase64(eggsyml.getString(entityLoc +"Hand"));
+		Inventory Armorstackinv = InventorySerializer.frombase64(eggs.getString(entityLoc + "Armor"));
+		Inventory iteminv = InventorySerializer.frombase64(eggs.getString(entityLoc +"Hand"));
 		Entity bukkitentity = entity.getEntity();
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		if(etype.equals(EntityType.SKELETON)) {

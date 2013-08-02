@@ -299,7 +299,7 @@ public class EMAListener implements Listener {
 				EggHandler.addegg(e);
 				Inventory inv = Bukkit.createInventory(p, 9, "Eggs");
 				ItemStack eggitem = EggHandler.GetEggitem(e, "EMA Egg id: " + e.getEntityId());
-				for(int i=0; i<8; i++) {
+				for(int i=0; i<9; i++) {
 					inv.setItem(i, (eggitem));
 				}
 				p.openInventory(inv);

@@ -53,4 +53,16 @@ public class Eggs {
 		Eggs.set(path, l);
 		save();
 	}
+	public List<String> getList(String path) {
+		return (List<String>) Eggs.getList(path);
+	}
+	public int getInt(String path) {
+		return Eggs.getInt(path);
+	}
+	public Boolean getBoolean(String path) {
+		return Eggs.getBoolean(path);
+	}
+	public String getString(String path) {
+		return Eggs.getString(path);
+	}
 }
