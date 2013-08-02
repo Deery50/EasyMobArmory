@@ -11,8 +11,8 @@ public class ZombieCache {
 	Boolean isbaby = null;
 	ZombieCache(ItemStack[] equip, ItemStack handitem, Boolean isbaby) {
 		Messenger.info("DEBUG! " + isbaby);
-		this.isbaby.equals(isbaby);
-		this.Equip.equals(equip);
-		this.handitem.equals(handitem);
+		this.isbaby = isbaby;
+		this.Equip = equip;
+		this.handitem = handitem;
 	}
 }
