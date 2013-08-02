@@ -71,7 +71,6 @@ public class EggHandler {
 					HandItem.setItem(0, z.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".Hand", InventorySerializer.tobase64(HandItem));
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", z.isBaby());
-					eggs.save();
 				}else if(e.getType().equals(EntityType.SKELETON)) {
 					Skeleton s = (Skeleton) e;
 					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
@@ -116,6 +115,7 @@ public class EggHandler {
 				//Egg already existent
 			}
 		}
+		eggs.save();
 	}
 	private static String ParseHorseColor(Color color) {
 		if(color.equals(Color.BLACK)) {
