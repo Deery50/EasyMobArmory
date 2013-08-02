@@ -14,8 +14,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Horse.Color;
+import org.bukkit.entity.Horse.Variant;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
@@ -40,6 +44,7 @@ public class EggHandler {
 	public static HashMap<String, SheepCache> SheepCache = new HashMap<String, SheepCache>();
 	public static HashMap<String, PigCache> PigCache = new HashMap<String, PigCache>();
 	public static HashMap<String, CowCache> CowCache = new HashMap<String, CowCache>();
+	public static HashMap<String, HorseCache> HorseCache = new HashMap<String, HorseCache>();
 	public static ItemStack GetEggitem(Entity e,String name, String lore) {
 		ItemStack egg = new ItemStack(Material.MONSTER_EGG, 1, (short) e.getEntityId());
 		return renameItem(egg, name, lore);
@@ -82,28 +87,104 @@ public class EggHandler {
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", pz.isBaby());
 				}else if(e.getType().equals(EntityType.SHEEP)) {
 					Sheep s = (Sheep) e;
-					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
-					HandItem.setItem(0, s.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !s.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".sheared", s.isSheared());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", s.getAgeLock());
 				}else if(e.getType().equals(EntityType.PIG)) {
 					Pig p = (Pig) e;
-					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
-					HandItem.setItem(0, p.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !p.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".saddled", p.hasSaddle());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", p.getAgeLock());
 				}else if(e.getType().equals(EntityType.COW)) {
 					Cow c = (Cow) e;
-					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
-					HandItem.setItem(0, c.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !c.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", c.getAgeLock());
+				}else if(e.getType().equals(EntityType.HORSE)) {
+					Horse h = (Horse) e;
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !h.isAdult());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", h.getAgeLock());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".tamed", h.isTamed());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".tamer", h.getOwner().getName());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".carryingchest", h.isCarryingChest());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".inventory", InventorySerializer.tobase64(h.getInventory()));
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".varient", ParseHorseVarient(h.getVariant()));
+					if(h.getVariant() == Variant.HORSE) {
+						eggsyml.set("Eggs.id." + e.getEntityId() + ".color", ParseHorseColor(h.getColor()));
+					}
 				}
 			}else{
 				//Egg already existent
 			}
+		}
+	}
+	private static String ParseHorseColor(Color color) {
+		if(color.equals(Color.BLACK)) {
+			return "Black";
+		}else if(color.equals(Color.BROWN)) {
+			return "Brown";
+		}else if(color.equals(Color.CHESTNUT)) {
+			return "Chestnut";
+		}else if(color.equals(Color.CREAMY)) {
+			return "Creamy";
+		}else if(color.equals(Color.DARK_BROWN)) {
+			return "Dark_Brown";
+		}else if(color.equals(Color.GRAY)) {
+			return "Gray";
+		}else if(color.equals(Color.WHITE)) {
+			return "White";
+		}else{
+			return "Black";
+		}
+	}
+	private static Color ParseHorseColorString(String color) {
+		if(color.equals("Black")) {
+			return Color.BLACK;
+		}else if(color.equals("Brown")) {
+			return Color.BROWN;
+		}else if(color.equals("Chestnut")) {
+			return Color.CHESTNUT;
+		}else if(color.equals("Creamy")) {
+			return Color.CREAMY;
+		}else if(color.equals("Dark_Brown")) {
+			return Color.DARK_BROWN;
+		}else if(color.equals("Gray")) {
+			return Color.GRAY;
+		}else if(color.equals("White")) {
+			return Color.WHITE;
+		}else if(color.equals("Black")) {
+			return Color.BLACK;
+		}else{
+			return Color.BLACK;
+		}
+	}
+	private static String ParseHorseVarient(Variant variant) {
+		if(variant.equals(Variant.HORSE)) {
+			return "Horse";
+		}else if(variant.equals(Variant.DONKEY)) {
+			return "Donkey";
+		}else if(variant.equals(Variant.MULE)) {
+			return "Mule";
+		}else if(variant.equals(Variant.SKELETON_HORSE)) {
+			return "Skeleton_Horse";
+		}else if(variant.equals(Variant.UNDEAD_HORSE)) {
+			return "Undead_Horse";
+		}else{
+			return "Horse";
+		}
+	}
+	private static Variant ParseHorseString(String s) {
+		if(s.equals("Horse")) {
+			return Variant.HORSE;
+		}else if(s.equals("Donkey")) {
+			return Variant.DONKEY;
+		}else if(s.equals("Mule")) {
+			return Variant.MULE;
+		}else if(s.equals("Skeleton_Horse")) {
+			return Variant.SKELETON_HORSE;
+		}else if(s.equals("Undead_Horse")) {
+			return Variant.UNDEAD_HORSE;
+		}else{
+			return Variant.HORSE;
 		}
 	}
 	public static List<String> GetEggList() {
@@ -261,6 +342,55 @@ public class EggHandler {
 		if(set.isbaby) c.setBaby(); else c.setAdult();
 		c.setAgeLock(set.agelock);
 		return c;
+	}else if(etype.equals(EntityType.HORSE) && !HorseCache.containsKey(id)) {
+		CommonEntity entity = CommonEntity.create(etype);
+		String entityLoc = "Eggs.id." + id + ".";
+		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
+		Boolean agelock = eggs.getBoolean(entityLoc + "agelock");
+		Boolean tamed = eggs.getBoolean(entityLoc + "tamed");
+		Boolean chest = eggs.getBoolean(entityLoc + "carryingchest");
+		Variant variant = ParseHorseString(eggs.getString(entityLoc + "varient"));
+		Inventory horseinv = InventorySerializer.frombase64(eggs.getString(entityLoc + "inventory"));
+		Player horsetamer = null;
+		Color color = null;
+		if(tamed) {
+			String tamer = eggs.getString(entityLoc + "tamer");
+			horsetamer = (Player) Bukkit.getOfflinePlayer(tamer);
+		}
+		if(variant.equals(Variant.HORSE)) {
+			color = ParseHorseColorString(entityLoc + "color");
+		}
+		Entity bukkitentity = entity.getEntity();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		if(etype.equals(EntityType.HORSE)) {
+			Horse h = (Horse) EntityUtil.getEntity(loc.getWorld(), entid);
+			if(isbaby.equals(true)) h.setBaby(); else h.setAdult();
+			h.setTamed(tamed);
+			if(tamed) h.setOwner(horsetamer);
+			h.setVariant(variant);
+			if(variant.equals(Variant.HORSE)) h.setColor(color);
+			h.getInventory().setContents(horseinv.getContents());
+			HorseCache.put(id, new HorseCache(isbaby,agelock,tamed,chest,variant,horseinv,horsetamer,color));
+			return h;
+		}else{
+			return bukkitentity;
+		}
+	}else if(etype.equals(EntityType.HORSE) && HorseCache.containsKey(id)) {
+		HorseCache set = HorseCache.get(id);
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		Horse h = (Horse) EntityUtil.getEntity(loc.getWorld(), entid);
+		if(set.isbaby) h.setBaby(); else h.setAdult();
+		h.setAgeLock(set.agelock);
+		h.setVariant(set.variant);
+		h.setTamed(set.tamed);
+		if(set.variant.equals(Variant.HORSE)) {
+			h.setColor(set.color);
+		}
+		if(set.tamed) {
+			h.setOwner(set.tamer);
+		}
+		h.getInventory().setContents(set.horseinv.getContents());
+		return h;
 	}
 	return CommonEntity.create(etype).getEntity();
 	}
