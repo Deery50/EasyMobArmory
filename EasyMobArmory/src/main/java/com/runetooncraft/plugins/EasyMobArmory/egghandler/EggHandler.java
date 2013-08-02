@@ -2,6 +2,7 @@ package com.runetooncraft.plugins.EasyMobArmory.egghandler;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import net.minecraft.server.v1_6_R2.NBTTagCompound;
 
@@ -65,14 +66,14 @@ public class EggHandler {
 		int Entityid = eggsyml.getInt("Eggs.id." + id + ".Type");
 		EntityType etype = EntityType.fromId(Entityid);
 		CommonEntity entity = CommonEntity.create(etype);
-		entity.spawn(loc);
 		String entityLoc = "Eggs.id." + id + ".";
 		Inventory Armorstackinv = InventorySerializer.frombase64(eggsyml.getString(entityLoc + "Armor"));
 		Inventory iteminv = InventorySerializer.frombase64(eggsyml.getString(entityLoc +"Hand"));
 		Boolean isbaby = eggsyml.getBoolean(entityLoc + "isbaby");
 		Entity bukkitentity = entity.getEntity();
+		int entid = loc.getWorld().spawnEntity(loc, etype).getEntityId();
 		if(etype.equals(EntityType.ZOMBIE)) {
-			Zombie z = (Zombie) bukkitentity;
+			Zombie z = (Zombie) loc.getWorld().getLivingEntities().get(entid);
 			z.getEquipment().setArmorContents(Armorstackinv.getContents());
 			z.getEquipment().setItemInHand(iteminv.getItem(0));
 			z.setBaby(isbaby);
