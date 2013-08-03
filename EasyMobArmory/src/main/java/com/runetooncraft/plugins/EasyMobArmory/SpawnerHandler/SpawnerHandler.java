@@ -19,7 +19,7 @@ public class SpawnerHandler {
 	public static SpawnerConfig Spawners = EMA.Spawners;
 	public static HashMap<Location, SpawnerCache> SpawnerCache = new HashMap<Location, SpawnerCache>();
 	public static Boolean IsEMASpawner(Location loc) {
-		if(SpawnerCache.get(loc) != null) {
+		if(Spawners.getList("Spawners.List").contains(Spawners.LocString(loc))) {
 			return true;
 		}else{
 			return false;

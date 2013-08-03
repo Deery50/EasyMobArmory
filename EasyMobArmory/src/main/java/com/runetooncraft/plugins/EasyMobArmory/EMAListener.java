@@ -57,7 +57,6 @@ public class EMAListener implements Listener {
 	Config config;
 	public static HashMap<Player, Entity> PlayerMobDataMap = new HashMap<Player, Entity>();
 	public static HashMap<Player, Boolean> Armoryenabled = new HashMap<Player, Boolean>();
-	public static HashMap<Location, Boolean> ConfirmSetupSpawner = new HashMap<Location, Boolean>();
 	public EMAListener(Config config) {
 		this.config = config;
 	}
@@ -397,18 +396,15 @@ public class EMAListener implements Listener {
 				}
 			}
 		}
-		}else if(event.getPlayer().getItemInHand().getType().equals(Material.BONE) && event.hasBlock() && event.getClickedBlock().getType().equals(Material.MOB_SPAWNER)) {
+		}else if(event.getPlayer().getItemInHand().getType().equals(Material.BONE) && event.hasBlock() && event.getClickedBlock().getTypeId() == 52) {
 				Block b = event.getClickedBlock();
 				Location BlockLocation = b.getLocation();
-			if(!SpawnerHandler.IsEMASpawner(BlockLocation)) {
-				if(ConfirmSetupSpawner.get(BlockLocation) != null && ConfirmSetupSpawner.get(BlockLocation).equals(false)) {
-					Messenger.playermessage("Right click the spawner again with the wand to confirm creation of an EMASpawner", p);
-					ConfirmSetupSpawner.put(BlockLocation, true);
-				}else{
+			if(SpawnerHandler.IsEMASpawner(BlockLocation).equals(false)) {
+					Messenger.playermessage("EMASpawer created", p);
 					SpawnerHandler.NewEMASpawner(b, p);
-				}
+					SpawnerHandler.OpenSpawnerInventory(b, p);
 			}else{
-				//Is EMASpawner
+				SpawnerHandler.OpenSpawnerInventory(b, p);
 			}
 		}
 	}
