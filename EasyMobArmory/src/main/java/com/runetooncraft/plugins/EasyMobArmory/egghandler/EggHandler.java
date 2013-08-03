@@ -64,7 +64,7 @@ public class EggHandler {
 		  return is;
 	}
 	public static String getEggID(ItemStack i) {
-		if(i.hasItemMeta()) {
+		if(i != null && i.hasItemMeta()) {
 			if (i.getItemMeta().hasDisplayName() && i.getItemMeta().getDisplayName().contains(":")) {
 				String[] name = i.getItemMeta().getDisplayName().split(": ");
 				return name[1];
