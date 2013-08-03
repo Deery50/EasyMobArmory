@@ -65,7 +65,7 @@ public class EggHandler {
 	}
 	public static String getEggID(ItemStack i) {
 		if(i.hasItemMeta() && i.getItemMeta().hasDisplayName() && i.getItemMeta().getDisplayName().contains(":")) {
-			String[] name = im.getDisplayName().split(": ");
+			String[] name = i.getItemMeta().getDisplayName().split(": ");
 			return name[1];
 		}else{
 			Messenger.info("EggHandler received invalid Egg id!");
