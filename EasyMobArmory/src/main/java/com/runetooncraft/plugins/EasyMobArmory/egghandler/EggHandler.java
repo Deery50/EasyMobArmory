@@ -64,9 +64,14 @@ public class EggHandler {
 		  return is;
 	}
 	public static String getEggID(ItemStack i) {
-		if(i.hasItemMeta() && i.getItemMeta().hasDisplayName() && i.getItemMeta().getDisplayName().contains(":")) {
-			String[] name = i.getItemMeta().getDisplayName().split(": ");
-			return name[1];
+		if(i.hasItemMeta()) {
+			if (i.getItemMeta().hasDisplayName() && i.getItemMeta().getDisplayName().contains(":")) {
+				String[] name = i.getItemMeta().getDisplayName().split(": ");
+				return name[1];
+			}else{
+				Messenger.info("EggHandler received invalid Egg id!");
+				return null;
+			}
 		}else{
 			Messenger.info("EggHandler received invalid Egg id!");
 			return null;
