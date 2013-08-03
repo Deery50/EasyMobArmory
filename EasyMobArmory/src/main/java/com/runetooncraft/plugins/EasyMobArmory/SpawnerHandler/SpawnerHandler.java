@@ -9,9 +9,11 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.runetooncraft.plugins.EasyMobArmory.EMA;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
+import com.runetooncraft.plugins.EasyMobArmory.egghandler.EggHandler;
 import com.runetooncraft.plugins.EasyMobArmory.egghandler.Eggs;
 
 public class SpawnerHandler {
@@ -46,11 +48,30 @@ public class SpawnerHandler {
 			p.openInventory(inv);
 		}
 	}
+	public static void SetSpawnerInventory(Inventory i, SpawnerCache sc) {
+		sc.getInventory().setContents(i.getContents());
+	}
 	private static void LoadSpawner(Location SpawnerLocation) {
 		World world = SpawnerLocation.getWorld();
 		Block b = world.getBlockAt(SpawnerLocation);
 		String LocString = Spawners.LocString(SpawnerLocation);
 		Inventory inv = InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory"));
 		SpawnerCache.put(SpawnerLocation, new SpawnerCache(b,SpawnerLocation,inv));
+	}
+	public static SpawnerCache getSpawner(Location SpawnerLocation) {
+		World world = SpawnerLocation.getWorld();
+		Block b = world.getBlockAt(SpawnerLocation);
+		String LocString = Spawners.LocString(SpawnerLocation);
+		Inventory inv = InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory"));
+		return new SpawnerCache(b,SpawnerLocation,inv);
+	}
+	public static void SaveSpawnerCache(SpawnerCache sc) {
+		String LocString = Spawners.LocString(sc.getLocation());
+		Inventory i = sc.getInventory();
+		Spawners.SetString("Spawners." + LocString + ".Inventory", InventorySerializer.tobase64(i));
+		ItemStack[] EggsStack = i.getContents();
+		for(ItemStack is : EggsStack) {
+			Spawners.addtolist("Spawners." + LocString + ".EggList", EggHandler.getEggID(is));
+		}
 	}
 }

@@ -37,6 +37,7 @@ import com.runetooncraft.plugins.EasyMobArmory.EMA;
 import com.runetooncraft.plugins.EasyMobArmory.MobCache.*;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
+import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 
 public class EggHandler {
 	public static Eggs eggs = EMA.eggs;
@@ -61,6 +62,16 @@ public class EggHandler {
 		  meta.setLore(lorelist);
 		  is.setItemMeta(meta);
 		  return is;
+	}
+	public static String getEggID(ItemStack i) {
+		ItemMeta im = i.getItemMeta();
+		if(im.hasDisplayName() && im.getDisplayName().contains(":")) {
+			String[] name = im.getDisplayName().split(": ");
+			return name[1];
+		}else{
+			Messenger.info("EggHandler received invalid Egg id!");
+			return null;
+		}
 	}
 	public static void addegg(Entity e) {
 		YamlConfiguration eggsyml = eggs.GetConfig();

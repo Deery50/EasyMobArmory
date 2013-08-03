@@ -46,6 +46,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import com.bergerkiller.bukkit.common.entity.CommonEntity;
+import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerCache;
 import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerHandler;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
@@ -57,6 +58,7 @@ public class EMAListener implements Listener {
 	Config config;
 	public static HashMap<Player, Entity> PlayerMobDataMap = new HashMap<Player, Entity>();
 	public static HashMap<Player, Boolean> Armoryenabled = new HashMap<Player, Boolean>();
+	public static HashMap<Player, SpawnerCache> SpawnerSelected = new HashMap<Player, SpawnerCache>();
 	public EMAListener(Config config) {
 		this.config = config;
 	}
@@ -348,6 +350,18 @@ public class EMAListener implements Listener {
 				h.setTamed(false);
 			}
 		}
+		else if(event.getInventory().getName().equals("Spawnerinv")) {
+			Inventory i = event.getInventory();
+			SpawnerCache sc = SpawnerSelected.get(event.getPlayer());
+			ItemStack[] InvItems = i.getContents();
+			Inventory NewInv = Bukkit.createInventory(event.getPlayer(), 54, "Spawnerinv");
+			for(ItemStack is : InvItems) {
+				if(is.getType().equals(Material.MONSTER_EGG) && is.getItemMeta().getDisplayName().contains(":")) {
+					NewInv.addItem(is);
+				}
+			}
+			
+		}
 	}}
 	}
 	public ItemStack setOwner(ItemStack item, String owner) {
@@ -406,6 +420,7 @@ public class EMAListener implements Listener {
 			}else{
 				SpawnerHandler.OpenSpawnerInventory(b, p);
 			}
+			SpawnerSelected.put(p, SpawnerHandler.getSpawner(b.getLocation()));
 		}
 	}
 	}
