@@ -18,6 +18,7 @@ import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventory;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
@@ -26,6 +27,7 @@ import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Spider;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -175,6 +177,16 @@ public class EMAListener implements Listener {
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, cow);
 			}
+		}else if(e.getType().equals(EntityType.CREEPER)) {
+			ItemStack i = p.getItemInHand();
+			Creeper c = (Creeper) e;
+			if(i.getType().equals(Material.BONE)) {
+				Inventory inv = Bukkit.createInventory(p, 9, "creeperinv");
+				if(c.isPowered()) inv.setItem(0, new ItemStack(Material.REDSTONE));
+				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
+				p.openInventory(inv);
+				PlayerMobDataMap.put(p, c);
+			}
 		}else if(e.getType().equals(EntityType.HORSE)) {
 			ItemStack i = p.getItemInHand();
 			Horse h = (Horse) e;
@@ -300,6 +312,15 @@ public class EMAListener implements Listener {
 				c.setAgeLock(false);
 			}
 		}
+		else if(event.getInventory().getName().equals("creeperinv")) {
+			Inventory i = event.getInventory();
+			Creeper c = (Creeper) PlayerMobDataMap.get(event.getPlayer());
+			if(i.contains(Material.REDSTONE)) {
+				c.setPowered(true);
+			}else{
+				c.setPowered(false);
+			}
+		}
 		else if(event.getInventory().getName().equals("horseinv")) {
 			Inventory i = event.getInventory();
 			Horse h = (Horse) PlayerMobDataMap.get(event.getPlayer());
@@ -344,7 +365,7 @@ public class EMAListener implements Listener {
 	@EventHandler
 	public void OnInventoryClick(InventoryClickEvent event) {
 		String name = event.getInventory().getName();
-		if(name.equals("zombieinv") || name.equals("skeletoninv") || name.equals("pigzombieinv") || name.equals("sheepinv") || name.equals("piginv") || name.equals("cowinv") || name.equals("horseinv") || name.equals("chickeninv")) {
+		if(name.equals("zombieinv") || name.equals("skeletoninv") || name.equals("pigzombieinv") || name.equals("sheepinv") || name.equals("piginv") || name.equals("cowinv") || name.equals("horseinv") || name.equals("chickeninv") || name.equals("creeperinv")) {
 			if(event.getSlot() == 8 && event.getCurrentItem().getType() == Material.MONSTER_EGG && event.getCurrentItem().getItemMeta().hasDisplayName() && event.getInventory().getItem(8).equals(event.getCurrentItem())){
 				Player p = (Player) event.getWhoClicked();
 				Entity e = PlayerMobDataMap.get(p);

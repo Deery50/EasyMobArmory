@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
@@ -45,6 +46,7 @@ public class EggHandler {
 	public static HashMap<String, SheepCache> SheepCache = new HashMap<String, SheepCache>();
 	public static HashMap<String, PigCache> PigCache = new HashMap<String, PigCache>();
 	public static HashMap<String, CowCache> CowCache = new HashMap<String, CowCache>();
+	public static HashMap<String, CreeperCache> CreeperCache = new HashMap<String, CreeperCache>();
 	public static HashMap<String, ChickenCache> ChickenCache = new HashMap<String, ChickenCache>();
 	public static HashMap<String, HorseCache> HorseCache = new HashMap<String, HorseCache>();
 	public static ItemStack GetEggitem(Entity e,String name, String lore) {
@@ -104,6 +106,9 @@ public class EggHandler {
 					Chicken c = (Chicken) e;
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !c.isAdult());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", c.getAgeLock());
+				}else if(e.getType().equals(EntityType.CREEPER)) {
+					Creeper c = (Creeper) e;
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".powered", !c.isPowered());
 				}else if(e.getType().equals(EntityType.HORSE)) {
 					Horse h = (Horse) e;
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !h.isAdult());
@@ -369,6 +374,26 @@ public class EggHandler {
 		Chicken c = (Chicken) EntityUtil.getEntity(loc.getWorld(), entid);
 		if(set.isbaby) c.setBaby(); else c.setAdult();
 		c.setAgeLock(set.agelock);
+		return c;
+	}else if(etype.equals(EntityType.CREEPER) && !CreeperCache.containsKey(id)) {
+		CommonEntity entity = CommonEntity.create(etype);
+		String entityLoc = "Eggs.id." + id + ".";
+		Boolean powered = eggs.getBoolean(entityLoc + "powered");
+		Entity bukkitentity = entity.getEntity();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		if(etype.equals(EntityType.CREEPER)) {
+			Creeper c = (Creeper) EntityUtil.getEntity(loc.getWorld(), entid);
+			c.setPowered(powered);
+			CreeperCache.put(id, new CreeperCache(powered));
+			return c;
+		}else{
+			return bukkitentity;
+		}
+	}else if(etype.equals(EntityType.CREEPER) && CreeperCache.containsKey(id)) {
+		CreeperCache set = CreeperCache.get(id);
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		Creeper c = (Creeper) EntityUtil.getEntity(loc.getWorld(), entid);
+		c.setPowered(set.isPowered);
 		return c;
 	}else if(etype.equals(EntityType.HORSE) && !HorseCache.containsKey(id)) {
 		CommonEntity entity = CommonEntity.create(etype);
