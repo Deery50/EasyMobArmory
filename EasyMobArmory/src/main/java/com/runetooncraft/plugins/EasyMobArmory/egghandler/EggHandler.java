@@ -73,7 +73,6 @@ public class EggHandler {
 				return null;
 			}
 		}else{
-			Messenger.info("EggHandler received invalid Egg id!");
 			return null;
 		}
 	}

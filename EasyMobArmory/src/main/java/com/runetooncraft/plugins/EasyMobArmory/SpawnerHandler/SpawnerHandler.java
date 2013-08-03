@@ -72,7 +72,10 @@ public class SpawnerHandler {
 		Spawners.SetString("Spawners." + LocString + ".Inventory", InventorySerializer.tobase64(i));
 		ItemStack[] EggsStack = i.getContents();
 		for(ItemStack is : EggsStack) {
-			Spawners.addtolist("Spawners." + LocString + ".EggList", EggHandler.getEggID(is));
+			String id = EggHandler.getEggID(is);
+			if(id != null) {
+				Spawners.addtolist("Spawners." + LocString + ".EggList", id);
+			}
 		}
 	}
 }
