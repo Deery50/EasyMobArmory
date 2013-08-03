@@ -37,16 +37,10 @@ public class SpawnerHandler {
 		Spawners.SetList("Spawners." + LocString + ".EggList",EggList);
 	}
 	public static void OpenSpawnerInventory(Block b,Player p) {
+		String LocString = Spawners.LocString(b.getLocation());
 		Inventory inv = Bukkit.createInventory(p, 54, "Spawnerinv");
-		if(SpawnerCache.get(b.getLocation()) == null) {
-			LoadSpawner(b.getLocation());
-			SpawnerCache spawner = SpawnerCache.get(b.getLocation());
-			inv.setContents(spawner.getInventory().getContents());
-		}else{
-			SpawnerCache spawner = SpawnerCache.get(b.getLocation());
-			inv.setContents(spawner.getInventory().getContents());
-			p.openInventory(inv);
-		}
+		inv.setContents(InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory")).getContents());
+		p.openInventory(inv);
 	}
 	public static void SetSpawnerInventory(Inventory i, SpawnerCache sc) {
 		sc.getInventory().setContents(i.getContents());
