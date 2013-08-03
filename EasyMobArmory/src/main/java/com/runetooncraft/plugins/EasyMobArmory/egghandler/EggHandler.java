@@ -108,7 +108,7 @@ public class EggHandler {
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".agelock", c.getAgeLock());
 				}else if(e.getType().equals(EntityType.CREEPER)) {
 					Creeper c = (Creeper) e;
-					eggsyml.set("Eggs.id." + e.getEntityId() + ".powered", !c.isPowered());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".powered", c.isPowered());
 				}else if(e.getType().equals(EntityType.HORSE)) {
 					Horse h = (Horse) e;
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !h.isAdult());
