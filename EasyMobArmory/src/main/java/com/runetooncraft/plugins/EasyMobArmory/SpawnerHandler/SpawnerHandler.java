@@ -74,7 +74,9 @@ public class SpawnerHandler {
 		for(ItemStack is : EggsStack) {
 			String id = EggHandler.getEggID(is);
 			if(id != null) {
-				Spawners.addtolist("Spawners." + LocString + ".EggList", id);
+				if(!Spawners.getList("Spawners." + LocString + ".EggList").contains(id)) {
+					Spawners.addtolist("Spawners." + LocString + ".EggList", id);
+				}
 			}
 		}
 	}
