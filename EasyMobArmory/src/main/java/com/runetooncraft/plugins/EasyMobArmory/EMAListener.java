@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventory;
 import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Chicken;
@@ -45,6 +46,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import com.bergerkiller.bukkit.common.entity.CommonEntity;
+import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerHandler;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
@@ -55,6 +57,7 @@ public class EMAListener implements Listener {
 	Config config;
 	public static HashMap<Player, Entity> PlayerMobDataMap = new HashMap<Player, Entity>();
 	public static HashMap<Player, Boolean> Armoryenabled = new HashMap<Player, Boolean>();
+	public static HashMap<Location, Boolean> ConfirmSetupSpawner = new HashMap<Location, Boolean>();
 	public EMAListener(Config config) {
 		this.config = config;
 	}
@@ -377,8 +380,9 @@ public class EMAListener implements Listener {
 	}
 	@EventHandler
 	public void OnPlayerInteract(PlayerInteractEvent event) {
+		Player p = event.getPlayer();
+	if(Armoryenabled.get(p) != null && Armoryenabled.get(p)) {
 		if(event.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG) && event.hasBlock()) {
-			Player p = event.getPlayer();
 			ItemStack egg = p.getItemInHand();
 			ItemMeta eggmeta = egg.getItemMeta();
 		if(eggmeta.hasDisplayName() && eggmeta.getDisplayName().contains(": ")) {
@@ -393,6 +397,20 @@ public class EMAListener implements Listener {
 				}
 			}
 		}
+		}else if(event.getPlayer().getItemInHand().getType().equals(Material.BONE) && event.hasBlock() && event.getClickedBlock().getType().equals(Material.MOB_SPAWNER)) {
+				Block b = event.getClickedBlock();
+				Location BlockLocation = b.getLocation();
+			if(!SpawnerHandler.IsEMASpawner(BlockLocation)) {
+				if(ConfirmSetupSpawner.get(BlockLocation) != null && ConfirmSetupSpawner.get(BlockLocation).equals(false)) {
+					Messenger.playermessage("Right click the spawner again with the wand to confirm creation of an EMASpawner", p);
+					ConfirmSetupSpawner.put(BlockLocation, true);
+				}else{
+					SpawnerHandler.NewEMASpawner(b, p);
+				}
+			}else{
+				//Is EMASpawner
+			}
 		}
+	}
 	}
 }
