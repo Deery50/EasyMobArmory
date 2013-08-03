@@ -362,7 +362,7 @@ public class EMAListener implements Listener {
 					}
 				}
 			}
-			
+			SpawnerHandler.SetSpawnerInventory(NewInv, sc);
 		}
 	}}
 	}

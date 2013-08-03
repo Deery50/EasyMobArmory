@@ -50,6 +50,7 @@ public class SpawnerHandler {
 	}
 	public static void SetSpawnerInventory(Inventory i, SpawnerCache sc) {
 		sc.getInventory().setContents(i.getContents());
+		SaveSpawnerCache(sc);
 	}
 	private static void LoadSpawner(Location SpawnerLocation) {
 		World world = SpawnerLocation.getWorld();
