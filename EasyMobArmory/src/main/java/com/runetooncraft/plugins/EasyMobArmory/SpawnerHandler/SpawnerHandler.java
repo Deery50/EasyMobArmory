@@ -121,7 +121,7 @@ public class SpawnerHandler {
 	    }
 	    return true;
 	}
-	public static void CancelSpawnTimer(Player p, String s) {
+	public static void CancelSpawnTimer(Player p) {
 		Block b = p.getTargetBlock(null, 200);
 		if(b.getTypeId() == 52) {
 			if(IsEMASpawner(b.getLocation())) {
