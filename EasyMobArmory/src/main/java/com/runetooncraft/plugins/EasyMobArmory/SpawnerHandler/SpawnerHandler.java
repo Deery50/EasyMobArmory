@@ -94,6 +94,7 @@ public class SpawnerHandler {
 					SpawnerCache sc = getSpawner(b.getLocation());
 					sc.TimerTick = Integer.parseInt(spawntick);
 					sc.TimerEnabled = true;
+					SaveSpawnerCache(sc);
 					Messenger.playermessage("The spawner at " + Spawners.LocString(sc.getLocation()) + " had it's TimerTick set to " + spawntick + ".", p);
 					Messenger.info("The spawner at " + Spawners.LocString(sc.getLocation()) + " had it's TimerTick set to " + spawntick + " by " + p.getName() + ".");
 				}else{
