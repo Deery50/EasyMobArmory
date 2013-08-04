@@ -1,10 +1,12 @@
 package com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
@@ -13,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.runetooncraft.plugins.EasyMobArmory.EMA;
+import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 import com.runetooncraft.plugins.EasyMobArmory.egghandler.EggHandler;
 import com.runetooncraft.plugins.EasyMobArmory.egghandler.Eggs;
@@ -36,16 +39,30 @@ public class SpawnerHandler {
 		Spawners.SetString("Spawners." + LocString + ".Inventory", InventorySerializer.tobase64(inv));
 		ArrayList<String> EggList = new ArrayList<String>();
 		Spawners.SetList("Spawners." + LocString + ".EggList",EggList);
-		b.setData((byte) 512);
+		Spawners.SetString("Spawners.bytelist." + b.getData(), LocString);
+		Spawners.SetString("Spawners.Locationlist" + LocString, b.getData() + "");
+		Spawners.SetBoolean("Spawners." + LocString + ".TimerEnabled", false);
+		Spawners.setInt("Spawners." + LocString + ".TimerTick", 64);
 	}
 	public static void OpenSpawnerInventory(Block b,Player p) {
 		String LocString = Spawners.LocString(b.getLocation());
 		Inventory inv = Bukkit.createInventory(p, 54, "Spawnerinv");
+		
 		inv.setContents(InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory")).getContents());
 		p.openInventory(inv);
 	}
 	public static void SetSpawnerInventory(Inventory i, SpawnerCache sc) {
 		sc.getInventory().setContents(i.getContents());
+		if(i.contains(Material.REDSTONE)) {
+			sc.TimerEnabled = true;
+			HashMap<Integer, ? extends ItemStack> hm = i.all(Material.REDSTONE);
+			int Size = hm.size();
+			int TimerTick = 0;
+			for(int a = 1; a<Size;) {
+				TimerTick = TimerTick + hm.get(a).getAmount();
+			}
+			sc.TimerTick = TimerTick;
+		}
 		SaveSpawnerCache(sc);
 	}
 	private static void LoadSpawner(Location SpawnerLocation) {
@@ -53,7 +70,11 @@ public class SpawnerHandler {
 		Block b = world.getBlockAt(SpawnerLocation);
 		String LocString = Spawners.LocString(SpawnerLocation);
 		Inventory inv = InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory"));
-		SpawnerCache.put(SpawnerLocation, new SpawnerCache(b,SpawnerLocation,inv));
+		Boolean TimerEnabled = Spawners.getBoolean("Spawners." + LocString + ".TimerEnabled");
+		SpawnerCache sc = new SpawnerCache(b,SpawnerLocation,inv);
+		sc.TimerEnabled = TimerEnabled;
+		if(TimerEnabled) sc.TimerTick = Spawners.getInt("Spawners." + LocString + ".TimerTick");
+		SpawnerCache.put(SpawnerLocation, sc);
 	}
 	public static SpawnerCache getSpawner(Location SpawnerLocation) {
 		World world = SpawnerLocation.getWorld();

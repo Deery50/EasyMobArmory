@@ -116,4 +116,12 @@ public class SpawnerConfig {
 		    Spawners.set(path, configList);
 		    save();
 	}
+	public void SetBoolean(String path, boolean item) {
+		Spawners.set(path, item);
+		save();
+	}
+	public void setInt(String path, int item) {
+		Spawners.set(path, item);
+		save();
+	}
 }

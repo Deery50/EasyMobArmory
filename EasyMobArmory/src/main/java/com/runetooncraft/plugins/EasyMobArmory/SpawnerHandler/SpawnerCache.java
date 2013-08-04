@@ -10,6 +10,8 @@ public class SpawnerCache {
 	Location SpawnerLocation = null;
 	Inventory SpawnerInventory = null;
 	ItemStack[] Eggs = null;
+	Boolean TimerEnabled = false;
+	int TimerTick = 120;
 	public SpawnerCache(Block SpawnerBlock, Location SpawnerLocation, Inventory SpawnerInventory) {
 		this.SpawnerBlock = SpawnerBlock;
 		this.SpawnerLocation = SpawnerLocation;
@@ -27,5 +29,11 @@ public class SpawnerCache {
 	}
 	public ItemStack[] getEggs() {
 		return Eggs;
+	}
+	public int getTimerTick() {
+		return TimerTick;
+	}
+	public Boolean GetTimerEnabled() {
+		return TimerEnabled;
 	}
 }
