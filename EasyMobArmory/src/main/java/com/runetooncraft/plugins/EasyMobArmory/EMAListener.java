@@ -2,21 +2,13 @@ package com.runetooncraft.plugins.EasyMobArmory;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
-
-import net.minecraft.server.v1_6_R2.Item;
-import net.minecraft.server.v1_6_R2.NBTTagCompound;
-import net.minecraft.server.v1_6_R2.TileEntityChest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventory;
-import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Creeper;
@@ -28,28 +20,21 @@ import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Spider;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import com.bergerkiller.bukkit.common.entity.CommonEntity;
 import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerCache;
 import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerHandler;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
-import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
 import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 import com.runetooncraft.plugins.EasyMobArmory.egghandler.EggHandler;
 
@@ -200,7 +185,7 @@ public class EMAListener implements Listener {
 				if(h.isTamed()) inv.setItem(6, new ItemStack(Material.HAY_BLOCK));
 				if(h.isTamed()) {
 					Player owner = (Player) h.getOwner();
-					inv.setItem(7, setOwner(new ItemStack(Material.SKULL_ITEM, 1, (short)3), p.getName()));
+					inv.setItem(7, setOwner(new ItemStack(Material.SKULL_ITEM, 1, (short)3), owner.getName()));
 				}
 				if(h.isCarryingChest()) inv.setItem(7, new ItemStack(Material.CHEST));
 //				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));

@@ -95,8 +95,10 @@ public class SpawnerHandler {
 					sc.TimerTick = Integer.parseInt(spawntick);
 					sc.TimerEnabled = true;
 					SaveSpawnerCache(sc);
-					Messenger.playermessage("The spawner at " + Spawners.LocString(sc.getLocation()) + " had it's TimerTick set to " + spawntick + ".", p);
-					Messenger.info("The spawner at " + Spawners.LocString(sc.getLocation()) + " had it's TimerTick set to " + spawntick + " by " + p.getName() + ".");
+					String LocString = Spawners.LocString(sc.getLocation());
+					Spawners.addtolist("Spawners.Running.List", LocString);
+					Messenger.playermessage("The spawner at " + LocString + " had it's TimerTick set to " + spawntick + ".", p);
+					Messenger.info("The spawner at " + LocString + " had it's TimerTick set to " + spawntick + " by " + p.getName() + ".");
 				}else{
 					Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
 					Messenger.playermessage("Select the block with a bone and with EMA enabled and add some EMA eggs to make it an EMA spawner.", p);

@@ -40,6 +40,6 @@ public class Commandlistener implements CommandExecutor {
 		return false;
 	}
 	private void Usage(Player p) {
-		Messenger.playermessage("Usage: /EMA enable, /EMA disable, /EMA setspawntick <Time>", p);
+		Messenger.playermessage("Usage: /EMA enable, /EMA disable, /EMA setspawntick <Seconds>", p);
 	}
 }
