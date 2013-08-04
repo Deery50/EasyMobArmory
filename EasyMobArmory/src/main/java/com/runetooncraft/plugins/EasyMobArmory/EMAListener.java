@@ -360,9 +360,6 @@ public class EMAListener implements Listener {
 					if(is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().contains(":")) {
 						NewInv.addItem(is);
 					}
-					if(is.getType().equals(Material.REDSTONE)) { //debug test
-						NewInv.addItem(is);
-					}
 				}
 			}
 			SpawnerHandler.SetSpawnerInventory(NewInv, sc);

@@ -1,22 +1,19 @@
 package com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.runetooncraft.plugins.EasyMobArmory.EMA;
-import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
+import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 import com.runetooncraft.plugins.EasyMobArmory.egghandler.EggHandler;
 import com.runetooncraft.plugins.EasyMobArmory.egghandler.Eggs;
 
@@ -45,22 +42,11 @@ public class SpawnerHandler {
 	public static void OpenSpawnerInventory(Block b,Player p) {
 		String LocString = Spawners.LocString(b.getLocation());
 		Inventory inv = Bukkit.createInventory(p, 54, "Spawnerinv");
-		
 		inv.setContents(InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory")).getContents());
 		p.openInventory(inv);
 	}
 	public static void SetSpawnerInventory(Inventory i, SpawnerCache sc) {
 		sc.getInventory().setContents(i.getContents());
-		if(i.contains(Material.REDSTONE)) {
-			sc.TimerEnabled = true;
-			HashMap<Integer, ? extends ItemStack> hm = i.all(Material.REDSTONE);
-			int Size = hm.size();
-			int TimerTick = 0;
-			for(int a = 1; a<Size;) {
-				TimerTick = TimerTick + hm.get(a).getAmount();
-			}
-			sc.TimerTick = TimerTick;
-		}
 		SaveSpawnerCache(sc);
 	}
 	private static void LoadSpawner(Location SpawnerLocation) {
@@ -79,12 +65,17 @@ public class SpawnerHandler {
 		Block b = world.getBlockAt(SpawnerLocation);
 		String LocString = Spawners.LocString(SpawnerLocation);
 		Inventory inv = InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory"));
+		SpawnerCache sc = new SpawnerCache(b,SpawnerLocation,inv);
+		sc.TimerEnabled = Spawners.getBoolean("Spawners." + LocString + ".TimerEnabled");
+		sc.TimerTick = Spawners.getInt("Spawners." + LocString + ".TimerTick");
 		return new SpawnerCache(b,SpawnerLocation,inv);
 	}
 	public static void SaveSpawnerCache(SpawnerCache sc) {
 		String LocString = Spawners.LocString(sc.getLocation());
 		Inventory i = sc.getInventory();
 		Spawners.SetString("Spawners." + LocString + ".Inventory", InventorySerializer.tobase64(i));
+		Spawners.setInt("Spawners." + LocString + ".TimerTick", sc.TimerTick);
+		Spawners.SetBoolean("Spawners." + LocString + ".TimerEnabled", sc.TimerEnabled);
 		ItemStack[] EggsStack = i.getContents();
 		for(ItemStack is : EggsStack) {
 			String id = EggHandler.getEggID(is);
@@ -94,5 +85,34 @@ public class SpawnerHandler {
 				}
 			}
 		}
+	}
+	public static void SetSpawnTick(Player p,String spawntick) {
+		if(IsInteger(spawntick)) {
+			Block b = p.getTargetBlock(null, 200);
+			if(b.getTypeId() == 52) {
+				if(IsEMASpawner(b.getLocation())) {
+					SpawnerCache sc = getSpawner(b.getLocation());
+					sc.TimerTick = Integer.parseInt(spawntick);
+					sc.TimerEnabled = true;
+					Messenger.playermessage("The spawner at " + Spawners.LocString(sc.getLocation()) + " had it's TimerTick set to " + spawntick + ".", p);
+					Messenger.info("The spawner at " + Spawners.LocString(sc.getLocation()) + " had it's TimerTick set to " + spawntick + " by " + p.getName() + ".");
+				}else{
+					Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
+					Messenger.playermessage("Select the block with a bone and with EMA enabled and add some EMA eggs to make it an EMA spawner.", p);
+				}
+			}else{
+				Messenger.playermessage("Please look at a EMA-Spawner before typing this command.", p);
+			}
+		}else{
+			Messenger.playermessage("The second argument must be an integer.", p);
+		}
+	}
+	private static boolean IsInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    return true;
 	}
 }

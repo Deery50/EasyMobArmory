@@ -36,7 +36,9 @@ public class SpawnerConfig {
 	}
 	private void loaddefaults() {
 		String[] eggslist = {};
+		String[] RunningSpawnersList = {};
 		Spawners.addDefault("Spawners.List", Arrays.asList(eggslist));
+		Spawners.addDefault("Spawners.Running.List", Arrays.asList(RunningSpawnersList));
 		Spawners.options().copyDefaults(true);
 		save();
 	}
