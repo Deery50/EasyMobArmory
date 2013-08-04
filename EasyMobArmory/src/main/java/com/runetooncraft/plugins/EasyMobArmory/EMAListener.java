@@ -357,9 +357,7 @@ public class EMAListener implements Listener {
 			Inventory NewInv = Bukkit.createInventory(event.getPlayer(), 54, "Spawnerinv");
 			for(ItemStack is : InvItems) {
 				if(is != null && is.hasItemMeta() && is.getType().equals(Material.MONSTER_EGG) && is.getType().equals(Material.REDSTONE)) {
-					if(is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().contains(":")) {
-					NewInv.addItem(is);
-					}else if(is.getType().equals(Material.REDSTONE)) {
+					if(is.getType().equals(Material.REDSTONE) || is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().contains(":")) {
 					NewInv.addItem(is);
 					}
 				}
