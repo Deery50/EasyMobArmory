@@ -55,7 +55,13 @@ public class SpawnerConfig {
 	}
 	public void addtolist(String path, String item) {
 		List<String> l = Spawners.getStringList(path);
-		l.add(item);
+		if(!l.contains(item)) l.add(item);
+		Spawners.set(path, l);
+		save();
+	}
+	public void RemoveFromList(String path, String item) {
+		List<String> l = Spawners.getStringList(path);
+		if(l.contains(item)) l.remove(item);
 		Spawners.set(path, l);
 		save();
 	}

@@ -22,6 +22,7 @@ public class Commandlistener implements CommandExecutor {
 				if(p.hasPermission("ema.use")) {
 					if(args[0].equalsIgnoreCase("enable")) {EMAListener.Armoryenabled.put(p, true); Messenger.playermessage("EasyMobArmory enabled", p);}
 					else if(args[0].equalsIgnoreCase("disable")) {EMAListener.Armoryenabled.put(p, false); Messenger.playermessage("EasyMobArmory disabled", p);}
+					else if(args[0].equalsIgnoreCase("stopspawner")) {SpawnerHandler.CancelSpawnTimer(p,args[1]);}
 					else{Usage(p);}
 				}else{
 					Messenger.playermessage("You do not have permission for this command", p);

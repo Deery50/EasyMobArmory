@@ -121,4 +121,21 @@ public class SpawnerHandler {
 	    }
 	    return true;
 	}
+	public static void CancelSpawnTimer(Player p, String s) {
+		Block b = p.getTargetBlock(null, 200);
+		if(b.getTypeId() == 52) {
+			if(IsEMASpawner(b.getLocation())) {
+				SpawnerCache sc = getSpawner(b.getLocation());
+				Spawners.RemoveFromList("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
+				sc.TimerEnabled = false;
+				if (sc.TimerClass != null) sc.TimerClass.cancel();
+				SaveSpawnerCache(sc);
+			}else{
+				Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
+				Messenger.playermessage("Select the block with a bone and with EMA enabled and add some EMA eggs to make it an EMA spawner.", p);
+			}
+		}else{
+			Messenger.playermessage("Please look at a EMA-Spawner before typing this command.", p);
+		}
+	}
 }
