@@ -36,8 +36,7 @@ public class SpawnerHandler {
 		Spawners.SetString("Spawners." + LocString + ".Inventory", InventorySerializer.tobase64(inv));
 		ArrayList<String> EggList = new ArrayList<String>();
 		Spawners.SetList("Spawners." + LocString + ".EggList",EggList);
-		CreatureSpawner s = (CreatureSpawner) b;
-		s.getData().setData((byte) 512);
+		b.setData((byte) 512);
 	}
 	public static void OpenSpawnerInventory(Block b,Player p) {
 		String LocString = Spawners.LocString(b.getLocation());
