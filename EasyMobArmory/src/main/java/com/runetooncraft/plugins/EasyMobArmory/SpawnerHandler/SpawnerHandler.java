@@ -39,8 +39,6 @@ public class SpawnerHandler {
 		Spawners.SetString("Spawners." + LocString + ".Inventory", InventorySerializer.tobase64(inv));
 		ArrayList<String> EggList = new ArrayList<String>();
 		Spawners.SetList("Spawners." + LocString + ".EggList",EggList);
-		Spawners.SetString("Spawners.bytelist." + b.getData(), LocString);
-		Spawners.SetString("Spawners.Locationlist" + LocString, b.getData() + "");
 		Spawners.SetBoolean("Spawners." + LocString + ".TimerEnabled", false);
 		Spawners.setInt("Spawners." + LocString + ".TimerTick", 64);
 	}
