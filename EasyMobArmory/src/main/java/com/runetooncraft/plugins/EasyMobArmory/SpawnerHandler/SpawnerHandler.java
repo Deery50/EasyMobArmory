@@ -94,6 +94,9 @@ public class SpawnerHandler {
 					SpawnerCache sc = getSpawner(b.getLocation());
 					sc.TimerTick = Integer.parseInt(spawntick);
 					sc.TimerEnabled = true;
+					int TimerTickActual = sc.TimerTick * 20;
+					if(sc.TimerClass != null) sc.TimerClass.cancel();
+					sc.TimerClass = new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTickActual, TimerTickActual);
 					SaveSpawnerCache(sc);
 					String LocString = Spawners.LocString(sc.getLocation());
 					Spawners.addtolist("Spawners.Running.List", LocString);
