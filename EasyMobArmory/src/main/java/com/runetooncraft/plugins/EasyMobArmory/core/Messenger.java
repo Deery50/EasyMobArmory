@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class Messenger {
 
 	private static final Logger log = Logger.getLogger("Minecraft");
-	private static final String prefix = "[EMA]";
+	private static final String prefix = "[EMA] ";
 	private static String colorprefix;
 	private Config config;
     public Messenger(Config config) {
