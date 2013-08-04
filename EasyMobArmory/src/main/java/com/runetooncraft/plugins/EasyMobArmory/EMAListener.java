@@ -360,7 +360,7 @@ public class EMAListener implements Listener {
 					if(is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().contains(":")) {
 						NewInv.addItem(is);
 					}
-					if(is.getType().equals(Material.REDSTONE)) {
+					if(is.getType().equals(Material.REDSTONE)) { //debug
 						NewInv.addItem(is);
 					}
 				}
