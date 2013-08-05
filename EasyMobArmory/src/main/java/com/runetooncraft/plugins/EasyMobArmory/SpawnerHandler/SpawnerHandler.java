@@ -50,6 +50,17 @@ public class SpawnerHandler {
 	public static void SetSpawnerInventory(Inventory i, SpawnerCache sc) {
 		sc.getInventory().setContents(i.getContents());
 		SaveSpawnerCache(sc);
+		ReloadSCTimer(sc);
+	}
+	private static boolean ReloadSCTimer(SpawnerCache sc) {
+		if(SpawnerCache.containsKey(sc) && SpawnerCacheTimers.containsKey(SpawnerCache.get(sc))) {
+			int TimerTick = sc.TimerTick * 20;
+			SpawnerCacheTimers.get(sc).cancel();
+			SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTick, TimerTick));
+			return true;
+		}else{
+			return false;
+		}
 	}
 	private static void LoadSpawner(Location SpawnerLocation) {
 		World world = SpawnerLocation.getWorld();

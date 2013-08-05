@@ -29,7 +29,6 @@ public class MonsterSpawnTimer extends BukkitRunnable {
 		if(RunningInv.contains(Material.MONSTER_EGG)) {
 			Random generator = new Random();
 			int RandomInt = generator.nextInt(EggInt);
-			Messenger.info("Random int: " + RandomInt);
 			ItemStack is = RunningInv.getItem(RandomInt);
 			EggHandler.Loadentity(EggHandler.getEggID(is), sc.RandomSpawnLocation());
 		}
