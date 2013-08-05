@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.math.BigInteger;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.server.v1_6_R2.NBTBase;
 import net.minecraft.server.v1_6_R2.NBTTagCompound;
@@ -54,7 +56,6 @@ public class InventorySerializer {
 		
 		return new BigInteger(1, outputStream.toByteArray()).toString(32);
 	}
-	
 	public static Inventory frombase64(String data) {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(new BigInteger(data, 32).toByteArray());
 		NBTTagList itemList = (NBTTagList) NBTBase.a(new DataInputStream(inputStream));

@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.runetooncraft.plugins.EasyMobArmory.EMA;
 import com.runetooncraft.plugins.EasyMobArmory.core.InventorySerializer;
@@ -21,6 +22,7 @@ public class SpawnerHandler {
 	public static Eggs eggs = EMA.eggs;
 	public static SpawnerConfig Spawners = EMA.Spawners;
 	public static HashMap<Location, SpawnerCache> SpawnerCache = new HashMap<Location, SpawnerCache>();
+	public static HashMap<SpawnerCache, BukkitTask> SpawnerCacheTimers = new HashMap<SpawnerCache, BukkitTask>();
 	public static Boolean IsEMASpawner(Location loc) {
 		if(Spawners.getList("Spawners.List").contains(Spawners.LocString(loc))) {
 			return true;
@@ -95,8 +97,8 @@ public class SpawnerHandler {
 					sc.TimerTick = Integer.parseInt(spawntick);
 					sc.TimerEnabled = true;
 					int TimerTickActual = sc.TimerTick * 20;
-					if(sc.TimerClass != null) sc.TimerClass.cancel();
-					sc.TimerClass = new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTickActual, TimerTickActual);
+					if(!SpawnerCacheTimers.get(sc).equals(null)) SpawnerCacheTimers.get(sc).cancel();
+					SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTickActual, TimerTickActual));
 					SaveSpawnerCache(sc);
 					String LocString = Spawners.LocString(sc.getLocation());
 					Spawners.addtolist("Spawners.Running.List", LocString);
@@ -128,7 +130,7 @@ public class SpawnerHandler {
 				SpawnerCache sc = getSpawner(b.getLocation());
 				Spawners.RemoveFromList("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
 				sc.TimerEnabled = false;
-				if (sc.TimerClass != null) sc.TimerClass.cancel();
+				if(!SpawnerCacheTimers.get(sc).equals(null)) SpawnerCacheTimers.get(sc).cancel();
 				SaveSpawnerCache(sc);
 			}else{
 				Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
