@@ -73,6 +73,7 @@ public class SpawnerHandler {
 		return new SpawnerCache(b,SpawnerLocation,inv);
 	}
 	public static void SaveSpawnerCache(SpawnerCache sc) {
+		SpawnerCache.put(sc.getLocation(), sc);
 		String LocString = Spawners.LocString(sc.getLocation());
 		Inventory i = sc.getInventory();
 		Spawners.SetString("Spawners." + LocString + ".Inventory", InventorySerializer.tobase64(i));
@@ -96,6 +97,7 @@ public class SpawnerHandler {
 					SpawnerCache sc = getSpawner(b.getLocation());
 					sc.TimerTick = Integer.parseInt(spawntick);
 					sc.TimerEnabled = true;
+					SpawnerCache.put(b.getLocation(), sc);
 					int TimerTickActual = sc.TimerTick * 20;
 					if(SpawnerCacheTimers.containsKey(sc)) {
 						SpawnerCacheTimers.get(sc).cancel(); 
@@ -129,17 +131,19 @@ public class SpawnerHandler {
 		Block b = p.getTargetBlock(null, 200);
 		if(b.getTypeId() == 52) {
 			if(IsEMASpawner(b.getLocation())) {
-				SpawnerCache sc = getSpawner(b.getLocation());
-				Spawners.RemoveFromList("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
-				sc.TimerEnabled = false;
-				try{
-					SpawnerCacheTimers.get(sc).cancel();
-					SpawnerCacheTimers.remove(sc);
-				}catch(NullPointerException e) {
-					Messenger.playermessage("Could not stop this spawners timer.", p);
-				}
-				SaveSpawnerCache(sc);
-				Messenger.playermessage("This spawner had it's spawn timer disabled", p);
+				if (SpawnerCache.containsKey(b.getLocation())) {
+					SpawnerCache sc = SpawnerCache.get(b.getLocation());	
+					Spawners.RemoveFromList("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
+					sc.TimerEnabled = false;
+					try{
+						SpawnerCacheTimers.get(sc).cancel();
+						SpawnerCacheTimers.remove(sc);
+					}catch(NullPointerException e) {
+						Messenger.playermessage("Could not stop this spawners timer.", p);
+					}
+					SaveSpawnerCache(sc);
+						Messenger.playermessage("This spawner had it's spawn timer disabled", p);
+					}
 			}else{
 				Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
 				Messenger.playermessage("Select the block with a bone and with EMA enabled and add some EMA eggs to make it an EMA spawner.", p);
