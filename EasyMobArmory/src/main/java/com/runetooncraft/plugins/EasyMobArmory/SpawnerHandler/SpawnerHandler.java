@@ -132,7 +132,7 @@ public class SpawnerHandler {
 				SpawnerCache sc = getSpawner(b.getLocation());
 				Spawners.RemoveFromList("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
 				sc.TimerEnabled = false;
-				if(!SpawnerCacheTimers.get(sc).equals(null)) SpawnerCacheTimers.get(sc).cancel();
+				if(SpawnerCacheTimers.containsKey(sc)) SpawnerCacheTimers.get(sc).cancel();
 				SaveSpawnerCache(sc);
 			}else{
 				Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
