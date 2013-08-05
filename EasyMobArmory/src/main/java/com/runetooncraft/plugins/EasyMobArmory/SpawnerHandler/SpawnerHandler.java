@@ -132,8 +132,12 @@ public class SpawnerHandler {
 				SpawnerCache sc = getSpawner(b.getLocation());
 				Spawners.RemoveFromList("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
 				sc.TimerEnabled = false;
-				if(SpawnerCacheTimers.containsKey(sc)) SpawnerCacheTimers.get(sc).cancel();
+				if(SpawnerCacheTimers.containsKey(sc)) {
+					SpawnerCacheTimers.get(sc).cancel();
+					SpawnerCacheTimers.remove(sc);
+				}
 				SaveSpawnerCache(sc);
+				Messenger.playermessage("This spawner had it's spawn timer disabled", p);
 			}else{
 				Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
 				Messenger.playermessage("Select the block with a bone and with EMA enabled and add some EMA eggs to make it an EMA spawner.", p);
