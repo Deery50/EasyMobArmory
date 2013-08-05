@@ -132,9 +132,11 @@ public class SpawnerHandler {
 				SpawnerCache sc = getSpawner(b.getLocation());
 				Spawners.RemoveFromList("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
 				sc.TimerEnabled = false;
-				if(SpawnerCacheTimers.containsKey(sc)) {
+				try{
 					SpawnerCacheTimers.get(sc).cancel();
 					SpawnerCacheTimers.remove(sc);
+				}catch(NullPointerException e) {
+					Messenger.playermessage("Could not stop this spawners timer.", p);
 				}
 				SaveSpawnerCache(sc);
 				Messenger.playermessage("This spawner had it's spawn timer disabled", p);
