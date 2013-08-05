@@ -97,7 +97,7 @@ public class SpawnerHandler {
 					sc.TimerTick = Integer.parseInt(spawntick);
 					sc.TimerEnabled = true;
 					int TimerTickActual = sc.TimerTick * 20;
-					if(SpawnerCacheTimers.get(sc) == null) {
+					if(SpawnerCacheTimers.containsKey(sc)) {
 						SpawnerCacheTimers.get(sc).cancel(); 
 					}
 					SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTickActual, TimerTickActual));
