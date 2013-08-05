@@ -200,6 +200,7 @@ public class EMAListener implements Listener {
 	if(Armoryenabled.get(event.getPlayer()) != null){  if(Armoryenabled.get(event.getPlayer())) {
 		if(event.getInventory().getName().equals("zombieinv")) {
 			Inventory i = event.getInventory();
+			
 			Zombie z = (Zombie) PlayerMobDataMap.get(event.getPlayer());
 			z.getEquipment().setHelmet(i.getItem(3));
 			z.getEquipment().setChestplate(i.getItem(2));
