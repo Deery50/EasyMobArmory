@@ -12,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerConfig;
+import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerHandler;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
 import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 import com.runetooncraft.plugins.EasyMobArmory.egghandler.EggHandler;
@@ -35,6 +36,17 @@ public class EMA extends JavaPlugin {
 		getCommand("ema").setExecutor(new Commandlistener());
 		Messenger m = new Messenger(config);
 		SetItemStacks();
+		LoadSpawnerTimers();
+	}
+
+	private void LoadSpawnerTimers() {
+		List<String> RunningList = Spawners.getList("Spawners.Running.List");
+		int Size = RunningList.size();
+		for(int i = 0; i<=Size;) {
+			SpawnerHandler.StartAlreadyExistingSpawnerTimer(RunningList.get(i));
+		}
+		Messenger.info("A total of " + Size + " spawner timers were loaded.");
+		
 	}
 
 	private void getBKCommonLib() {

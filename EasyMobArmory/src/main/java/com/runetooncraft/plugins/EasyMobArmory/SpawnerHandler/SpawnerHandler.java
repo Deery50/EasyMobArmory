@@ -79,14 +79,18 @@ public class SpawnerHandler {
 		SpawnerCache.put(SpawnerLocation, sc);
 	}
 	public static SpawnerCache getSpawner(Location SpawnerLocation) {
-		World world = SpawnerLocation.getWorld();
-		Block b = world.getBlockAt(SpawnerLocation);
-		String LocString = Spawners.LocString(SpawnerLocation);
-		Inventory inv = InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory"));
-		SpawnerCache sc = new SpawnerCache(b,SpawnerLocation,inv);
-		sc.TimerEnabled = Spawners.getBoolean("Spawners." + LocString + ".TimerEnabled");
-		sc.TimerTick = Spawners.getInt("Spawners." + LocString + ".TimerTick");
-		return new SpawnerCache(b,SpawnerLocation,inv);
+		if(SpawnerCache.containsKey(SpawnerLocation)) {
+			return SpawnerCache.get(SpawnerLocation);
+		}else{
+			World world = SpawnerLocation.getWorld();
+			Block b = world.getBlockAt(SpawnerLocation);
+			String LocString = Spawners.LocString(SpawnerLocation);
+			Inventory inv = InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory"));
+			SpawnerCache sc = new SpawnerCache(b,SpawnerLocation,inv);
+			sc.TimerEnabled = Spawners.getBoolean("Spawners." + LocString + ".TimerEnabled");
+			sc.TimerTick = Spawners.getInt("Spawners." + LocString + ".TimerTick");
+			return new SpawnerCache(b,SpawnerLocation,inv);
+		}
 	}
 	public static void SaveSpawnerCache(SpawnerCache sc) {
 		SpawnerCache.put(sc.getLocation(), sc);
@@ -134,6 +138,22 @@ public class SpawnerHandler {
 		}else{
 			Messenger.playermessage("The second argument must be an integer.", p);
 		}
+	}
+	public static void SetSpawnTick(SpawnerCache sc) {
+					if(SpawnerCache.containsKey(sc.getLocation())) {
+						if(SpawnerCacheTimers.containsKey(sc)) {
+							SpawnerCacheTimers.get(sc).cancel();
+						}
+						StartTimer(sc);
+					}else{
+						SpawnerCache.put(sc.getLocation(), sc);
+						StartTimer(sc);
+					}
+	} 
+	public static void StartAlreadyExistingSpawnerTimer(String location) {
+		LoadSpawner(Spawners.ParseLocation(location));
+		SpawnerCache sc = getSpawner(Spawners.ParseLocation(location));
+		SetSpawnTick(sc);
 	}
 	private static boolean IsInteger(String s) {
 	    try { 
