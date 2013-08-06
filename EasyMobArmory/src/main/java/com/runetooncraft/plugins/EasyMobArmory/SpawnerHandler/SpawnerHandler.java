@@ -181,7 +181,7 @@ public class SpawnerHandler {
 					}catch(NullPointerException e) {
 					}
 					SaveSpawnerCache(sc);
-					}
+				}
 			}
 			}
 		}

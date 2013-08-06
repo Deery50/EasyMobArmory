@@ -23,6 +23,7 @@ import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -411,5 +412,15 @@ public class EMAListener implements Listener {
 			SpawnerSelected.put(p, SpawnerHandler.getSpawner(b.getLocation()));
 		}
 	}
+	}
+	@EventHandler
+	public void OnBlockBreak(BlockBreakEvent event) {
+		if(event.getBlock().getTypeId() == 52 && SpawnerHandler.IsEMASpawner(event.getBlock().getLocation())) {
+			if(SpawnerHandler.SpawnerCache.containsKey(event.getBlock().getLocation()) && SpawnerHandler.SpawnerCacheTimers.containsKey(SpawnerHandler.SpawnerCache.get(event.getBlock().getLocation()))){
+				SpawnerCache sc = SpawnerHandler.SpawnerCache.get(event.getBlock().getLocation());
+				SpawnerHandler.CancelSpawnTimer(sc.getBlock());
+				Messenger.playermessage("The spawn timer for the EMA spawner you just broke was stopped.", event.getPlayer());
+			}
+		}
 	}
 }
