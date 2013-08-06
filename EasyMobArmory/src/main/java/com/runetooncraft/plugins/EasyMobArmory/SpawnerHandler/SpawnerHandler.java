@@ -105,7 +105,12 @@ public class SpawnerHandler {
 			Block b = p.getTargetBlock(null, 200);
 			if(b.getTypeId() == 52) {
 				if(IsEMASpawner(b.getLocation())) {
-					SpawnerCache sc = getSpawner(b.getLocation());
+					SpawnerCache sc;
+					if(SpawnerCache.containsKey(b.getLocation())) {
+						sc = SpawnerCache.get(b.getLocation());
+					}else{
+						sc = getSpawner(b.getLocation());
+					}
 					sc.TimerTick = Integer.parseInt(spawntick);
 					sc.TimerEnabled = true;
 					SpawnerCache.put(b.getLocation(), sc);
