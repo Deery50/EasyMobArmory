@@ -64,6 +64,10 @@ public class SpawnerHandler {
 			return false;
 		}
 	}
+	public static void StartTimer(SpawnerCache sc) {
+		int TimerTick = sc.TimerTick * 20;
+		SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTick, TimerTick));
+	}
 	private static void LoadSpawner(Location SpawnerLocation) {
 		World world = SpawnerLocation.getWorld();
 		Block b = world.getBlockAt(SpawnerLocation);
@@ -107,24 +111,19 @@ public class SpawnerHandler {
 			Block b = p.getTargetBlock(null, 200);
 			if(b.getTypeId() == 52) {
 				if(IsEMASpawner(b.getLocation())) {
-					SpawnerCache sc;
 					if(SpawnerCache.containsKey(b.getLocation())) {
-						sc = SpawnerCache.get(b.getLocation());
+						SpawnerCache sc = SpawnerCache.get(b.getLocation());
+						if(SpawnerCacheTimers.containsKey(sc)) {
+							SpawnerCacheTimers.get(sc).cancel();
+						}
+						sc.TimerTick = Integer.parseInt(spawntick);
+						StartTimer(sc);
 					}else{
-						sc = getSpawner(b.getLocation());
+						SpawnerCache sc = getSpawner(b.getLocation());
+						sc.TimerTick = Integer.parseInt(spawntick);
+						StartTimer(sc);
 					}
-					sc.TimerTick = Integer.parseInt(spawntick);
-					sc.TimerEnabled = true;
-					SpawnerCache.put(b.getLocation(), sc);
-					if(SpawnerCacheTimers.containsKey(sc)) {
-						SpawnerCacheTimers.get(sc).cancel(); 
-					}
-					ReloadSCTimer(sc);
-					SaveSpawnerCache(sc);
-					String LocString = Spawners.LocString(sc.getLocation());
-					Spawners.addtolist("Spawners.Running.List", LocString);
-					Messenger.playermessage("The spawner at " + LocString + " had it's TimerTick set to " + spawntick + ".", p);
-					Messenger.info("The spawner at " + LocString + " had it's TimerTick set to " + spawntick + " by " + p.getName() + ".");
+					Messenger.playermessage("Set spawner tick to the spawner you are looking at to " + spawntick + ".", p);
 				}else{
 					Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
 					Messenger.playermessage("Select the block with a bone and with EMA enabled and add some EMA eggs to make it an EMA spawner.", p);
