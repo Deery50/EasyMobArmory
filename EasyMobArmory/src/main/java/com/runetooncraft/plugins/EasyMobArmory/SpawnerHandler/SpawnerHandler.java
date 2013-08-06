@@ -50,7 +50,6 @@ public class SpawnerHandler {
 	public static void SetSpawnerInventory(Inventory i, SpawnerCache sc) {
 		sc.getInventory().setContents(i.getContents());
 		SaveSpawnerCache(sc);
-		ReloadSCTimer(sc);
 	}
 	private static boolean ReloadSCTimer(SpawnerCache sc) {
 		if(SpawnerCache.containsKey(sc) && SpawnerCacheTimers.containsKey(SpawnerCache.get(sc))) {
