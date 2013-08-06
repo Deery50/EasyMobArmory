@@ -120,6 +120,7 @@ public class SpawnerHandler {
 					}else{
 						SpawnerCache sc = getSpawner(b.getLocation());
 						sc.TimerTick = Integer.parseInt(spawntick);
+						SpawnerCache.put(b.getLocation(), sc);
 						StartTimer(sc);
 					}
 					Messenger.playermessage("Set spawner tick to the spawner you are looking at to " + spawntick + ".", p);
