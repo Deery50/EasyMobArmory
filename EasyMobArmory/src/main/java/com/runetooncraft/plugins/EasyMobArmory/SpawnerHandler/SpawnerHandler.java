@@ -59,6 +59,8 @@ public class SpawnerHandler {
 			SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTick, TimerTick));
 			return true;
 		}else{
+			int TimerTick = sc.TimerTick * 20;
+			SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTick, TimerTick));
 			return false;
 		}
 	}
@@ -114,11 +116,10 @@ public class SpawnerHandler {
 					sc.TimerTick = Integer.parseInt(spawntick);
 					sc.TimerEnabled = true;
 					SpawnerCache.put(b.getLocation(), sc);
-					int TimerTickActual = sc.TimerTick * 20;
 					if(SpawnerCacheTimers.containsKey(sc)) {
 						SpawnerCacheTimers.get(sc).cancel(); 
 					}
-					SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTickActual, TimerTickActual));
+					ReloadSCTimer(sc);
 					SaveSpawnerCache(sc);
 					String LocString = Spawners.LocString(sc.getLocation());
 					Spawners.addtolist("Spawners.Running.List", LocString);
@@ -168,4 +169,21 @@ public class SpawnerHandler {
 			Messenger.playermessage("Please look at a EMA-Spawner before typing this command.", p);
 		}
 	}
-}
+	public static void CancelSpawnTimer(Block b) {
+		if(b.getTypeId() == 52) {
+			if(IsEMASpawner(b.getLocation())) {
+				if (SpawnerCache.containsKey(b.getLocation())) {
+					SpawnerCache sc = SpawnerCache.get(b.getLocation());	
+					Spawners.RemoveFromList("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
+					sc.TimerEnabled = false;
+					try{
+						SpawnerCacheTimers.get(sc).cancel();
+						SpawnerCacheTimers.remove(sc);
+					}catch(NullPointerException e) {
+					}
+					SaveSpawnerCache(sc);
+					}
+			}
+			}
+		}
+	}
