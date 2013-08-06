@@ -41,12 +41,13 @@ public class EMA extends JavaPlugin {
 
 	private void LoadSpawnerTimers() {
 		List<String> RunningList = Spawners.getList("Spawners.Running.List");
-		int Size = RunningList.size();
-		for(int i = 0; i<=Size;) {
-			SpawnerHandler.StartAlreadyExistingSpawnerTimer(RunningList.get(i));
+		if(!RunningList.isEmpty()) {
+			int Size = RunningList.size();
+			for(int i = 0; i<=Size;) {
+				SpawnerHandler.StartAlreadyExistingSpawnerTimer(RunningList.get(i));
+			}
+			Messenger.info("A total of " + Size + " spawner timers were loaded.");
 		}
-		Messenger.info("A total of " + Size + " spawner timers were loaded.");
-		
 	}
 
 	private void getBKCommonLib() {
