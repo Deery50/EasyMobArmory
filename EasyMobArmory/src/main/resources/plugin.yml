@@ -1,6 +1,6 @@
 main: com.runetooncraft.plugins.EasyMobArmory.EMA
 name: EasyMobArmory
-version: 1.0.0
+version: 1.1.0
 depend: [BKCommonLib]
 author: Deery50
 description: Easily set mob items.
