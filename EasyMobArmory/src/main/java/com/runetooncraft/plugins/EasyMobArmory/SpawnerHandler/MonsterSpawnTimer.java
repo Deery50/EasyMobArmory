@@ -22,12 +22,13 @@ public class MonsterSpawnTimer extends BukkitRunnable {
 	@Override
 	public void run() {
 		Messenger.info("DEBUG! TimerTick!");
-		Inventory RunningInv = sc.getInventory();
+		Inventory RunningInv = Bukkit.createInventory(sc.getInventory().getHolder(), 54, "Spawnerrunninginv");
 		RunningInv.clear();
 		RunningInv.setContents(sc.getEggs());
 		HashMap<Integer, ? extends ItemStack> m = RunningInv.all(Material.MONSTER_EGG);
 		int EggInt = m.size();
 		if(RunningInv.contains(Material.MONSTER_EGG)) {
+			Messenger.info("Contains monster eggs!");
 			Random generator = new Random();
 			int RandomInt = generator.nextInt(EggInt);
 			ItemStack is = RunningInv.getItem(RandomInt);
