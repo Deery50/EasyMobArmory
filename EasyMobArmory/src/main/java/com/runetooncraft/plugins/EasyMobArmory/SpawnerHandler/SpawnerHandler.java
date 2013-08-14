@@ -105,12 +105,11 @@ public class SpawnerHandler {
 		Spawners.setInt("Spawners." + LocString + ".TimerTick", sc.TimerTick);
 		Spawners.SetBoolean("Spawners." + LocString + ".TimerEnabled", sc.TimerEnabled);
 		ItemStack[] EggsStack = i.getContents();
+		Spawners.ClearList("Spawners." + LocString + ".EggList");
 		for(ItemStack is : EggsStack) {
 			String id = EggHandler.getEggID(is);
 			if(id != null) {
-				if(!Spawners.getList("Spawners." + LocString + ".EggList").contains(id)) {
 					Spawners.addtolist("Spawners." + LocString + ".EggList", id);
-				}
 			}
 		}
 	}

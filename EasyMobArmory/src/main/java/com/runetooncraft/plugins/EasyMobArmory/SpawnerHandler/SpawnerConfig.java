@@ -124,6 +124,12 @@ public class SpawnerConfig {
 		    Spawners.set(path, configList);
 		    save();
 	}
+	public void ClearList(String path) {
+		List<String> l = Spawners.getStringList(path);
+		l.clear();
+		Spawners.set(path, l);
+		save();
+	}
 	public void SetBoolean(String path, boolean item) {
 		Spawners.set(path, item);
 		save();

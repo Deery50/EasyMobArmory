@@ -70,6 +70,12 @@ public class Config {
 		config.set(path, l);
 		save();
 	}
+	public void ClearList(String path) {
+		List<String> l = config.getStringList(path);
+		l.clear();
+		config.set(path, l);
+		save();
+	}
 	public String getstring(String path) {
 		return config.getString(path);
 	}
