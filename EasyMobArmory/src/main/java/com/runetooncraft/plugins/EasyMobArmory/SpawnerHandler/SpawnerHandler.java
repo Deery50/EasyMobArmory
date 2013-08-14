@@ -44,7 +44,11 @@ public class SpawnerHandler {
 	public static void OpenSpawnerInventory(Block b,Player p) {
 		String LocString = Spawners.LocString(b.getLocation());
 		Inventory inv = Bukkit.createInventory(p, 54, "Spawnerinv");
-		inv.setContents(InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory")).getContents());
+		if(SpawnerCache.containsKey(b.getLocation())) {
+			inv = SpawnerCache.get(b.getLocation()).getInventory();
+		}else{
+			inv.setContents(InventorySerializer.frombase64(Spawners.getString("Spawners." + LocString + ".Inventory")).getContents());
+		}
 		p.openInventory(inv);
 	}
 	public static void SetSpawnerInventory(Inventory i, SpawnerCache sc) {
