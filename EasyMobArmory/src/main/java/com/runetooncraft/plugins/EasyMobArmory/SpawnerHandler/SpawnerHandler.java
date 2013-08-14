@@ -145,15 +145,15 @@ public class SpawnerHandler {
 		}
 	}
 	public static void SetSpawnTick(SpawnerCache sc) {
-					if(SpawnerCache.containsKey(sc.getLocation())) {
-						if(SpawnerCacheTimers.containsKey(sc)) {
-							SpawnerCacheTimers.get(sc).cancel();
-						}
-						StartTimer(sc);
-					}else{
-						SpawnerCache.put(sc.getLocation(), sc);
-						StartTimer(sc);
-					}
+		if(SpawnerCache.containsKey(sc.getLocation())) {
+			if(SpawnerCacheTimers.containsKey(sc)) {
+				SpawnerCacheTimers.get(sc).cancel();
+			}
+				StartTimer(sc);
+			}else{
+				SpawnerCache.put(sc.getLocation(), sc);
+				StartTimer(sc);
+			}
 	} 
 	public static void StartAlreadyExistingSpawnerTimer(String location) {
 		LoadSpawner(Spawners.ParseLocation(location));
