@@ -346,7 +346,6 @@ public class EMAListener implements Listener {
 				if(is != null && is.hasItemMeta() && is.getType().equals(Material.MONSTER_EGG)) {
 					if(is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().contains(":")) {
 						NewInv.addItem(is);
-						Messenger.info("DEBUG! Found egg in spawner!");
 					}
 				}
 			}
