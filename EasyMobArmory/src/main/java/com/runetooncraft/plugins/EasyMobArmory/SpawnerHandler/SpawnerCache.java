@@ -36,6 +36,10 @@ public class SpawnerCache {
 		Eggs = SpawnerInventory.getContents();
 		return Eggs;
 	}
+	public void SetInventoryContents(ItemStack[] is) {
+		SpawnerInventory.setContents(is);
+		getEggs();
+	}
 	public int getTimerTick() {
 		return TimerTick;
 	}
