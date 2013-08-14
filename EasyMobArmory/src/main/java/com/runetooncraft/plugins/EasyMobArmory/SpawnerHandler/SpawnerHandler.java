@@ -168,6 +168,7 @@ public class SpawnerHandler {
 		if(b.getTypeId() == 52) {
 			if(IsEMASpawner(b.getLocation())) {
 				if (SpawnerCache.containsKey(b.getLocation())) {
+					boolean ReturnMessage = true;
 					SpawnerCache sc = SpawnerCache.get(b.getLocation());	
 					Spawners.RemoveFromList("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
 					sc.TimerEnabled = false;
@@ -176,9 +177,10 @@ public class SpawnerHandler {
 						SpawnerCacheTimers.remove(sc);
 					}catch(NullPointerException e) {
 						Messenger.playermessage("Could not stop this spawners timer.", p);
+						ReturnMessage = false;
 					}
 					SaveSpawnerCache(sc);
-						Messenger.playermessage("This spawner had it's spawn timer disabled", p);
+						if(ReturnMessage) Messenger.playermessage("This spawner had it's spawn timer disabled", p);
 					}
 			}else{
 				Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
