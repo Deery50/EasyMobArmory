@@ -93,6 +93,7 @@ public class SpawnerHandler {
 		}
 	}
 	public static void SaveSpawnerCache(SpawnerCache sc) {
+		if(SpawnerCache.containsKey(sc.getLocation())) SpawnerCache.remove(sc.getLocation());
 		SpawnerCache.put(sc.getLocation(), sc);
 		String LocString = Spawners.LocString(sc.getLocation());
 		Inventory i = sc.getInventory();
