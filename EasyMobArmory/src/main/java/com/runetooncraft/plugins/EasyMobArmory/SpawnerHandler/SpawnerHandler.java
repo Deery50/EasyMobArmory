@@ -70,6 +70,7 @@ public class SpawnerHandler {
 	public static void StartTimer(SpawnerCache sc) {
 		int TimerTick = sc.TimerTick * 20;
 		SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTick, TimerTick));
+		Spawners.addtolist("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
 	}
 	private static void LoadSpawner(Location SpawnerLocation) {
 		World world = SpawnerLocation.getWorld();
