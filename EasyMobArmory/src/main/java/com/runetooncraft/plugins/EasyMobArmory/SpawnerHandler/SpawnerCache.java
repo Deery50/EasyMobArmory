@@ -33,6 +33,7 @@ public class SpawnerCache {
 		return SpawnerInventory;
 	}
 	public ItemStack[] getEggs() {
+		Eggs = SpawnerInventory.getContents();
 		return Eggs;
 	}
 	public int getTimerTick() {
