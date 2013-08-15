@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
@@ -44,9 +45,13 @@ public class EMA extends JavaPlugin {
 		if(!RunningList.isEmpty()) {
 			int Size = RunningList.size();
 			Messenger.info("DEBUG! List size: " + Size);
-			for(int i = 0; i <= Size; i++) {
-				String s = RunningList.get(i);
-				SpawnerHandler.StartAlreadyExistingSpawnerTimer(s);
+			String RunningStringLocationList = StringUtils.join(RunningList, ",");
+			if(RunningStringLocationList.contains(",")) {
+				for(String s : StringUtils.split(RunningStringLocationList, ",")) {
+					SpawnerHandler.StartAlreadyExistingSpawnerTimer(s);		
+				}
+			}else{
+				SpawnerHandler.StartAlreadyExistingSpawnerTimer(RunningStringLocationList);
 			}
 			Messenger.info("A total of " + Size + " spawner timers were loaded.");
 		}
