@@ -158,7 +158,7 @@ public class SpawnerHandler {
 	public static void StartAlreadyExistingSpawnerTimer(String location) {
 		LoadSpawner(Spawners.ParseLocation(location));
 		SpawnerCache sc = getSpawner(Spawners.ParseLocation(location));
-		SetSpawnTick(sc);
+		StartTimer(sc);
 	}
 	private static boolean IsInteger(String s) {
 	    try { 
