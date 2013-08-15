@@ -68,6 +68,12 @@ public class SpawnerHandler {
 		}
 	}
 	public static void StartTimer(SpawnerCache sc) {
+		int TimerTick = sc.TimerTick * 20;
+		Messenger.info("Timer Started for spawner at: " + Spawners.LocString(sc.getLocation()));
+		SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTick, TimerTick));
+		Spawners.addtolist("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
+	}
+	public static void StartLoadedTimer(SpawnerCache sc) {
 		int TimerTick = sc.TimerTick;
 		Messenger.info("Timer Started for spawner at: " + Spawners.LocString(sc.getLocation()));
 		SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTick, TimerTick));
@@ -159,7 +165,7 @@ public class SpawnerHandler {
 	public static void StartAlreadyExistingSpawnerTimer(String location) {
 		LoadSpawner(Spawners.ParseLocation(location));
 		SpawnerCache sc = getSpawner(Spawners.ParseLocation(location));
-		StartTimer(sc);
+		StartLoadedTimer(sc);
 	}
 	private static boolean IsInteger(String s) {
 	    try { 
