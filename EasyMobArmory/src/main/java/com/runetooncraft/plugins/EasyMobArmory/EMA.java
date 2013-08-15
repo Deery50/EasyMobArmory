@@ -94,7 +94,7 @@ public class EMA extends JavaPlugin {
 		File file = new File(this.getDataFolder(), "config.yml");
 		config = new Config(file);
 		if (!config.load()) {
-			this.getServer().getPluginManager().disablePlugin(this);
+			this.getServer().getPluginManager().disablePlugin(this); //Disable plugin because the config is required
 			throw new IllegalStateException("The config-file was not loaded correctly!");
 		}
 	}
