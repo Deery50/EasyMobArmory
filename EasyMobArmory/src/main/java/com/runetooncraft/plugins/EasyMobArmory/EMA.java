@@ -45,9 +45,9 @@ public class EMA extends JavaPlugin {
 		if(!RunningList.isEmpty()) {
 			int Size = RunningList.size();
 			Messenger.info("DEBUG! List size: " + Size);
-			String RunningStringLocationList = StringUtils.join(RunningList, ",");
-			if(RunningStringLocationList.contains(",")) {
-				for(String s : StringUtils.split(RunningStringLocationList, ",")) {
+			String RunningStringLocationList = StringUtils.join(RunningList, "/");
+			if(RunningStringLocationList.contains("/")) {
+				for(String s : StringUtils.split(RunningStringLocationList, "/")) {
 					SpawnerHandler.StartAlreadyExistingSpawnerTimer(s);		
 				}
 			}else{
