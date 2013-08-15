@@ -45,7 +45,8 @@ public class EMA extends JavaPlugin {
 			int Size = RunningList.size();
 			Messenger.info("DEBUG! List size: " + Size);
 			for(int i = 1; i <= Size; i++) {
-				SpawnerHandler.StartAlreadyExistingSpawnerTimer(RunningList.get(i));
+				String s = RunningList.get(i);
+				SpawnerHandler.StartAlreadyExistingSpawnerTimer(s);
 			}
 			Messenger.info("A total of " + Size + " spawner timers were loaded.");
 		}
