@@ -69,6 +69,7 @@ public class SpawnerHandler {
 	}
 	public static void StartTimer(SpawnerCache sc) {
 		int TimerTick = sc.TimerTick * 20;
+		Messenger.info("Timer Started for spawner at: " + Spawners.LocString(sc.getLocation()));
 		SpawnerCacheTimers.put(sc, new MonsterSpawnTimer(sc).runTaskTimer(Bukkit.getPluginManager().getPlugin("EasyMobArmory"), TimerTick, TimerTick));
 		Spawners.addtolist("Spawners.Running.List", Spawners.LocString(sc.getLocation()));
 	}
