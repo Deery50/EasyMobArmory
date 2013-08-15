@@ -21,7 +21,6 @@ public class MonsterSpawnTimer extends BukkitRunnable {
 	}
 	@Override
 	public void run() {
-		Messenger.info("DEBUG! Timer tick!");
 		Inventory RunningInv = Bukkit.createInventory(sc.getInventory().getHolder(), 54, "Spawnerrunninginv");
 		RunningInv.clear();
 		RunningInv.setContents(sc.getEggs());
