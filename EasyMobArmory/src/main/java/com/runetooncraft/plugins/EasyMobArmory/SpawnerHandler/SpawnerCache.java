@@ -11,12 +11,13 @@ import org.bukkit.scheduler.BukkitTask;
 import com.runetooncraft.plugins.EasyMobArmory.core.CoreMethods;
 
 public class SpawnerCache {
-	Block SpawnerBlock = null;
-	Location SpawnerLocation = null;
-	Inventory SpawnerInventory = null;
-	ItemStack[] Eggs = null;
+	private Block SpawnerBlock = null;
+	private Location SpawnerLocation = null;
+	private Inventory SpawnerInventory = null;
+	private ItemStack[] Eggs = null;
 	Boolean TimerEnabled = false;
 	int TimerTick = 120;
+	private Boolean  IgnoreChunkLoaded = false;
 	public SpawnerCache(Block SpawnerBlock, Location SpawnerLocation, Inventory SpawnerInventory) {
 		this.SpawnerBlock = SpawnerBlock;
 		this.SpawnerLocation = SpawnerLocation;
@@ -45,6 +46,9 @@ public class SpawnerCache {
 	}
 	public Boolean GetTimerEnabled() {
 		return TimerEnabled;
+	}
+	public Boolean GetIgnoreChunkLoaded() {
+		return IgnoreChunkLoaded;
 	}
 	public Location RandomSpawnLocation() {
 		Location center = this.SpawnerLocation;

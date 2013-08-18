@@ -27,10 +27,12 @@ public class MonsterSpawnTimer extends BukkitRunnable {
 		HashMap<Integer, ? extends ItemStack> m = RunningInv.all(Material.MONSTER_EGG);
 		int EggInt = m.size();
 		if(RunningInv.contains(Material.MONSTER_EGG)) {
-			Random generator = new Random();
-			int RandomInt = generator.nextInt(EggInt);
-			ItemStack is = RunningInv.getItem(RandomInt);
-			EggHandler.Loadentity(EggHandler.getEggID(is), sc.RandomSpawnLocation());
+			if(!sc.GetIgnoreChunkLoaded() && sc.getBlock().getWorld().getChunkAt(sc.getBlock()).isLoaded()) {
+				Random generator = new Random();
+				int RandomInt = generator.nextInt(EggInt);
+				ItemStack is = RunningInv.getItem(RandomInt);
+				EggHandler.Loadentity(EggHandler.getEggID(is), sc.RandomSpawnLocation());
+			}
 		}
 	}
 
