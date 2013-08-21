@@ -47,7 +47,7 @@ public class CoreMethods {
 			int y = (int) CenterPoint.getY();
 			int z = (int) CenterPoint.getZ();
 				World BukkitWorld = CenterPoint.getWorld();
-				CommonEntity entity = CommonEntity.create(EntityType.EXPERIENCE_ORB);
+				CommonEntity entity = CommonEntity.create(EntityType.UNKNOWN);
 				entity.setLocation(x, y, z,0,0);
 				entity.spawn(CenterPoint);
 				EntityList = entity.getNearbyEntities(Radius);
