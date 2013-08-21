@@ -49,6 +49,7 @@ public class CoreMethods {
 				World BukkitWorld = CenterPoint.getWorld();
 				CommonEntity entity = CommonEntity.create(EntityType.EXPERIENCE_ORB);
 				entity.setLocation(x, y, z,0,0);
+				entity.spawn(CenterPoint);
 				EntityList = entity.getNearbyEntities(Radius);
 		}
 		return EntityList;
