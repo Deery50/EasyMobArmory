@@ -219,4 +219,33 @@ public class SpawnerHandler {
 			}
 			}
 		}
+	public static void StartSpawnTimer(Player p) {
+			Block b = p.getTargetBlock(null, 200);
+			if(b.getTypeId() == 52) {
+				if(IsEMASpawner(b.getLocation())) {
+					if(SpawnerCache.containsKey(b.getLocation())) {
+						SpawnerCache sc = SpawnerCache.get(b.getLocation());
+						if(SpawnerCacheTimers.containsKey(sc)) {
+							SpawnerCacheTimers.get(sc).cancel();
+						}
+						StartTimer(sc);
+						Messenger.playermessage("Started the Spawner you are looking at.", p);
+					}else{
+						SpawnerCache sc = getSpawner(b.getLocation());
+						if(sc.TimerTick == 0) {
+							Messenger.playermessage("This spawner does not have a set TimerTick. Please use /ema setspawntick <seconds> first.", p);
+						}else{
+							SpawnerCache.put(b.getLocation(), sc);
+							StartTimer(sc);
+							Messenger.playermessage("Started the Spawner you are looking at.", p);
+						}
+					}
+				}else{
+					Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
+					Messenger.playermessage("Select the block with a bone and with EMA enabled and add some EMA eggs to make it an EMA spawner.", p);
+				}
+			}else{
+				Messenger.playermessage("Please look at a EMA-Spawner before typing this command.", p);
+			}
+	}
 	}
