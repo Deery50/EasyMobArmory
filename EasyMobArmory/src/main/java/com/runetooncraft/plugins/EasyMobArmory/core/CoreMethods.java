@@ -57,7 +57,7 @@ public class CoreMethods {
 	
 	public static List<Player> GetPlayersInRadius(Location CenterPoint, int Radius) {
 		List<Entity> EntityList = GetEntitiesInRadius(CenterPoint,Radius);
-		List<Player> PlayerList = null;
+		List<Player> PlayerList = new ArrayList<Player>();
 		for(Entity e : EntityList) {
 			if(e.getType().equals(EntityType.PLAYER)) {
 				PlayerList.add((Player) e);
