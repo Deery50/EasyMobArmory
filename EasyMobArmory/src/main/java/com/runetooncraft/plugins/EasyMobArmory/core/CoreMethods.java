@@ -64,4 +64,12 @@ public class CoreMethods {
 		}
 		return PlayerList;
 	}
+	
+	public static boolean PlayerIsInRadius(Location CenterPoint, int Radius) {
+		if(GetPlayersInRadius(CenterPoint,Radius).isEmpty()) {
+			return false;
+		}else{
+			return true;
+		}
+	}
 }
