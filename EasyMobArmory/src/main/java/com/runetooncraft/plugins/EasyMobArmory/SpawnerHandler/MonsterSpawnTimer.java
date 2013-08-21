@@ -11,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.runetooncraft.plugins.EasyMobArmory.core.CoreMethods;
 import com.runetooncraft.plugins.EasyMobArmory.core.Messenger;
 import com.runetooncraft.plugins.EasyMobArmory.egghandler.EggHandler;
 
@@ -27,7 +28,8 @@ public class MonsterSpawnTimer extends BukkitRunnable {
 		HashMap<Integer, ? extends ItemStack> m = RunningInv.all(Material.MONSTER_EGG);
 		int EggInt = m.size();
 		if(RunningInv.contains(Material.MONSTER_EGG)) {
-			if(!sc.GetIgnoreChunkLoaded() && sc.getBlock().getWorld().getChunkAt(sc.getBlock()).isLoaded()) {
+			if(!sc.GetIgnoreChunkLoaded() && sc.getBlock().getWorld().getChunkAt(sc.getBlock()).isLoaded() && CoreMethods.PlayerIsInRadius(sc.getLocation(), 15)) {
+				Messenger.info("Player in radius: " + CoreMethods.PlayerIsInRadius(sc.getLocation(), 15));
 				Random generator = new Random();
 				int RandomInt = generator.nextInt(EggInt);
 				ItemStack is = RunningInv.getItem(RandomInt);
