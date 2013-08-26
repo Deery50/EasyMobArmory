@@ -385,6 +385,7 @@ public class EMAListener implements Listener {
 		Player p = event.getPlayer();
 	if(Armoryenabled.get(p) != null && Armoryenabled.get(p)) {
 		if(event.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG) && event.hasBlock()) {
+		if(p.hasPermission("ema.eggs")) {
 			ItemStack egg = p.getItemInHand();
 			ItemMeta eggmeta = egg.getItemMeta();
 		if(eggmeta.hasDisplayName() && eggmeta.getDisplayName().contains(": ")) {
@@ -399,7 +400,11 @@ public class EMAListener implements Listener {
 				}
 			}
 		}
+		}else{
+			Messenger.NoPermission(p);
+		}
 		}else if(event.getPlayer().getItemInHand().getType().equals(Material.BONE) && event.hasBlock() && event.getClickedBlock().getTypeId() == 52) {
+		if(p.hasPermission("ema.spawners")) {
 				Block b = event.getClickedBlock();
 				Location BlockLocation = b.getLocation();
 			if(SpawnerHandler.IsEMASpawner(BlockLocation).equals(false)) {
@@ -410,6 +415,9 @@ public class EMAListener implements Listener {
 				SpawnerHandler.OpenSpawnerInventory(b, p);
 			}
 			SpawnerSelected.put(p, SpawnerHandler.getSpawner(b.getLocation()));
+		}else{
+			Messenger.NoPermission(p);
+		}
 		}
 	}
 	}

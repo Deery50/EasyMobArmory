@@ -22,19 +22,21 @@ public class Commandlistener implements CommandExecutor {
 				if(p.hasPermission("ema.use")) {
 					if(args[0].equalsIgnoreCase("enable")) {EMAListener.Armoryenabled.put(p, true); Messenger.playermessage("EasyMobArmory enabled", p);}
 					else if(args[0].equalsIgnoreCase("disable")) {EMAListener.Armoryenabled.put(p, false); Messenger.playermessage("EasyMobArmory disabled", p);}
-					else if(args[0].equalsIgnoreCase("stopspawner")) {SpawnerHandler.CancelSpawnTimer(p);}
+					else{Usage(p);}
+				}else if(p.hasPermission("ema.spawners")) {
+					if(args[0].equalsIgnoreCase("stopspawner")) {SpawnerHandler.CancelSpawnTimer(p);}
 					else if(args[0].equalsIgnoreCase("startspawner")) {SpawnerHandler.StartSpawnTimer(p);}
 					else{Usage(p);}
 				}else{
-					Messenger.playermessage("You do not have permission for this command", p);
+					Messenger.NoPermissionCommand(p);
 				}
 			}else if(args.length == 2) {
-				if(p.hasPermission("ema.use")) {
+				if(p.hasPermission("ema.spawners")) {
 					if(args[0].equalsIgnoreCase("setspawntick")) {SpawnerHandler.SetSpawnTick(p,args[1]);}
 					else if(args[0].equalsIgnoreCase("setdetectionradius")) {SpawnerHandler.setDetectionRadius(p,args[1]);}
 					else{Usage(p);}
 				}else{
-					Messenger.playermessage("You do not have permission for this command", p);
+					Messenger.NoPermissionCommand(p);
 				}
 			}else{
 				Usage(p);

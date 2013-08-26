@@ -32,5 +32,10 @@ public class Messenger {
 	public static void playermessage(String msg, Player p) {
 		p.sendMessage(colorprefix + msg);
 	}
-	
+	public static void NoPermissionCommand(Player p) {
+		p.sendMessage(colorprefix + "You do not have permission for this command");
+	}
+	public static void NoPermission(Player p) {
+		p.sendMessage(colorprefix + "You do not have permission for this.");
+	}
 }

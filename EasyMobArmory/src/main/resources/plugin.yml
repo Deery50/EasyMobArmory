@@ -13,4 +13,8 @@ commands:
         usage: |
 permissions:
     ema.use:
-        description: Gives access to add armor to Mobs
+        description: Gives access to add armor to Mobs.
+    ema.spawners:
+        description: Gives access to create and change EMA spawners.
+    ema.eggs:
+        description: Allows player to right click with EMA eggs to spawn duplicate entities.
