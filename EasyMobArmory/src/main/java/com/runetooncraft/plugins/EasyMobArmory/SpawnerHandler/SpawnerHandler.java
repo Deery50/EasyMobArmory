@@ -260,6 +260,7 @@ public class SpawnerHandler {
 					SpawnerCache sc = SpawnerCache.get(b.getLocation());
 					if(IsInteger(string)) {
 						sc.SetPlayerDetectionRadius(Integer.parseInt(string));
+						Messenger.playermessage("Set the player detection radius for the spawner you are looking at to " + string + ".", p);
 					}else{
 						Messenger.playermessage("The third argument must be an integer.", p);
 					}
@@ -267,6 +268,7 @@ public class SpawnerHandler {
 					SpawnerCache sc = getSpawner(b.getLocation());
 					if(IsInteger(string)) {
 						sc.SetPlayerDetectionRadius(Integer.parseInt(string));
+						Messenger.playermessage("Set the player detection radius for the spawner you are looking at to " + string + ".", p);
 					}else{
 						Messenger.playermessage("The third argument must be an integer.", p);
 					}
@@ -287,6 +289,7 @@ public class SpawnerHandler {
 					SpawnerCache sc = SpawnerCache.get(b.getLocation());
 					if(IsInteger(string)) {
 						sc.SetMonsterSpawnRadius(Integer.parseInt(string));
+						Messenger.playermessage("Set the spawn radius for the spawner you are looking at to " + string + ".", p);
 					}else{
 						Messenger.playermessage("The third argument must be an integer.", p);
 					}
@@ -294,6 +297,7 @@ public class SpawnerHandler {
 					SpawnerCache sc = getSpawner(b.getLocation());
 					if(IsInteger(string)) {
 						sc.SetMonsterSpawnRadius(Integer.parseInt(string));
+						Messenger.playermessage("Set the spawn radius for the spawner you are looking at to " + string + ".", p);
 					}else{
 						Messenger.playermessage("The third argument must be an integer.", p);
 					}
