@@ -103,7 +103,9 @@ public class SpawnerHandler {
 			SpawnerCache sc = new SpawnerCache(b,SpawnerLocation,inv);
 			sc.TimerEnabled = Spawners.getBoolean("Spawners." + LocString + ".TimerEnabled");
 			sc.TimerTick = Spawners.getInt("Spawners." + LocString + ".TimerTick");
-			return new SpawnerCache(b,SpawnerLocation,inv);
+			sc.SetPlayerDetectionRadius(Spawners.getInt("Spawners." + LocString + ".DetectionRadius"));
+			sc.SetMonsterSpawnRadius(Spawners.getInt("Spawners." + LocString + ".SpawnRadius"));
+			return sc;
 		}
 	}
 	public static void SaveSpawnerCache(SpawnerCache sc) {
