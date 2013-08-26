@@ -47,10 +47,11 @@ public class CoreMethods {
 			int y = (int) CenterPoint.getY();
 			int z = (int) CenterPoint.getZ();
 				World BukkitWorld = CenterPoint.getWorld();
-				CommonEntity entity = CommonEntity.create(EntityType.UNKNOWN);
+				CommonEntity entity = CommonEntity.create(EntityType.ARROW);
 				entity.setLocation(x, y, z,0,0);
 				entity.spawn(CenterPoint);
 				EntityList = entity.getNearbyEntities(Radius);
+				entity.remove();
 		}
 		return EntityList;
 	}
