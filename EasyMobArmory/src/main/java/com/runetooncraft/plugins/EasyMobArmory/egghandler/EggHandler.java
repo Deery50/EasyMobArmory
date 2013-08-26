@@ -216,7 +216,6 @@ public class EggHandler {
 		return (List<String>) eggs.getList("Eggs.List");
 	}
 	public static Entity Loadentity(String id, Location loc) {
-		Messenger.info("DEBUG! Loadentity called, with id: " + id);
 		int Entityid = eggs.getInt("Eggs.id." + id + ".Type");
 		EntityType etype = EntityType.fromId(Entityid);
 	if(etype.equals(EntityType.ZOMBIE) && !ZombieCache.containsKey(id)) {

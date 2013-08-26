@@ -56,7 +56,6 @@ public class EMA extends JavaPlugin {
 		List<String> RunningList = Spawners.getList("Spawners.Running.List");
 		if(!RunningList.isEmpty()) {
 			int Size = RunningList.size();
-			Messenger.info("DEBUG! List size: " + Size);
 			String RunningStringLocationList = StringUtils.join(RunningList, "/");
 			if(RunningStringLocationList.contains("/")) {
 				for(String s : StringUtils.split(RunningStringLocationList, "/")) {
