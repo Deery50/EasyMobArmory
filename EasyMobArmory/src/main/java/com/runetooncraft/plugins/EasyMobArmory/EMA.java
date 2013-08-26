@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerCache;
 import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerConfig;
 import com.runetooncraft.plugins.EasyMobArmory.SpawnerHandler.SpawnerHandler;
 import com.runetooncraft.plugins.EasyMobArmory.core.Config;
@@ -39,7 +40,18 @@ public class EMA extends JavaPlugin {
 		SetItemStacks();
 		LoadSpawnerTimers();
 	}
+	public void onDisable() {
+		SaveSpawnerCache();
+	}
 
+	private void SaveSpawnerCache() {
+		int i = 0;
+		for(SpawnerCache sc : SpawnerHandler.SpawnerCache.values()) {
+			SpawnerHandler.SaveSpawnerCache(sc);
+			i++;
+		}
+		Messenger.info("A total of " + i + " spawners were saved.");
+	}
 	private void LoadSpawnerTimers() {
 		List<String> RunningList = Spawners.getList("Spawners.Running.List");
 		if(!RunningList.isEmpty()) {
