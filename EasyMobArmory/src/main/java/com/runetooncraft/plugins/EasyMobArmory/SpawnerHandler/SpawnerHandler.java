@@ -88,6 +88,8 @@ public class SpawnerHandler {
 		SpawnerCache sc = new SpawnerCache(b,SpawnerLocation,inv);
 		sc.TimerEnabled = TimerEnabled;
 		if(TimerEnabled) sc.TimerTick = Spawners.getInt("Spawners." + LocString + ".TimerTick");
+		sc.SetMonsterSpawnRadius(Spawners.getInt("Spawners." + LocString + ".SpawnRadius"));
+		sc.SetPlayerDetectionRadius(Spawners.getInt("Spawners." + LocString + ".DetectionRadius"));
 		SpawnerCache.put(SpawnerLocation, sc);
 	}
 	public static SpawnerCache getSpawner(Location SpawnerLocation) {
@@ -112,6 +114,8 @@ public class SpawnerHandler {
 		Spawners.SetString("Spawners." + LocString + ".Inventory", InventorySerializer.tobase64(i));
 		Spawners.setInt("Spawners." + LocString + ".TimerTick", sc.TimerTick);
 		Spawners.SetBoolean("Spawners." + LocString + ".TimerEnabled", sc.TimerEnabled);
+		Spawners.setInt("Spawners." + LocString + ".SpawnRadius", sc.GetMonsterSpawnRadius());
+		Spawners.setInt("Spawners." + LocString + ".DetectionRadius", sc.GetPlayerDetectionRadius());
 		ItemStack[] EggsStack = i.getContents();
 		Spawners.ClearList("Spawners." + LocString + ".EggList");
 		for(ItemStack is : EggsStack) {
