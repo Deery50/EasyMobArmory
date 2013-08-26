@@ -19,11 +19,12 @@ public class Commandlistener implements CommandExecutor {
 			if(args.length == 0) {
 				Usage(p);
 			}else if(args.length == 1) {
-				if(p.hasPermission("ema.use")) {
+				if(p.hasPermission("ema.use") && args[0].equalsIgnoreCase("enable") || p.hasPermission("ema.use") && args[0].equalsIgnoreCase("disable")) {
 					if(args[0].equalsIgnoreCase("enable")) {EMAListener.Armoryenabled.put(p, true); Messenger.playermessage("EasyMobArmory enabled", p);}
 					else if(args[0].equalsIgnoreCase("disable")) {EMAListener.Armoryenabled.put(p, false); Messenger.playermessage("EasyMobArmory disabled", p);}
 					else{Usage(p);}
-				}if(p.hasPermission("ema.spawners")) {
+				}
+				if(p.hasPermission("ema.spawners")) {
 					if(args[0].equalsIgnoreCase("stopspawner")) {SpawnerHandler.CancelSpawnTimer(p);}
 					else if(args[0].equalsIgnoreCase("startspawner")) {SpawnerHandler.StartSpawnTimer(p);}
 					else{Usage(p);}
