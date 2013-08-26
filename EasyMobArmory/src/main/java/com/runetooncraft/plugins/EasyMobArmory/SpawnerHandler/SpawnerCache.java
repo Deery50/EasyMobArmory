@@ -17,6 +17,7 @@ public class SpawnerCache {
 	private ItemStack[] Eggs = null;
 	Boolean TimerEnabled = false;
 	int TimerTick = 120;
+	int PlayerDetectionRadius = 15;
 	private Boolean  IgnoreChunkLoaded = false;
 	public SpawnerCache(Block SpawnerBlock, Location SpawnerLocation, Inventory SpawnerInventory) {
 		this.SpawnerBlock = SpawnerBlock;
@@ -58,5 +59,11 @@ public class SpawnerCache {
 			double z = center.getZ() + (rand.nextDouble()*5*Math.sin(Math.toRadians(angle))); // z
 			Location newloc = new Location(this.SpawnerLocation.getWorld(), x, this.SpawnerLocation.getY(), z);
 			return CoreMethods.CheckIfAirBlock(newloc);
+	}
+	public void SetPlayerDetectionRadius(int value) {
+		PlayerDetectionRadius = value;
+	}
+	public int GetPlayerDetectionRadius() {
+		return PlayerDetectionRadius;
 	}
 }

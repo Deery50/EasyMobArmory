@@ -31,6 +31,7 @@ public class Commandlistener implements CommandExecutor {
 			}else if(args.length == 2) {
 				if(p.hasPermission("ema.use")) {
 					if(args[0].equalsIgnoreCase("setspawntick")) {SpawnerHandler.SetSpawnTick(p,args[1]);}
+					else if(args[0].equalsIgnoreCase("setdetectionradius")) {SpawnerHandler.setDetectionRadius(p,args[1]);}
 					else{Usage(p);}
 				}else{
 					Messenger.playermessage("You do not have permission for this command", p);

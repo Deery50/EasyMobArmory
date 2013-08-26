@@ -29,7 +29,7 @@ public class MonsterSpawnTimer extends BukkitRunnable {
 		int EggInt = m.size();
 		if(RunningInv.contains(Material.MONSTER_EGG)) {
 			if(!sc.GetIgnoreChunkLoaded() && sc.getBlock().getWorld().getChunkAt(sc.getBlock()).isLoaded() && CoreMethods.PlayerIsInRadius(sc.getLocation(), 15)) {
-				Messenger.info("Player in radius: " + CoreMethods.PlayerIsInRadius(sc.getLocation(), 15));
+				Messenger.info("Player in radius: " + CoreMethods.PlayerIsInRadius(sc.getLocation(), sc.PlayerDetectionRadius));
 				Random generator = new Random();
 				int RandomInt = generator.nextInt(EggInt);
 				ItemStack is = RunningInv.getItem(RandomInt);
