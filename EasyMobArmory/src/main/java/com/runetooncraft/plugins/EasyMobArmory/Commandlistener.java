@@ -34,6 +34,7 @@ public class Commandlistener implements CommandExecutor {
 				if(p.hasPermission("ema.spawners")) {
 					if(args[0].equalsIgnoreCase("setspawntick")) {SpawnerHandler.SetSpawnTick(p,args[1]);}
 					else if(args[0].equalsIgnoreCase("setdetectionradius")) {SpawnerHandler.setDetectionRadius(p,args[1]);}
+					else if(args[0].equalsIgnoreCase("setradius")) {SpawnerHandler.setMonsterSpawnRadius(p,args[1]);}
 					else{Usage(p);}
 				}else{
 					Messenger.NoPermissionCommand(p);
@@ -45,6 +46,6 @@ public class Commandlistener implements CommandExecutor {
 		return false;
 	}
 	private void Usage(Player p) {
-		Messenger.playermessage("Usage: /EMA enable, /EMA disable, /EMA setspawntick <Seconds>", p);
+		Messenger.playermessage("Usage: /EMA Enable, /EMA Disable, /EMA SetSpawnTick <Seconds>, /EMA SetDetectionRadius <PlayerDetectionRadius>, /EMA SetRadius <SpawnRadius>", p);
 	}
 }

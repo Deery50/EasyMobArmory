@@ -17,7 +17,8 @@ public class SpawnerCache {
 	private ItemStack[] Eggs = null;
 	Boolean TimerEnabled = false;
 	int TimerTick = 120;
-	int PlayerDetectionRadius = 15;
+	private int PlayerDetectionRadius = 15;
+	private int MonsterSpawnRadius = 5;
 	private Boolean  IgnoreChunkLoaded = false;
 	public SpawnerCache(Block SpawnerBlock, Location SpawnerLocation, Inventory SpawnerInventory) {
 		this.SpawnerBlock = SpawnerBlock;
@@ -51,12 +52,12 @@ public class SpawnerCache {
 	public Boolean GetIgnoreChunkLoaded() {
 		return IgnoreChunkLoaded;
 	}
-	public Location RandomSpawnLocation() {
+	public Location RandomSpawnLocation(int Radius) {
 		Location center = this.SpawnerLocation;
 			Random rand = new Random();
 			double angle = rand.nextDouble()*360; //Generate a random angle
-			double x = center.getX() + (rand.nextDouble()*5*Math.cos(Math.toRadians(angle))); // x
-			double z = center.getZ() + (rand.nextDouble()*5*Math.sin(Math.toRadians(angle))); // z
+			double x = center.getX() + (rand.nextDouble()*Radius*Math.cos(Math.toRadians(angle))); // x
+			double z = center.getZ() + (rand.nextDouble()*Radius*Math.sin(Math.toRadians(angle))); // z
 			Location newloc = new Location(this.SpawnerLocation.getWorld(), x, this.SpawnerLocation.getY(), z);
 			return CoreMethods.CheckIfAirBlock(newloc);
 	}
@@ -65,5 +66,11 @@ public class SpawnerCache {
 	}
 	public int GetPlayerDetectionRadius() {
 		return PlayerDetectionRadius;
+	}
+	public void SetMonsterSpawnRadius(int value) {
+		MonsterSpawnRadius = value;
+	}
+	public int GetMonsterSpawnRadius() {
+		return MonsterSpawnRadius;
 	}
 }

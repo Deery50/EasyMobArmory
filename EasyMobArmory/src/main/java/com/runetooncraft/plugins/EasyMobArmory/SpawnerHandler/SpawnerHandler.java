@@ -275,4 +275,31 @@ public class SpawnerHandler {
 			Messenger.playermessage("Please look at a EMA-Spawner before typing this command.", p);
 		}
 	}
+	public static void setMonsterSpawnRadius(Player p, String string) {
+		Block b = p.getTargetBlock(null, 200);
+		if(b.getTypeId() == 52) {
+			if(IsEMASpawner(b.getLocation())) {
+				if(SpawnerCache.containsKey(b.getLocation())) {
+					SpawnerCache sc = SpawnerCache.get(b.getLocation());
+					if(IsInteger(string)) {
+						sc.SetMonsterSpawnRadius(Integer.parseInt(string));
+					}else{
+						Messenger.playermessage("The third argument must be an integer.", p);
+					}
+				}else{
+					SpawnerCache sc = getSpawner(b.getLocation());
+					if(IsInteger(string)) {
+						sc.SetMonsterSpawnRadius(Integer.parseInt(string));
+					}else{
+						Messenger.playermessage("The third argument must be an integer.", p);
+					}
+				}
+			}else{
+				Messenger.playermessage("The block is a Spawner, but not a EMA-Spawner.", p);
+				Messenger.playermessage("Select the block with a bone and with EMA enabled and add some EMA eggs to make it an EMA spawner.", p);
+			}
+		}else{
+			Messenger.playermessage("Please look at a EMA-Spawner before typing this command.", p);
+		}
 	}
+}
