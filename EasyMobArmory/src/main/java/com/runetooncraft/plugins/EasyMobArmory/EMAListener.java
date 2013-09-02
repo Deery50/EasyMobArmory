@@ -24,6 +24,7 @@ import org.bukkit.entity.Spider;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -393,7 +394,7 @@ public class EMAListener implements Listener {
 	@EventHandler
 	public void OnPlayerInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
-	if(Armoryenabled.get(p) != null && Armoryenabled.get(p)) {
+	if(Armoryenabled.get(p) != null && Armoryenabled.get(p) && event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 		if(event.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG) && event.hasBlock()) {
 		if(p.hasPermission("ema.eggs")) {
 			ItemStack egg = p.getItemInHand();
