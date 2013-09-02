@@ -20,6 +20,7 @@ import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Spider;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -192,6 +193,15 @@ public class EMAListener implements Listener {
 //				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, h);
+			}
+		}else if(e.getType().equals(EntityType.SPIDER)) {
+			ItemStack i = p.getItemInHand();
+			Spider s = (Spider) e;
+			if(i.getType().equals(Material.BONE)) {
+				Inventory inv = Bukkit.createInventory(p, 9, "spiderinv");
+				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
+				p.openInventory(inv);
+				PlayerMobDataMap.put(p, s);
 			}
 		}
 		}}

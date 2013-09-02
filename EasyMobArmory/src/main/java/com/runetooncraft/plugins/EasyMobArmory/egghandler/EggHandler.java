@@ -24,6 +24,7 @@ import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Spider;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -48,6 +49,7 @@ public class EggHandler {
 	public static HashMap<String, PigCache> PigCache = new HashMap<String, PigCache>();
 	public static HashMap<String, CowCache> CowCache = new HashMap<String, CowCache>();
 	public static HashMap<String, CreeperCache> CreeperCache = new HashMap<String, CreeperCache>();
+	public static HashMap<String, SpiderCache> SpiderCache = new HashMap<String, SpiderCache>();
 	public static HashMap<String, ChickenCache> ChickenCache = new HashMap<String, ChickenCache>();
 	public static HashMap<String, HorseCache> HorseCache = new HashMap<String, HorseCache>();
 	public static ItemStack GetEggitem(Entity e,String name, String lore) {
@@ -123,6 +125,8 @@ public class EggHandler {
 				}else if(e.getType().equals(EntityType.CREEPER)) {
 					Creeper c = (Creeper) e;
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".powered", c.isPowered());
+				}else if(e.getType().equals(EntityType.SPIDER)) {
+//					Spider s = (Spider) e; Nothing for spider yet.
 				}else if(e.getType().equals(EntityType.HORSE)) {
 					Horse h = (Horse) e;
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", !h.isAdult());
@@ -409,6 +413,23 @@ public class EggHandler {
 		Creeper c = (Creeper) EntityUtil.getEntity(loc.getWorld(), entid);
 		c.setPowered(set.isPowered);
 		return c;
+	}else if(etype.equals(EntityType.SPIDER) && !SpiderCache.containsKey(id)) {
+		CommonEntity entity = CommonEntity.create(etype);
+		String entityLoc = "Eggs.id." + id + ".";
+		Entity bukkitentity = entity.getEntity();
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		if(etype.equals(EntityType.SPIDER)) {
+			Spider s = (Spider) EntityUtil.getEntity(loc.getWorld(), entid);
+			SpiderCache.put(id, new SpiderCache());
+			return s;
+		}else{
+			return bukkitentity;
+		}
+	}else if(etype.equals(EntityType.SPIDER) && SpiderCache.containsKey(id)) {
+		SpiderCache set = SpiderCache.get(id);
+		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
+		Spider s = (Spider) EntityUtil.getEntity(loc.getWorld(), entid);
+		return s;
 	}else if(etype.equals(EntityType.HORSE) && !HorseCache.containsKey(id)) {
 		CommonEntity entity = CommonEntity.create(etype);
 		String entityLoc = "Eggs.id." + id + ".";
