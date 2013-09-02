@@ -9,9 +9,11 @@ public class ZombieCache {
 	public ItemStack[] Equip = null;
 	public ItemStack handitem = null;
 	public Boolean isbaby = null;
-	public ZombieCache(ItemStack[] equip, ItemStack handitem, Boolean isbaby) {
+	public Boolean isVillager = null;
+	public ZombieCache(ItemStack[] equip, ItemStack handitem, Boolean isbaby, Boolean isVillager) {
 		this.isbaby = isbaby;
 		this.Equip = equip;
 		this.handitem = handitem;
+		this.isVillager = isVillager;
 	}
 }

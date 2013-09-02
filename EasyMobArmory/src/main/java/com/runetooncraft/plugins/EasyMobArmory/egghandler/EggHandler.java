@@ -91,6 +91,7 @@ public class EggHandler {
 					HandItem.setItem(0, z.getEquipment().getItemInHand());
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".Hand", InventorySerializer.tobase64(HandItem));
 					eggsyml.set("Eggs.id." + e.getEntityId() + ".isbaby", z.isBaby());
+					eggsyml.set("Eggs.id." + e.getEntityId() + ".isvillager", z.isVillager());
 				}else if(e.getType().equals(EntityType.SKELETON)) {
 					Skeleton s = (Skeleton) e;
 					Inventory HandItem = Bukkit.getServer().createInventory(null, InventoryType.PLAYER);
@@ -228,6 +229,7 @@ public class EggHandler {
 		Inventory Armorstackinv = InventorySerializer.frombase64(eggs.getString(entityLoc + "Armor"));
 		Inventory iteminv = InventorySerializer.frombase64(eggs.getString(entityLoc +"Hand"));
 		Boolean isbaby = eggs.getBoolean(entityLoc + "isbaby");
+		Boolean isvillager = eggs.getBoolean(entityLoc + "isvillager");
 		Entity bukkitentity = entity.getEntity();
 		UUID entid = loc.getWorld().spawnEntity(loc, etype).getUniqueId();
 		if(etype.equals(EntityType.ZOMBIE)) {
@@ -235,7 +237,8 @@ public class EggHandler {
 			z.getEquipment().setArmorContents(Armorstackinv.getContents());
 			z.getEquipment().setItemInHand(iteminv.getItem(0));
 			z.setBaby(isbaby);
-			ZombieCache.put(id, new ZombieCache(Armorstackinv.getContents(),iteminv.getItem(0),isbaby));
+			z.setVillager(isvillager);
+			ZombieCache.put(id, new ZombieCache(Armorstackinv.getContents(),iteminv.getItem(0),isbaby,isvillager));
 			return z;
 		}else{
 			return bukkitentity;
@@ -247,6 +250,7 @@ public class EggHandler {
 			z.getEquipment().setArmorContents(set.Equip);
 			z.getEquipment().setItemInHand(set.handitem);
 			z.setBaby(set.isbaby);
+			z.setVillager(set.isVillager);
 			return z;
 	}else if(etype.equals(EntityType.SKELETON) && !SkeletonCache.containsKey(id)) {
 		CommonEntity entity = CommonEntity.create(etype);

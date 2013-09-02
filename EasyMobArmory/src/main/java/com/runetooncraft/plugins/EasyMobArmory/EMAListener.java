@@ -72,6 +72,7 @@ public class EMAListener implements Listener {
 				inv.setContents(zombieinv);
 				inv.setItem(4, z.getEquipment().getItemInHand());
 				if(z.isBaby()) inv.setItem(5, new ItemStack(Material.REDSTONE));
+				if(z.isVillager()) inv.setItem(6, new ItemStack(Material.GLOWSTONE_DUST));
 				inv.setItem(8, EggHandler.GetEggitem(e,ChatColor.GOLD + "Get Mob Egg",ChatColor.AQUA + e.getType().getName()));
 				p.openInventory(inv);
 				PlayerMobDataMap.put(p, z);
@@ -223,6 +224,11 @@ public class EMAListener implements Listener {
 				z.setBaby(true);
 			}else{
 				z.setBaby(false);
+			}
+			if(i.contains(Material.GLOWSTONE_DUST)) {
+				z.setVillager(true);
+			}else{
+				z.setVillager(false);
 			}
 		}
 		else if(event.getInventory().getName().equals("skeletoninv")) {
